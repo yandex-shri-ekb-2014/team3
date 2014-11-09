@@ -11,6 +11,7 @@ process.env.production = false;
 
 // Include Our Plugins
 var less = require('gulp-less');
+var concat = require('gulp-concat');
 var uglify = require('gulp-uglifyjs');
 var browserify = require('gulp-browserify');
 var autoprefixer = require('gulp-autoprefixer');
@@ -21,6 +22,7 @@ gulp.task('styleProcessing', function() {
     gulp.src(staticPath + 'less/*.less')
     .pipe(less())
     .pipe(autoprefixer())
+    .pipe(concat('style.min.css'))
     .pipe(gulp.dest(staticPath + 'css'));
 });
 
