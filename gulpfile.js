@@ -25,7 +25,7 @@ gulp.task('styleProcessing', function() {
     .pipe(autoprefixer())
     .pipe(concat('style.min.css'))
     .pipe(cssmin())
-    .pipe(gulp.dest(staticPath + 'css'));
+    .pipe(gulp.dest(publicPath + 'css'));
 });
 
 // Browserify task
@@ -33,17 +33,11 @@ gulp.task('browserify', function() {
     return gulp.src(staticPath + 'js/app.js')
     .pipe(browserify({insertGlobals : true, debug : !process.env.production}))
     .pipe(uglify())
-    .pipe(gulp.dest(staticPath + 'buildjs'))
+    .pipe(gulp.dest(publicPath + 'js'))
 });
 
 // Move
 gulp.task('move',['styleProcessing', 'browserify'], function(){
-  gulp.src(staticPath + 'buildjs/*.js')
-  .pipe(gulp.dest(publicPath + 'js'));
-
-  gulp.src(staticPath + 'css/*.css')
-  .pipe(gulp.dest(publicPath + 'css'));
-
   gulp.src(staticPath + 'img/*')
   .pipe(gulp.dest(publicPath + 'img'));
 });
