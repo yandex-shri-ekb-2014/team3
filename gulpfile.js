@@ -12,6 +12,7 @@ process.env.production = false;
 // Include Our Plugins
 var less = require('gulp-less');
 var concat = require('gulp-concat');
+var cssmin = require('gulp-cssmin');
 var uglify = require('gulp-uglifyjs');
 var browserify = require('gulp-browserify');
 var autoprefixer = require('gulp-autoprefixer');
@@ -23,7 +24,8 @@ gulp.task('styleProcessing', function() {
     .pipe(less())
     .pipe(autoprefixer())
     .pipe(concat('style.min.css'))
-    .pipe(gulp.dest(staticPath + 'css'));
+    .pipe(cssmin())
+    .pipe(gulp.dest(publicPath + 'css'));
 });
 
 // Browserify task
@@ -31,17 +33,11 @@ gulp.task('browserify', function() {
     return gulp.src(staticPath + 'js/app.js')
     .pipe(browserify({insertGlobals : true, debug : !process.env.production}))
     .pipe(uglify())
-    .pipe(gulp.dest(staticPath + 'buildjs'))
+    .pipe(gulp.dest(publicPath + 'js'))
 });
 
 // Move
 gulp.task('move',['styleProcessing', 'browserify'], function(){
-  gulp.src(staticPath + 'buildjs/*.js')
-  .pipe(gulp.dest(publicPath + 'js'));
-
-  gulp.src(staticPath + 'css/*.css')
-  .pipe(gulp.dest(publicPath + 'css'));
-
   gulp.src(staticPath + 'img/*')
   .pipe(gulp.dest(publicPath + 'img'));
 });
