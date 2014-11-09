@@ -11,12 +11,12 @@ process.env.production = false;
 
 // Include Our Plugins
 var less = require('gulp-less');
+var rimraf = require('gulp-rimraf'); 
 var concat = require('gulp-concat');
 var cssmin = require('gulp-cssmin');
 var uglify = require('gulp-uglifyjs');
 var browserify = require('gulp-browserify');
 var autoprefixer = require('gulp-autoprefixer');
-
 
 // Compile Our less
 gulp.task('styleProcessing', function() {
@@ -40,6 +40,12 @@ gulp.task('browserify', function() {
 gulp.task('move',['styleProcessing', 'browserify'], function(){
   gulp.src(staticPath + 'img/*')
   .pipe(gulp.dest(publicPath + 'img'));
+});
+
+// Clear 
+gulp.task('clear', function () {
+    return gulp.src(publicPath) // much faster
+    .pipe(rimraf());
 });
 
 // Default Task
