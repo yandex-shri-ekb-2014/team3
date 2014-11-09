@@ -1,0 +1,95 @@
+.description.short {
+
+  .menu {
+    height: 28px;
+    margin-bottom: 20px;
+    display: inline-block;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+
+    font-size: 0;
+
+    li {
+      float: left;
+      line-height: 26px;
+      border-right: 1px solid #ccc;
+
+      &:last-child {
+        border: 0;
+      }
+
+      font-size: 13px;
+
+      a {
+        display: inline-block;
+        padding: 0 14px;
+        border: 1px solid transparent;
+        margin: -1px;
+        transition: all .3s ease;
+
+        text-transform: lowercase;
+        color: #000;
+        font-size: 13px;
+        text-decoration: none;
+
+        &:first-child, &:last-child {
+          border-radius: 3px;
+        }
+
+        &.active, &:hover {
+          border: 1px solid #dbc794;
+          background: #ffeaae;
+        }
+      }
+    }
+  } // .menu
+
+  .data {
+    margin-bottom: 20px;
+
+    .forecast {
+      width: 100%;
+
+      td {
+        padding: 5px;
+      }
+
+      .space {
+        padding: 10px;
+      }
+
+      .date-title {
+        font-size: 22px;
+        line-height: 30px;
+        text-transform: lowercase;
+      }
+
+      .date {
+        font-size: 13px;
+      }
+
+      .date, .date-title {
+        text-align: left;
+      }
+
+      .weekend {
+        [class^="date"] {
+          color: #f00;
+        }
+      }
+
+      .weatherIcon {
+        display: block;
+        margin: 6px 0;
+
+        font-size: 11px;
+        vertical-align: top;
+      }
+
+      .temperature {
+        font-size: 16px;
+      }
+    }
+  } // .data
+}
