@@ -41,6 +41,9 @@ gulp.task('move',['styleProcessing', 'browserify'], function(){
 
   gulp.src(staticPath + 'css/*.css')
   .pipe(gulp.dest(publicPath + 'css'));
+
+  gulp.src(staticPath + 'img/*')
+  .pipe(gulp.dest(publicPath + 'img'));
 });
 
 // Default Task
