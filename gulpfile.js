@@ -19,7 +19,7 @@ var autoprefixer = require('gulp-autoprefixer');
 
 // Compile Our less
 gulp.task('styleProcessing', function() {
-    gulp.src(staticPath + 'less/*.less')
+    return gulp.src(staticPath + 'less/*.less')
     .pipe(less())
     .pipe(autoprefixer())
     .pipe(concat('style.min.css'))
@@ -28,7 +28,7 @@ gulp.task('styleProcessing', function() {
 
 // Browserify task
 gulp.task('browserify', function() {
-    gulp.src(staticPath + 'js/app.js')
+    return gulp.src(staticPath + 'js/app.js')
     .pipe(browserify({insertGlobals : true, debug : !process.env.production}))
     .pipe(uglify())
     .pipe(gulp.dest(staticPath + 'buildjs'))
