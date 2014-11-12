@@ -1,24 +1,28 @@
-.servicesList {
-	margin-bottom: 60px;
+.services {
+  width: @width;
+  .center();
+  margin-bottom: 60px;
 
-	.service {
-		float:left;
-		width: 25%;
-		padding-right: 5%;
+  &__item {
+      float:left;
+      width: 25%;
+      padding-right: 5%;
+  }
+}
 
-		h2 {
-			font-size: 16px;
-			line-height: 24px;
-		}
+.service {
+  &__title {
+    font-size: 16px;
+    line-height: 24px;
+  }
 
-		ul {
-			list-style-type: none;
-			font-size: 13px;
-			line-height: 20px;
+  &__list {
+    list-style-type: none;
+    font-size: 13px;
+    line-height: 20px;
+  }
 
-			a {
-				text-decoration: none;
-			}
-		}
-	}
+  &__link {
+    text-decoration: none;
+  }
 }

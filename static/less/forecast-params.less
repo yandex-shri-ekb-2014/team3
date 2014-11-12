@@ -1,0 +1,71 @@
+.icon {
+  &-help {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: url('../img/helpIcon.png') no-repeat 0 0;
+    cursor: pointer;
+
+    &__popup {
+      position: absolute;
+      padding: 11px 14px;
+      margin: 20px -70px;
+      max-height: 100%;
+      .boxed();
+      .transits();
+
+      &.hidden {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        visibility: hidden;
+      }
+
+      color: #000;
+    }
+  }
+}
+
+.temperature {
+  &-small {
+    font-size: 17px;
+
+    &:after {
+      content: ' °C';
+    }
+  }
+  &-bigger {
+    font-size: 16px;
+  }
+}
+
+.weather {
+    margin: 10px 0;
+
+    &__icon {
+      width: 48px;
+      height: 36px;
+      margin-right: 10px;
+    }
+
+    &__description {
+      font-size: 11px;
+      width: 85px;
+      vertical-align: top;
+    }
+  }
+
+.date {
+  color: #000;
+
+  font-size: 13px;
+  line-height: 24px;
+
+  &-bigger {
+    font-size: 22px;
+  }
+
+  &-red {
+    color: #f00;
+  }
+}
