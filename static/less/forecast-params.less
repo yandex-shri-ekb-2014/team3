@@ -46,6 +46,24 @@
       width: 48px;
       height: 36px;
       margin-right: 10px;
+
+      &-small {
+        width: 34px;
+        height: 23px;
+        margin: 0 16px;
+      }
+
+      &-wind {
+        width: 13px;
+        height: 15px;
+        position: absolute;
+        margin: 3px -22px;
+      }
+
+      &-moon {
+        width: 22px;
+        height: 22px;
+      }
     }
 
     &__description {
@@ -65,7 +83,38 @@
     font-size: 22px;
   }
 
+  &-big {
+    font-size: 36px;
+    line-height: 26px;
+    margin-top: 9px;
+  }
+
   &-red {
     color: #f00;
+  }
+}
+
+.legend {
+
+  &__item {
+    display: inline-block;
+
+    font-size: 11px;
+    line-height: 12px;
+    color: #666;
+
+    &-pressure {
+      width: 55px;
+      margin-left: 370px;
+    }
+
+    &-humidity {
+      width: 55px;
+      margin-left: 36px;
+    }
+    &-wind {
+      width: 45px;
+      margin-left: 18px;
+    }
   }
 }
