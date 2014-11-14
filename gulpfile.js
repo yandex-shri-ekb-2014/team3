@@ -1,5 +1,3 @@
-// npm install gulp-less gulp-browserify gulp-rename gulp-autoprefixer --save-dev 
-
 var publicPath = './public/';
 var staticPath = './static/';
 
@@ -14,31 +12,41 @@ var less = require('gulp-less');
 var rimraf = require('gulp-rimraf'); 
 var concat = require('gulp-concat');
 var cssmin = require('gulp-cssmin');
+var rename = require('gulp-rename');
 var uglify = require('gulp-uglifyjs');
-var browserify = require('gulp-browserify');
 var autoprefixer = require('gulp-autoprefixer');
+
+// Jade task
+gulp.task('jadeProcessing', function(){
+  return gulp.src(staticPath + 'modules/m_*/jade/*.jade')
+  .pipe(rename({dirname: ''}))
+  .pipe(gulp.dest(publicPath + 'jade'));
+});
 
 // Compile Our less
 gulp.task('styleProcessing', function() {
-    return gulp.src(staticPath + 'less/*.less')
+    gulp.src(staticPath + 'modules/m_*/less/*.less')
+    .pipe(concat('tmp_styles.less'))
+    .pipe(gulp.dest(publicPath + 'css'))
     .pipe(less())
-    .pipe(autoprefixer())
     .pipe(concat('style.min.css'))
+    .pipe(autoprefixer())
     .pipe(cssmin())
-    .pipe(gulp.dest(publicPath + 'css'));
+    .pipe(gulp.dest(publicPath + 'css'))
 });
 
-// Browserify task
-gulp.task('browserify', function() {
-    return gulp.src(staticPath + 'js/app.js')
-    .pipe(browserify({insertGlobals : true, debug : !process.env.production}))
+// Js task
+gulp.task('scriptProcessing', function() {
+    return gulp.src(staticPath + 'modules/m_*/js/*.js')
+    .pipe(concat('app.js'))
     .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'))
 });
 
 // Move
-gulp.task('move',['styleProcessing', 'browserify'], function(){
-  gulp.src(staticPath + 'img/*')
+gulp.task('move',['styleProcessing', 'scriptProcessing'], function(){
+  gulp.src(staticPath + 'modules/m_*/img/*')
+  .pipe(rename({dirname: ''}))
   .pipe(gulp.dest(publicPath + 'img'));
 });
 
@@ -49,4 +57,4 @@ gulp.task('clear', function () {
 });
 
 // Default Task
-gulp.task('default', ['styleProcessing', 'browserify', 'move']);
+gulp.task('default', ['jadeProcessing', 'styleProcessing', 'scriptProcessing', 'move']);

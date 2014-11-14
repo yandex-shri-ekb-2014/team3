@@ -1,3 +1,5 @@
 .idea
+public/
+node_modules/
 static/css
 static/less/config.codekit
