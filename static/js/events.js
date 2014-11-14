@@ -10,16 +10,19 @@ window.onload = function () {
     // ***** Обработчики кликов
 
     // Открываем и закрываем выпадайку городов
-    document.getElementsByClassName('towns__title')[0].addEventListener('click', function (e) {
+    if (typeof document.getElementsByClassName('towns__title')[0] != 'undefined') {
+        document.getElementsByClassName('towns__title')[0].addEventListener('click', function (e) {
         var classes = document.getElementsByClassName('towns__list')[0];
 
         classes.classList.toggle('hidden');
 
         e.preventDefault();
     });
+    }
 
     // Открываем попап при клике на справку
-    document.getElementsByClassName('icon-help')[0].addEventListener('click', function (e) {
+    if (typeof document.getElementsByClassName('icon-help')[0] != 'undefined') {
+        document.getElementsByClassName('icon-help')[0].addEventListener('click', function (e) {
         var parent = document.getElementsByClassName('icon-help')[0],
             popup = parent.getElementsByClassName('icon-help__popup')[0];
 
@@ -27,6 +30,7 @@ window.onload = function () {
 
         e.preventDefault();
     });
+    }
 
     // Вешаем активный город в выпадайке
     (function() {
