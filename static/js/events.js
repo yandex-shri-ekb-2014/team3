@@ -1,5 +1,12 @@
 window.onload = function () {
 
+    // ***** Методы помощники
+
+    function map(nodeList, callback) {
+        var inputList = Array.prototype.slice.call(nodeList);
+        inputList.forEach(callback);
+    }
+
     // ***** Обработчики кликов
 
     // Открываем и закрываем выпадайку городов
@@ -31,31 +38,31 @@ window.onload = function () {
                 return false;
             };
 
-        for(var i = 0; i < cityLinks.length; i++) {
-            cityLinks[i].addEventListener('click', setChecked, false);
-        }
+        map(cityLinks, function(value, index, ar){ value.addEventListener('click', setChecked, false); })
     })();
 
     // Открываем нужный график
     (function() {
         var chartButtons = document.querySelectorAll('[data-class]'),
-            charts = document.querySelectorAll('.chart');
+            callback = function (value, index, ar) {
+                value.addEventListener('click', function(e) {
 
-        for(var i = 0; i < chartButtons.length; i++) {
-            chartButtons[i].addEventListener('click', function (e) {
+                    var charts = document.querySelectorAll('.chart');
 
-                for(var j = 0; j < charts.length; j++) {
-                    charts[j].classList.add('hidden');
-                }
+                    map(charts , function(value, index, ar) {
+                        value.classList.add('hidden');
+                    });
 
-                document.querySelector(this.getAttribute("data-class")).classList.remove('hidden');
+                    document.querySelector(this.getAttribute("data-class")).classList.remove('hidden');
 
-                document.querySelector('.forecast-shortly__menu-right .menu__item-active').classList.remove('menu__item-active');
-                this.classList.add('menu__item-active');
+                    document.querySelector('.forecast-shortly__menu-right .menu__item-active').classList.remove('menu__item-active');
+                    this.classList.add('menu__item-active');
 
-                e.preventDefault();
-            }, false);
-        };
+                    e.preventDefault();
+                }, false);
+            };
+
+        map(chartButtons, callback);
     })();
 
     // ***** Графики
