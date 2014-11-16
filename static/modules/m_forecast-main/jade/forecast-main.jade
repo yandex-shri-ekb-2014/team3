@@ -1,0 +1,47 @@
+section.forecast.clearfix
+    .forecast-small.fl
+        .forecast-small__options.clearfix
+          span.options__title Екатеринбург
+          .options__towns
+            a.towns__title(href='#') Другой город
+            ul.towns__list.hidden
+              li.towns-item Последние города
+              li.towns-item
+                a.towns-item__link.towns-item__link-active(href='#') Екатеринбург
+              li.towns-item
+                a.towns-item__link(href='#') Москва
+              li.towns-item
+                a.towns-item__link(href='#') Минск
+              li.towns-item-all
+                a.towns-item__link-all(href='#') Все города
+        .forecast-small__data.clearfix
+          .forecast-small__row
+            .forecast-small__data-now
+              .temperature-small +30
+              .weather
+                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+                span.weather__description малооблачно
+            .forecast-small__data-day
+              .temperature-small +30
+              .weather
+                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+            .forecast-small__data-evening
+              .temperature-small +30
+              .weather
+                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+            .forecast-small__data-night
+              .temperature-small +30
+              .weather
+                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+            ul.forecast-small__data-description
+              li Давление: 748 мм рт. ст.
+              li Ветер: южный, 8.0 м/с (28.8 км/ч)
+              li Влажность: 79%
+              li Восход: 08:23 Заход: 16:57
+              li
+                span Данные зарегистрированы более получаса назад 
+                .icon-help
+                  span.icon-help__popup.hidden На основе прогноза
+          .forecast-small__row.forecast-small__row-gray.temperature-small вчера +10
+      .forecast__banner.banner-small.fr
+        img(src='../img/banner.jpg', alt='')
