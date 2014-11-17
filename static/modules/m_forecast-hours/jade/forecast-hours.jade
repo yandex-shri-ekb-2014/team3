@@ -1,17 +1,3 @@
 section.forecast.clearfix
-    .forecast-shortly
-        ul.forecast-shortly__menu
-          li
-            a.menu__item(href='/') Кратко
-          li
-            a.menu__item(href='/full') Подробно
-          li
-            a.menu__item.menu__item-active(href='/hours') Наглядно
-        .forecast__data
-          ul.forecast-shortly__menu.forecast-shortly__menu-right
-            li
-              a.menu__item.menu__item-active(data-class='.forecast-hours', href='#') График 1
-            li
-              a.menu__item(data-class='.forecast-canvas', href='#') График 2
-          .chart.forecast-hours
-          canvas.chart.forecast-canvas.hidden
+    include forecast-menu
+    include forecast-hours-data

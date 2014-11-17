@@ -39,8 +39,8 @@ gulp.task('styleProcessing', function() {
 // Js task
 gulp.task('scriptProcessing', function() {
     return gulp.src(staticPath + 'modules/m_*/js/*.js')
-    .pipe(concat('app.js'))
-    .pipe(uglify())
+    .pipe(concat('events.js'))
+//    .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'))
 });
 
@@ -49,6 +49,10 @@ gulp.task('move',['styleProcessing', 'scriptProcessing'], function(){
   gulp.src(staticPath + 'modules/m_*/img/*')
   .pipe(rename({dirname: ''}))
   .pipe(gulp.dest(publicPath + 'img'));
+
+  gulp.src(staticPath + 'js/*')
+  .pipe(rename({dirname: ''}))
+  .pipe(gulp.dest(publicPath + 'js'));
 });
 
 // Clear 
