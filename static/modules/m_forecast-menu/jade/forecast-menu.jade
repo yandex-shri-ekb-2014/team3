@@ -6,3 +6,6 @@
         a.menu__item(ng-class='{"menu__item-active" : weatherType == 2}', ng-href='/full', ng-click='forecastClick($event, 2)') Подробно
       li
         a.menu__item(ng-class='{"menu__item-active" : weatherType == 3}', ng-href='/hours', ng-click='forecastClick($event, 3)') Наглядно
+      li.spinner__wrap.hidden
+        div.spinner
+            img(src="/img/spinner.gif")
