@@ -3,62 +3,83 @@
 
     var app = angular.module('weather', []);
 
+    /**
+     * Главный контроллер всего приложения
+     */
     app.controller('weatherController', function($scope) {
-        $scope.temperatures =  [7, 4, 2, 0 -2, -5, 0, 4, 2, -2, -5, -7, -3, 0, 2, 2, 5, 7, 4, 0, -1, -3, -4, -6, 4];
 
+        var locationPath = window.location.pathname;
+
+            // Определяем данные для графиков и рисуем их
+        $scope.temperatures =  [7, 4, 2, 0 -2, -5, 0, 4, 2, -2, -5, -7, -3, 0, 2, 2, 5, 7, 4, 0, -1, -3, -4, -6, 4];
         initGraphs($scope.temperatures);
 
+        // Запихиваем текущий урл в историю
+        window.history.pushState('init', 'Страница входа', locationPath);
+
+        // Выставляем текущую вкладку в weatherType
+        switch(locationPath) {
+            case '/hours':
+                $scope.weatherType = 3;
+                break;
+            case '/full':
+                $scope.weatherType = 2;
+                break;
+            default:
+                $scope.weatherType = 1;
+        }
+
         console.log('WeatherController was inited.');
-        window.history.pushState('init', 'Страница входа', window.location.pathname);
     });
 
+    /**
+     * Контроллер для обработки кнопок типа прогноза
+     */
     app.controller("buttonsController", ['$scope', '$http', '$log', function($scope, $http, $log) {
         $log.log('buttonsController inited.');
-
-        $scope.weatherType = 1;
 
         $scope.forecastClick = function($event, id){
             $event.preventDefault();
 
+            // Устанавливаем текущую вкладку
             $scope.weatherType = id;
 
+            // Получаем необходимый блок для отображения
             switch(id) {
                 case 1:
-                    $http.get('/b-short').
-                        success(function(data, status, headers, config) {
-                            document.querySelector('.forecast__data').innerHTML = data;
-                            window.history.pushState('short', 'Страница кратко', '/');
-                        }).
-                        error(function(data, status, headers, config) {
-                            $log.log(data);
-                        });
+                    ajaxGet('/b-short', '/');
                     break;
-
                 case 2:
-                    $http.get('/b-full').
-                        success(function(data, status, headers, config) {
-                            document.querySelector('.forecast__data').innerHTML = data;
-                            window.history.pushState('full', 'Страница с полным видом', '/full');
-                        }).
-                        error(function(data, status, headers, config) {
-                            $log.log(data);
-                        });
+                    ajaxGet('/b-full', '/full');
                     break;
-
                 case 3:
-                    $http.get('/b-hours').
-                        success(function(data, status, headers, config) {
-                            document.querySelector('.forecast__data').innerHTML = data;
-                            window.history.pushState('hours', 'Страница наглядно', '/hours');
-
-                            initGraphs($scope.temperatures);
-                        }).
-                        error(function(data, status, headers, config) {
-                            $log.log(data);
-                        });
+                    ajaxGet('/b-hours', '/hours', function() {
+                        initGraphs($scope.temperatures);
+                    });
                     break;
             }
         };
+
+        /**
+         * Получаем блок для отображения по адресу ajaxUrl, сохряняем в историю и выполняем коллбэк
+         * @param ajaxUrl
+         * @param historyUrl
+         * @param callback
+         */
+        function ajaxGet(ajaxUrl, historyUrl, callback) {
+            document.querySelector('.forecast .spinner__wrap').classList.toggle('hidden');
+            $http.get(ajaxUrl).
+                success(function(data, status, headers, config) {
+                    document.querySelector('.forecast__data').innerHTML = data;
+                    window.history.pushState('', '', historyUrl);
+                    document.querySelector('.forecast .spinner__wrap').classList.toggle('hidden');
+
+                    if (typeof callback !== 'undefined') callback();
+                }).
+                error(function(data, status, headers, config) {
+                    $log.log(data);
+                });
+        }
 
     }]);
 })();
