@@ -29,7 +29,20 @@
                 $scope.weatherType = 1;
         }
 
-        getLocation();
+        // Если у нас нет значения координт или они устарели, то получаем новые
+        if (typeof localStorage["geolocation"] == 'undefined') {
+            getLocation();
+        } else {
+            var object = JSON.parse(localStorage["geolocation"]),
+                dateString = object.timestamp,
+                now = new Date().getTime();
+
+            if (now - dateString > 1000 * 60) { // кэшируем на минуту
+                getLocation();
+
+                console.log('Location was updated: ' + dateString + ', ' + now);
+            }
+        }
 
         console.log('WeatherController was inited.');
 
@@ -41,7 +54,7 @@
                 navigator.geolocation.getCurrentPosition(
                     successLocation,
                     errorLocation,
-                    { maximumAge:60000, timeout:500, enableHighAccuracy:true }
+                    { maximumAge: 60000, timeout: 500, enableHighAccuracy: true }
                 );
             }
         }
@@ -56,6 +69,12 @@
                 lng: data.coords.longitude
             };
 
+            // сохраняем в localstorage
+            localStorage["geolocation"] = JSON.stringify({
+                data: $scope.geolocation,
+                timestamp: new Date().getTime()
+            });
+
             console.log($scope.geolocation);
         }
 
@@ -64,11 +83,17 @@
          */
         function errorLocation(err) {
             // Хотел использовать jsapi от google, если браузер не поддерживает, но инструмент пока разрабатывается и всегда возвращает null.
-            // По-умолчанию возвращаем координаты Екб
-            $scope.geolocation = {
-                lat: 56.814778499999996,
-                lng: 60.55392949999999
-            };
+
+            // Если есть данные в localstorage, то вставяем, если нет, то получаем дефолтные
+            if (typeof localStorage['geolocation'] != 'undefined') {
+                $scope.geolocation = JSON.parse(localStorage["geolocation"]).data;
+            } else {
+                // По-умолчанию возвращаем координаты Екб
+                $scope.geolocation = {
+                    lat: 56.814778499999996,
+                    lng: 60.55392949999999
+                };
+            }
 
             console.log('ERROR(' + err.code + '): ' + err.message);
             console.log($scope.geolocation);
