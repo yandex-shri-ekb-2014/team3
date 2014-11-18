@@ -38,20 +38,41 @@
          */
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition( function(data) {
-                    $scope.geolocation = {
-                        lat: data.coords.latitude,
-                        lng: data.coords.longitude
-                    };
-
-                    console.log('We\'ve got geolocation of the user: (' + $scope.geolocation.lat + ', ' + $scope.geolocation.lng + ')');
-                });
-            } else {
-                /*
-                    @todo: fallback в случае того, что не получили геолокацию
-                 */
+                navigator.geolocation.getCurrentPosition(
+                    successLocation,
+                    errorLocation,
+                    { maximumAge:60000, timeout:500, enableHighAccuracy:true }
+                );
             }
-        };
+        }
+
+        /**
+         * Устанавливаем полученные значения
+         * @param data
+         */
+        function successLocation(data) {
+            $scope.geolocation = {
+                lat: data.coords.latitude,
+                lng: data.coords.longitude
+            };
+
+            console.log($scope.geolocation);
+        }
+
+        /**
+         * Ставим дефолтные значение
+         */
+        function errorLocation(err) {
+            // Хотел использовать jsapi от google, если браузер не поддерживает, но инструмент пока разрабатывается и всегда возвращает null.
+            // По-умолчанию возвращаем координаты Екб
+            $scope.geolocation = {
+                lat: 56.814778499999996,
+                lng: 60.55392949999999
+            };
+
+            console.log('ERROR(' + err.code + '): ' + err.message);
+            console.log($scope.geolocation);
+        }
     });
 
     /**
