@@ -6,7 +6,7 @@
     /**
      * Главный контроллер всего приложения
      */
-    app.controller('weatherController', function($scope, $http) {
+    app.controller('weatherController', function($scope) {
 
         var locationPath = window.location.pathname;
 
