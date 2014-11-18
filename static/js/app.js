@@ -6,7 +6,7 @@
     /**
      * Главный контроллер всего приложения
      */
-    app.controller('weatherController', function($scope) {
+    app.controller('weatherController', function($scope, $http) {
 
         var locationPath = window.location.pathname;
 
@@ -29,7 +29,29 @@
                 $scope.weatherType = 1;
         }
 
+        getLocation();
+
         console.log('WeatherController was inited.');
+
+        /**
+         * Получаем координаты пользователя при первой загрузке
+         */
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition( function(data) {
+                    $scope.geolocation = {
+                        lat: data.coords.latitude,
+                        lng: data.coords.longitude
+                    };
+
+                    console.log('We\'ve got geolocation of the user: (' + $scope.geolocation.lat + ', ' + $scope.geolocation.lng + ')');
+                });
+            } else {
+                /*
+                    @todo: fallback в случае того, что не получили геолокацию
+                 */
+            }
+        };
     });
 
     /**
