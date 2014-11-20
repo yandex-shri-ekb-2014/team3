@@ -8,7 +8,7 @@
     /**
      * Главный контроллер всего приложения
      */
-    app.controller('weatherController', ['$scope', '$http', '$log', function($scope, $http, $log) {
+    app.controller('weatherController', function($scope, $http, $log) {
 
         var locationPath = window.location.pathname;
 
@@ -32,19 +32,7 @@
         }
 
         // Если у нас нет значения координт или они устарели, то получаем новые
-        if (typeof localStorage["actualCity"] == 'undefined') {
-            saveLocation();
-        } else {
-            var object = JSON.parse(localStorage["actualCity"]),
-                dateString = object.timestamp,
-                now = new Date().getTime();
-
-            if (now - dateString > 1000 * 60) { // кэшируем на минуту
-                saveLocation();
-
-                console.log('Location was updated: ' + dateString + ', ' + now);
-            }
-        }
+        checkLocalStorageData('actualCities', 60000, $scope, 'geocode', saveLocation);
 
         console.log('WeatherController was inited.');
 
@@ -85,8 +73,8 @@
             } else {
                 // По-умолчанию возвращаем координаты Екб
                 geocode({
-                    lat: 56.814778499999996,
-                    lng: 60.55392949999999
+                    lat: 56.837992,
+                    lng: 60.597223
                 });
             }
 
@@ -103,10 +91,10 @@
                 .success(function(data) {
 
                     // сохраняем в localstorage
-                    localStorage["actualCity"] = JSON.stringify({
-                        'data': data,
-                        'timestamp': new Date().getTime()
-                    });
+                    saveToLocalStorage('actualCity', data);
+
+                    // добавляем id города в просмторенные города
+                    pushFactualId(data.geoid);
 
                     $scope.geocode = data;
 
@@ -126,21 +114,44 @@
         }
 
         /**
-         * Factual from Yandex API
-         * @param ids
+         * Сохраняем данные в localStorage
+         * @param key
+         * @param data
          */
-        function factual(ids) {
-            $http.get('http://ekb.shri14.ru/api/factual?ids=' + ids)
-                .success(function(data) {
-                    $log.log(data);
-                });
+        function saveToLocalStorage(key, data) {
+            localStorage[key] = JSON.stringify({
+                'data': data,
+                'timestamp': new Date().getTime()
+            });
         }
-    }]);
+
+        /**
+         * Сохраняем geoid в localStorage
+         * @param geoid
+         */
+        function pushFactualId(geoid) {
+            if (localStorage["factualIds"]) {
+                var cachedIds = JSON.parse(localStorage["factualIds"]).geoids.slice(0,2);
+
+                if (cachedIds.indexOf(geoid) == -1) {
+                    cachedIds.unshift(geoid);
+
+                    localStorage["factualIds"] = JSON.stringify({
+                        'geoids': cachedIds
+                    });
+                }
+            } else {
+                localStorage["factualIds"] = JSON.stringify({
+                    'geoids': [geoid]
+                });
+            }
+        }
+    });
 
     /**
      * Контроллер для обработки кнопок типа прогноза
      */
-    app.controller("buttonsController", ['$scope', '$http', '$log', function($scope, $http, $log) {
+    app.controller('buttonsController', function($scope, $http, $log) {
         $log.log('buttonsController inited.');
 
         $scope.forecastClick = function($event, id){
@@ -179,12 +190,73 @@
                     window.history.pushState('', '', historyUrl);
                     document.querySelector('.forecast .spinner__wrap').classList.toggle('hidden');
 
-                    if (typeof callback != 'function') callback();
+                    if (typeof callback == 'function') callback();
                 }).
                 error(function(data, status, headers, config) {
                     $log.log(data);
                 });
         }
 
-    }]);
+    });
+
+    /**
+     * Контроллер для обработи выпадайки "Другие города"
+     */
+    app.controller("otherTownsController", function($scope, $http) {
+
+        /**
+         * Обрабатываем клик на выпадайку других городов
+         */
+        $scope.onOtherTownsClick = function() {
+
+            if (localStorage["factualIds"]) {
+                var ids = JSON.parse(localStorage["factualIds"]).geoids;
+                saveFactualTemp(ids.toString());
+            }
+        };
+
+        /**
+         * Обработка клика на городе из списка 3 последних
+         */
+        $scope.onTownChange = function() {
+          // @todo: сделать обработчик, который получает данные выбранного города и всё такое
+        };
+
+        /**
+         * Получаем фактическую температуру и вставлем данные в скоуп
+         * @param ids
+         */
+        function saveFactualTemp(ids) {
+            $http.get('http://ekb.shri14.ru/api/factual?ids=' + ids)
+                .success(function(data) {
+                    $scope.factualTemp = data;
+                });
+        }
+    });
 })();
+
+/**
+ * Проверяем данные в localStorage на старость и обновляем, если устарели
+ * @param key
+ * @param period
+ * @param scope
+ * @param scopekey
+ * @param callback
+ */
+function checkLocalStorageData(key, period, scope, scopekey, callback) {
+    if (typeof localStorage[key] == 'undefined') {
+        if (callback && typeof callback == 'function') callback();
+    } else {
+        var object = JSON.parse(localStorage["actualCities"]),
+            dateString = object.timestamp,
+            now = new Date().getTime();
+
+        if (now - dateString > period) { // кэшируем на минуту
+            if (callback && typeof callback == 'function') callback();
+
+            console.log('Location was updated: ' + dateString + ', ' + now);
+        }
+
+        scope[scopekey] = object.data;
+    }
+}
