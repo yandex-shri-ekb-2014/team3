@@ -2,42 +2,42 @@ section.forecast.main.clearfix
     .forecast-small.fl
         .forecast-small__options.clearfix
           span.options__title {{geocode.name}}
-          .options__towns(ng-controller="otherTownsController" ng-click="onOtherTownsClick()")
+          .options__towns(ng-click="onOtherTownsClick()")
             a.towns__title(href='#') Другой город
             ul.towns__list.hidden
               li.towns-item Последние города
               li.towns-item(ng-repeat="town in factualTemp")
-                a.towns-item__link(ng-class='{"towns-item__link-active" : town.geoid == geocode.geoid}', ng-href='#{{town.geoid}}') {{town.name}} ({{town.temp}})
+                a.towns-item__link(ng-class='{"towns-item__link-active" : town.geoid == geocode.geoid}', ng-href='#{{town.geoid}}', ng-click="onTownChange(town.geoid, town.name)") {{town.name}} ({{town.temp}})
               li.towns-item-all
                 a.towns-item__link-all(href='#') Все города
         .forecast-small__data.clearfix
           .forecast-small__row
             .forecast-small__data-now
-              .temperature-small +30
+              .temperature-small {{locality.yesterday.temp}}
               .weather
-                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
-                span.weather__description малооблачно
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.yesterday.weather_icon}}.svg')
+                span.weather__description {{locality.yesterday.weather}}
             .forecast-small__data-day
-              .temperature-small +30
+              .temperature-small {{locality.forecast[0].parts[1].temp}}
               .weather
-                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[1].weather_icon}}.svg')
             .forecast-small__data-evening
-              .temperature-small +30
+              .temperature-small {{locality.forecast[0].parts[2].temp}}
               .weather
-                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[2].weather_icon}}.svg')
             .forecast-small__data-night
-              .temperature-small +30
+              .temperature-small {{locality.forecast[0].parts[3].temp}}
               .weather
-                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[3].weather_icon}}.svg')
             ul.forecast-small__data-description
-              li Давление: 748 мм рт. ст.
-              li Ветер: южный, 8.0 м/с (28.8 км/ч)
-              li Влажность: 79%
-              li Восход: 08:23 Заход: 16:57
+              li Давление: {{locality.yesterday.pressure}} мм рт. ст.
+              li Ветер: {{locality.yesterday.wind}}, {{locality.yesterday.wind_speed}} м/с ({{locality.yesterday.wind_speed * 3.6}} км/ч)
+              li Влажность: {{locality.yesterday.humidity}}%
+              li Восход: {{locality.forecast[0].sunrise}} Заход: {{locality.forecast[0].sunset}}
               li
                 span Данные зарегистрированы более получаса назад 
                 .icon-help
                   span.icon-help__popup.hidden На основе прогноза
-          .forecast-small__row.forecast-small__row-gray.temperature-small вчера +10
+          .forecast-small__row.forecast-small__row-gray.temperature-small вчера {{locality.fact.temp}}
       .forecast__banner.banner-small.fr
         img(src='../img/banner.jpg', alt='')

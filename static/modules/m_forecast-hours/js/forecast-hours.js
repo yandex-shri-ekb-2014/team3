@@ -1,4 +1,9 @@
-function initGraphs (temperatures) {
+function initGraphs (data) {
+
+    var temperatures = [];
+    for(var i = data.length; i--;) {
+        temperatures.unshift(data[i].temp);
+    }
 
 // Открываем нужный график
     (function() {
@@ -46,11 +51,11 @@ function initGraphs (temperatures) {
                     min = temperatures[i];
             }
 
-            step = (maxHeight - 10) / (Math.abs(min) + Math.abs(max));
+            step = (maxHeight / 2 - 5) / (Math.abs(min) + Math.abs(max));
 
             for(var i = 0; i < temperatures.length; i++) {
                 insertedHTML +=
-                    '<div class="forecast-hours__row" style="height: ' + Math.round(Math.abs(maxHeight / 2) + step * temperatures[i]) + 'px">'+
+                    '<div class="forecast-hours__row" style="height: ' + Math.round(maxHeight / 2 + step * temperatures[i]) + 'px; margin-top: '+ Math.round(max == 0 ? maxHeight / 2 : 0) +'px">'+
                         '<span class="legend__item-temperature">' + ( (temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]) ) + '</span>'+
                         '</div>';
             }
@@ -81,7 +86,7 @@ function initGraphs (temperatures) {
                 if (temperatures[i] < min)
                     min = temperatures[i];
             }
-            step = (MAX_HEIGHT - 40) / (Math.abs(min) + Math.abs(max));
+            step = (MAX_HEIGHT / 2 - 40) / (Math.abs(min) + Math.abs(max));
 
             // Устанавливаем размеры канваса
             canvas.width  = MAX_WIDTH;
@@ -112,13 +117,16 @@ function initGraphs (temperatures) {
                 ctx.strokeText(
                     (temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]),
                     MAX_WIDTH / 24 * i + 20,
-                    MAX_HEIGHT / 2 - temperatures[i] * step - 5
+                    MAX_HEIGHT / 2 - step * temperatures[i] - max * step - 5
+                    //MAX_HEIGHT / 2 - temperatures[i] * step - 5
                 );
 
                 // Отрисовываем линию
                 ctx.lineTo(
                     (MAX_WIDTH / 24) * i + 20,
-                    MAX_HEIGHT / 2 - temperatures[i] * step );
+                    MAX_HEIGHT / 2 - step * temperatures[i] - max * step
+                //    MAX_HEIGHT / 2 - temperatures[i] * step
+                );
                 ctx.strokeStyle = gradient;
                 ctx.stroke();
             }
