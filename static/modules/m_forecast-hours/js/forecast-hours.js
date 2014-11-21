@@ -1,11 +1,9 @@
 function initGraphs (data) {
 
     var temperatures = [];
-    for(var i = data.forecast[0].hours.length; i--;) {
-        temperatures.unshift(data.forecast[0].hours[i].temp);
+    for(var i = data.length; i--;) {
+        temperatures.unshift(data[i].temp);
     }
-
-    console.log(temperatures);
 
 // Открываем нужный график
     (function() {
@@ -52,8 +50,6 @@ function initGraphs (data) {
                 if (temperatures[i] < min)
                     min = temperatures[i];
             }
-
-            console.log(max, min);
 
             step = (maxHeight / 2 - 5) / (Math.abs(min) + Math.abs(max));
 

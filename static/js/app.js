@@ -34,6 +34,9 @@
         // Если у нас нет значения координт или они устарели, то получаем новые
         checkLocalStorageData('actualCities', 60000, $scope, 'geocode', saveLocation);
 
+        checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
+        initGraphs($scope.locality.forecast[0].hours);
+
         console.log('WeatherController was inited.');
 
         /**
@@ -70,6 +73,10 @@
             // Если есть данные в localstorage, то вставяем, если нет, то получаем дефолтные
             if (typeof localStorage['actualCity'] != 'undefined') {
                 $scope.geocode = JSON.parse(localStorage['actualCity']).data;
+                if (typeof localStorage['locality'] != 'undefined') {
+                    $scope.locality = JSON.parse(localStorage['locality']).data;
+                    $log.log('Locality upped form localStorage.');
+                }
             } else {
                 // По-умолчанию возвращаем координаты Екб
                 geocode({
@@ -90,16 +97,18 @@
             $http.get('http://ekb.shri14.ru/api/geocode?coords=' + geolocation.lng + ',' + geolocation.lat)
                 .success(function(data) {
 
+                    $scope.geocode = data;
+
                     // сохраняем в localstorage
                     saveToLocalStorage('actualCity', data);
 
                     // получаем данные locality и сохраняем в localStorage
-                    localities(data.geoid);
+                    checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
+                    initGraphs($scope.locality.forecast[0].hours);
+                   // localities(data.geoid);
 
                     // добавляем id города в просмторенные города
                     pushFactualId(data.geoid);
-
-                    $scope.geocode = data;
 
                     $log.log(data);
                 });
@@ -110,23 +119,28 @@
          * @param geoid
          */
         function localities(geoid) {
+
+            geoid = geoid ? geoid : $scope.geocode.geoid;
+
             $http.get('http://ekb.shri14.ru/api/localities/' + geoid)
                 .success(function(data) {
-                    saveToLocalStorage('locality', data);
-
                     for (var i = data.forecast.length; i--;) {
                         var date = new Date(data.forecast[i].date);
                         data.forecast[i].weekDay = date.getDay();
                         data.forecast[i].day = date.getDate();
                         data.forecast[i].month = date.getMonth();
                     }
-                    $scope.months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-                    $scope.days = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
-                    $scope.parts = ['утром', 'днём', 'вечером', 'ночью'];
+                    data.months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+                    data.days = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+                    data.parts = ['утром', 'днём', 'вечером', 'ночью'];
+
+                    saveToLocalStorage('locality', data);
                     $scope.locality = data;
-                    initGraphs(data);
+                    initGraphs(data.forecast[0].hours);
 
                     $log.log(data, $scope.locality);
+
+                    $log.log('Locality updated.');
                 });
         }
 
@@ -187,7 +201,7 @@
                     break;
                 case 3:
                     ajaxGet('/b-hours', '/hours', function() {
-                        initGraphs($scope.locality);
+                        initGraphs($scope.locality.forecast[0].hours);
                     });
                     break;
             }
@@ -265,7 +279,7 @@ function checkLocalStorageData(key, period, scope, scopekey, callback) {
     if (typeof localStorage[key] == 'undefined') {
         if (callback && typeof callback == 'function') callback();
     } else {
-        var object = JSON.parse(localStorage["actualCities"]),
+        var object = JSON.parse(localStorage[key]),
             dateString = object.timestamp,
             now = new Date().getTime();
 

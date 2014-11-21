@@ -5,15 +5,15 @@
     li.legend__item.legend__item-wind ветер, м/с
   ul
     li.forecast-full__data(ng-repeat="day in locality.forecast")
-      .forecast-full__item.forecast-full__weekday {{days[day.weekDay]}}
+      .forecast-full__item.forecast-full__weekday {{locality.days[day.weekDay]}}
       .forecast-full__item.forecast-full__date
         .date.date-big {{day.day}}
-        .date {{months[day.month]}}
+        .date {{locality.months[day.month]}}
       ul.forecast-full__item.forecast-full__weather
         li.forecast-full__background.forecast-full__item-padding(ng-repeat="part in day.parts", ng-show="{{$index < 4}}")
           ul.forecast-full__row-inner
             li.forecast-full__item-inner
-              span.forecast-full__label-middle {{parts[$index]}}
+              span.forecast-full__label-middle {{locality.parts[$index]}}
               span.forecast-full__label.forecast-full__label-bigger {{part.temp_min && part.temp_max ? part.temp_min + '...' + part.temp_max : part.temp}}
             li.forecast-full__item-inner
               img.weather__icon-small(ng-src='http://ekb.shri14.ru/icons/{{part.weather_icon}}.svg')
