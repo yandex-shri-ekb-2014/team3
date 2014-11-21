@@ -10,11 +10,9 @@
      */
     app.controller('weatherController', function($scope, $http, $log) {
 
-        var locationPath = window.location.pathname;
 
-        // Определяем данные для графиков и рисуем их
-//        $scope.temperatures =  [7, 4, 2, 0 -2, -5, 0, 4, 2, -2, -5, -7, -3, 0, 2, 2, 5, 7, 4, 0, -1, -3, -4, -6, 4];
-//        initGraphs($scope.temperatures);
+
+        var locationPath = window.location.pathname;
 
         // Запихиваем текущий урл в историю
         window.history.pushState('init', 'Страница входа', locationPath);
@@ -31,13 +29,49 @@
                 $scope.weatherType = 1;
         }
 
-        // Если у нас нет значения координт или они устарели, то получаем новые
+        // Если у нас нет значения или они устарели, то получаем новые
         checkLocalStorageData('actualCities', 60000, $scope, 'geocode', saveLocation);
-
         checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
-        initGraphs($scope.locality.forecast[0].hours);
+
+        if ($scope.locality) {
+            initGraphs($scope.locality.forecast[0].hours);
+        }
 
         console.log('WeatherController was inited.');
+
+        /**
+         * Обрабатываем клик на выпадайку других городов
+         */
+        $scope.onOtherTownsClick = function() {
+            if (localStorage["factualIds"]) {
+                var ids = JSON.parse(localStorage["factualIds"]).geoids;
+                saveFactualTemp(ids.toString());
+            }
+        };
+
+        /**
+         * Обработка клика на городе из списка 3 последних
+         */
+        $scope.onTownChange = function(geoid, name) {
+            // @todo: сделать обработчик, который получает данные выбранного города и всё такое
+            localities(geoid);
+            $scope.geocode.geoid = geoid;
+            $scope.geocode.name = name;
+
+            // сохраняем в localstorage
+            saveToLocalStorage('actualCity', $scope.geocode);
+        };
+
+        /**
+         * Получаем фактическую температуру и вставлем данные в скоуп
+         * @param ids
+         */
+        function saveFactualTemp(ids) {
+            $http.get('http://ekb.shri14.ru/api/factual?ids=' + ids)
+                .success(function(data) {
+                    $scope.factualTemp = data;
+                });
+        }
 
         /**
          * Получаем координаты пользователя при первой загрузке
@@ -104,8 +138,9 @@
 
                     // получаем данные locality и сохраняем в localStorage
                     checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
-                    initGraphs($scope.locality.forecast[0].hours);
-                   // localities(data.geoid);
+                    if ($scope.locality) {
+                        initGraphs($scope.locality.forecast[0].hours);
+                    }
 
                     // добавляем id города в просмторенные города
                     pushFactualId(data.geoid);
@@ -120,6 +155,7 @@
          */
         function localities(geoid) {
 
+            if (!$scope.geocode && !geoid) return;
             geoid = geoid ? geoid : $scope.geocode.geoid;
 
             $http.get('http://ekb.shri14.ru/api/localities/' + geoid)
@@ -226,42 +262,6 @@
                 }).
                 error(function(data, status, headers, config) {
                     $log.log(data);
-                });
-        }
-
-    });
-
-    /**
-     * Контроллер для обработи выпадайки "Другие города"
-     */
-    app.controller("otherTownsController", function($scope, $http) {
-
-        /**
-         * Обрабатываем клик на выпадайку других городов
-         */
-        $scope.onOtherTownsClick = function() {
-
-            if (localStorage["factualIds"]) {
-                var ids = JSON.parse(localStorage["factualIds"]).geoids;
-                saveFactualTemp(ids.toString());
-            }
-        };
-
-        /**
-         * Обработка клика на городе из списка 3 последних
-         */
-        $scope.onTownChange = function() {
-          // @todo: сделать обработчик, который получает данные выбранного города и всё такое
-        };
-
-        /**
-         * Получаем фактическую температуру и вставлем данные в скоуп
-         * @param ids
-         */
-        function saveFactualTemp(ids) {
-            $http.get('http://ekb.shri14.ru/api/factual?ids=' + ids)
-                .success(function(data) {
-                    $scope.factualTemp = data;
                 });
         }
     });
