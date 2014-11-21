@@ -13,31 +13,31 @@ section.forecast.main.clearfix
         .forecast-small__data.clearfix
           .forecast-small__row
             .forecast-small__data-now
-              .temperature-small +30
+              .temperature-small {{locality.yesterday.temp}}
               .weather
-                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
-                span.weather__description малооблачно
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.yesterday.weather_icon}}.svg')
+                span.weather__description {{locality.yesterday.weather}}
             .forecast-small__data-day
-              .temperature-small +30
+              .temperature-small {{locality.forecast[0].parts[1].temp}}
               .weather
-                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[1].weather_icon}}.svg')
             .forecast-small__data-evening
-              .temperature-small +30
+              .temperature-small {{locality.forecast[0].parts[2].temp}}
               .weather
-                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[2].weather_icon}}.svg')
             .forecast-small__data-night
-              .temperature-small +30
+              .temperature-small {{locality.forecast[0].parts[3].temp}}
               .weather
-                img.weather__icon(src='http://ekb.shri14.ru/icons/bkn_d.svg')
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[3].weather_icon}}.svg')
             ul.forecast-small__data-description
-              li Давление: 748 мм рт. ст.
-              li Ветер: южный, 8.0 м/с (28.8 км/ч)
-              li Влажность: 79%
-              li Восход: 08:23 Заход: 16:57
+              li Давление: {{locality.yesterday.pressure}} мм рт. ст.
+              li Ветер: {{locality.yesterday.wind}}, {{locality.yesterday.wind_speed}} м/с ({{locality.yesterday.wind_speed * 3.6}} км/ч)
+              li Влажность: {{locality.yesterday.humidity}}%
+              li Восход: {{locality.forecast[0].sunrise}} Заход: {{locality.forecast[0].sunset}}
               li
                 span Данные зарегистрированы более получаса назад 
                 .icon-help
                   span.icon-help__popup.hidden На основе прогноза
-          .forecast-small__row.forecast-small__row-gray.temperature-small вчера +10
+          .forecast-small__row.forecast-small__row-gray.temperature-small вчера {{locality.fact.temp}}
       .forecast__banner.banner-small.fr
         img(src='../img/banner.jpg', alt='')

@@ -12,9 +12,9 @@
 
         var locationPath = window.location.pathname;
 
-            // Определяем данные для графиков и рисуем их
-        $scope.temperatures =  [7, 4, 2, 0 -2, -5, 0, 4, 2, -2, -5, -7, -3, 0, 2, 2, 5, 7, 4, 0, -1, -3, -4, -6, 4];
-        initGraphs($scope.temperatures);
+        // Определяем данные для графиков и рисуем их
+//        $scope.temperatures =  [7, 4, 2, 0 -2, -5, 0, 4, 2, -2, -5, -7, -3, 0, 2, 2, 5, 7, 4, 0, -1, -3, -4, -6, 4];
+//        initGraphs($scope.temperatures);
 
         // Запихиваем текущий урл в историю
         window.history.pushState('init', 'Страница входа', locationPath);
@@ -93,6 +93,9 @@
                     // сохраняем в localstorage
                     saveToLocalStorage('actualCity', data);
 
+                    // получаем данные locality и сохраняем в localStorage
+                    localities(data.geoid);
+
                     // добавляем id города в просмторенные города
                     pushFactualId(data.geoid);
 
@@ -109,7 +112,21 @@
         function localities(geoid) {
             $http.get('http://ekb.shri14.ru/api/localities/' + geoid)
                 .success(function(data) {
-                    $log.log(data);
+                    saveToLocalStorage('locality', data);
+
+                    for (var i = data.forecast.length; i--;) {
+                        var date = new Date(data.forecast[i].date);
+                        data.forecast[i].weekDay = date.getDay();
+                        data.forecast[i].day = date.getDate();
+                        data.forecast[i].month = date.getMonth();
+                    }
+                    $scope.months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+                    $scope.days = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+                    $scope.parts = ['утром', 'днём', 'вечером', 'ночью'];
+                    $scope.locality = data;
+                    initGraphs(data);
+
+                    $log.log(data, $scope.locality);
                 });
         }
 
@@ -151,7 +168,7 @@
     /**
      * Контроллер для обработки кнопок типа прогноза
      */
-    app.controller('buttonsController', function($scope, $http, $log) {
+    app.controller('buttonsController', function($scope, $http, $log, $compile) {
         $log.log('buttonsController inited.');
 
         $scope.forecastClick = function($event, id){
@@ -170,7 +187,7 @@
                     break;
                 case 3:
                     ajaxGet('/b-hours', '/hours', function() {
-                        initGraphs($scope.temperatures);
+                        initGraphs($scope.locality);
                     });
                     break;
             }
@@ -187,6 +204,7 @@
             $http.get(ajaxUrl).
                 success(function(data, status, headers, config) {
                     document.querySelector('.forecast__data').innerHTML = data;
+                    $compile(document.querySelector('.forecast__data'))($scope);
                     window.history.pushState('', '', historyUrl);
                     document.querySelector('.forecast .spinner__wrap').classList.toggle('hidden');
 
