@@ -11,10 +11,8 @@
     app.controller('weatherController', function($scope, $http, $log) {
 
 
-
-        var locationPath = window.location.pathname;
-
         // Запихиваем текущий урл в историю
+        var locationPath = window.location.pathname;
         window.history.pushState('init', 'Страница входа', locationPath);
 
         // Выставляем текущую вкладку в weatherType
@@ -30,16 +28,22 @@
         }
 
         // Если у нас нет значения или они устарели, то получаем новые
-        checkLocalStorageData('actualCities', 60000, $scope, 'geocode', saveLocation);
+        checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
         checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
 
-        if ($scope.locality) {
+        // Инициализируем графики, если мы на странице почасовки
+        if (locationPath == '/hours' && $scope.locality) {
             initGraphs($scope.locality.forecast[0].hours);
         }
 
-        // Обновляем данные каждые 15 минут
+        // Обновляем данные для отображения каждые 15 минут
         setInterval(function() { localities($scope.geocode.geoid); }, 900000);
+
+
         console.log('WeatherController was inited.');
+
+
+        // *************** Обработчики кликов
 
         /**
          * Обрабатываем клик на выпадайку других городов
@@ -59,9 +63,14 @@
             $scope.geocode.geoid = geoid;
             $scope.geocode.name = name;
 
-            // сохраняем в localstorage
+            pushFactualId(geoid);
+
+            // сохраняем в localStorage
             saveToLocalStorage('actualCity', $scope.geocode);
         };
+
+
+        // *************** Функции-хелперы
 
         /**
          * Получаем фактическую температуру и вставлем данные в скоуп
@@ -139,7 +148,7 @@
 
                     // получаем данные locality и сохраняем в localStorage
                     checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
-                    if ($scope.locality) {
+                    if (locationPath == '/hours' && $scope.locality) {
                         initGraphs($scope.locality.forecast[0].hours);
                     }
 
@@ -198,15 +207,24 @@
          * @param geoid
          */
         function pushFactualId(geoid) {
-            if (localStorage["factualIds"]) {
-                var cachedIds = JSON.parse(localStorage["factualIds"]).geoids.slice(0,2);
+            var cachedIds = JSON.parse(localStorage["factualIds"]).geoids.slice(0,2);
 
+            if (localStorage["factualIds"]) {
                 if (cachedIds.indexOf(geoid) == -1) {
                     cachedIds.unshift(geoid);
 
                     localStorage["factualIds"] = JSON.stringify({
                         'geoids': cachedIds
                     });
+                } else {
+                    if (cachedIds.length > 1) {
+                        var ind = cachedIds.indexOf(geoid);
+                        cachedIds.unshift(cachedIds.splice(ind, 1)[0]);
+
+                        localStorage["factualIds"] = JSON.stringify({
+                            'geoids': cachedIds
+                        });
+                    }
                 }
             } else {
                 localStorage["factualIds"] = JSON.stringify({
@@ -216,12 +234,19 @@
         }
     });
 
+
     /**
      * Контроллер для обработки кнопок типа прогноза
      */
     app.controller('buttonsController', function($scope, $http, $log, $compile) {
         $log.log('buttonsController inited.');
 
+
+    	// *************** Обработчики кликов
+
+    	/**
+    	 * Обработка клика по выбору блока погоды
+    	 */
         $scope.forecastClick = function($event, id){
             $event.preventDefault();
 
@@ -243,6 +268,8 @@
                     break;
             }
         };
+
+        // *************** Функции-хелперы
 
         /**
          * Получаем блок для отображения по адресу ajaxUrl, сохряняем в историю и выполняем коллбэк
@@ -266,30 +293,36 @@
                 });
         }
     });
+
+
+	// *************** Общие функции
+
+	/**
+	 * Проверяем данные в localStorage на старость и обновляем, если устарели
+	 * @param key
+	 * @param period
+	 * @param scope
+	 * @param scopekey
+	 * @param callback
+	 */
+	function checkLocalStorageData(key, period, scope, scopekey, callback) {
+	    if (typeof localStorage[key] == 'undefined') {
+	        if (callback && typeof callback == 'function') callback();
+            console.log('zzz');
+	    } else {
+	        var object = JSON.parse(localStorage[key]),
+	            dateString = object.timestamp,
+	            now = new Date().getTime();
+
+            console.log(object);
+
+	        if (now - dateString > period) {
+	            if (callback && typeof callback == 'function') callback();
+
+	            console.log('Location was updated: ' + dateString + ', ' + now);
+	        }
+
+	        scope[scopekey] = object.data;
+	    }
+	}
 })();
-
-/**
- * Проверяем данные в localStorage на старость и обновляем, если устарели
- * @param key
- * @param period
- * @param scope
- * @param scopekey
- * @param callback
- */
-function checkLocalStorageData(key, period, scope, scopekey, callback) {
-    if (typeof localStorage[key] == 'undefined') {
-        if (callback && typeof callback == 'function') callback();
-    } else {
-        var object = JSON.parse(localStorage[key]),
-            dateString = object.timestamp,
-            now = new Date().getTime();
-
-        if (now - dateString > period) { // кэшируем на минуту
-            if (callback && typeof callback == 'function') callback();
-
-            console.log('Location was updated: ' + dateString + ', ' + now);
-        }
-
-        scope[scopekey] = object.data;
-    }
-}
