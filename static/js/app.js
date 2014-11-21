@@ -37,6 +37,8 @@
             initGraphs($scope.locality.forecast[0].hours);
         }
 
+        // Обновляем данные каждые 15 минут
+        setInterval(function() { localities($scope.geocode.geoid); }, 900000);
         console.log('WeatherController was inited.');
 
         /**
@@ -53,7 +55,6 @@
          * Обработка клика на городе из списка 3 последних
          */
         $scope.onTownChange = function(geoid, name) {
-            // @todo: сделать обработчик, который получает данные выбранного города и всё такое
             localities(geoid);
             $scope.geocode.geoid = geoid;
             $scope.geocode.name = name;
