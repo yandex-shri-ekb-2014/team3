@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Яндекс.Погода // index.psd</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="../css/style.min.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/handlebars.min.js"></script>
+</head>
+<body>
+
+	<header class="header clearfix">
+
+		<div class="header__logo">
+			<a href="/">
+				<img src="../img/logo.png" alt="Яндекс"/>
+			</a>
+		</div> <!-- /.header__logo -->
+
+		<div class="header__search">
+			<form class="search" action="//ya.ru" method="get">
+				<div class="search__label">Поиск</div>
+				<input class="search__input" type="text"/>
+				<input class="search__button" type="submit" value="Найти"/>
+			</form>
+			<div class="search_info">
+				<!-- Здесь будет выпадайка городов? -->
+			</div>
+		</div> <!-- /.header__search -->
+
+		<div class="header__profile">
+			<div class="profile__userpic">
+				<img src="../img/userpic.png" alt="Sarrah Connor"/>
+			</div>
+			<span class="profile__name">Sarrah Connor</span>
+		</div> <!-- /.header__profile -->
+
+	</header> <!-- /header -->
+
+	<section class="forecast clearfix">
+		<div class="forecast-small fl">
+
+			<div class="forecast-small__options clearfix">
+				<span class="options__title">Определение города <img src="/img/spinner.gif" style="width:20px;"></span>
+				<div class="options__towns">
+					<a href="#" class="towns__title">Другой город</a>
+					<ul class="towns__list hidden">
+						<li class="towns-item">Последние города</li>
+						<li class="towns-item"><a class="towns-item__link towns-item__link-active" href="#">Екатеринбург</a></li>
+						<li class="towns-item"><a class="towns-item__link" href="#">Москва</a></li>
+						<li class="towns-item"><a class="towns-item__link" href="#">Минск</a></li>
+						<li class="towns-item-all"><a class="towns-item__link-all" href="#">Все города</a></li>
+					</ul>
+				</div>
+			</div> <!-- /.forecast-small__options -->
+
+			<div class="forecast-small__data clearfix">
+				<div class="forecast-small__row">
+					<div class="forecast-small__data-now">
+						<div class="temperature-small"></div>
+						<div class="weather">
+							<span class="weather__description">...</span>
+						</div>
+					</div>
+					<div class="forecast-small__data-day">
+						<div class="temperature-small"></div>
+						<div class="weather">
+						</div>
+					</div>
+					<div class="forecast-small__data-evening">
+						<div class="temperature-small"></div>
+						<div class="weather">
+						</div>
+					</div>
+					<div class="forecast-small__data-night">
+						<div class="temperature-small"></div>
+						<div class="weather">
+						</div>
+					</div>
+					<ul class="forecast-small__data-description">
+						<li>Загрузка данных...</li>
+					</ul>
+				</div>
+				<div class="forecast-small__row forecast-small__row-gray temperature-small"></div>
+			</div> <!-- forecast-small__data -->
+		</div> <!-- /.forecast-small -->
+
+		<div class="forecast__banner banner-small fr">
+			<img src="../img/banner.jpg" alt=""/>
+		</div> <!-- .forecast__banner.banner-small -->
+	</section> <!-- /.forecast -->
+
+	<section class="forecast clearfix">
+		<div class="forecast-shortly">
+			<ul class="forecast-shortly__menu">
+				<li><a class="menu__item menu__item-active" data-view="short" href="#">Кратко</a></li>
+				<li><a class="menu__item" data-view="full" href="#">Подробно</a></li>
+				<li><a class="menu__item" data-view="hours" href="#">Наглядно</a></li>
+			</ul> <!-- /.forecast-shortly__menu -->
+
+			<div class="forecast__data">
+			</div> <!-- /.forecast__data -->
+		</div> <!-- /.forecast-shortly -->
+	</section> <!-- /.forecast -->
+
+	<section class="direct clearfix">
+		<a class="direct__link" href="http://direct.yandex.ru">Яндекс.Директ</a>
+		<div class="direct__list clearfix">
+			<div class="ads">
+				<h2 class="ads__title">Студия элитной итальянской мебели</h2>
+				<p class="ads__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, fuga, quasi. Neque ex error mollitia maxime eum enim corrupti voluptatum officia ipsum, impedit quidem ipsam laborum aut excepturi. Nemo, dicta.</p>
+				<a class="ads__link" href="#">Адрес и телефон</a>
+			</div>
+			<div class="ads">
+				<h2 class="ads__title">Студия элитной итальянской мебели</h2>
+				<p class="ads__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, fuga, quasi. Neque ex error mollitia maxime eum enim corrupti voluptatum officia ipsum, impedit quidem ipsam laborum aut excepturi. Nemo, dicta.</p>
+				<a class="ads__link" href="#">Адрес и телефон</a>
+			</div>
+			<div class="ads">
+				<h2 class="ads__title">Студия элитной итальянской мебели</h2>
+				<p class="ads__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, fuga, quasi. Neque ex error mollitia maxime eum enim corrupti voluptatum officia ipsum, impedit quidem ipsam laborum aut excepturi. Nemo, dicta.</p>
+				<a class="ads__link" href="#">Адрес и телефон</a>
+			</div>
+		</div>
+	</section> <!-- /.direct -->
+
+	<div class="services clearfix">
+		<div class="services__item">
+			<h2 class="service__title">Погода на карте</h2>
+			<ul class="service__list">
+				<li class="service__link"><a href="#">Центр России</a></li>
+				<li class="service__link"><a href="#">Россия</a></li>
+				<li class="service__link"><a href="#">Европа</a></li>
+			</ul>
+		</div>
+		<div class="services__item">
+			<h2 class="service__title">Другие прогнозы</h2>
+			<ul class="service__list">
+				<li class="service__link"><a href="#">Гисметео</a></li>
+				<li class="service__link"><a href="#">Гидрометцентр России</a></li>
+				<li class="service__link"><a href="#">Weather.com</a></li>
+			</ul>
+		</div>
+		<div class="services__item">
+			<h2 class="service__title">Погода с собой</h2>
+			<ul class="service__list">
+				<li class="service__link"><a href="#">Информер</a></li>
+				<li class="service__link"><a href="#">Настольный виджет</a></li>
+				<li class="service__link"><a href="#">Погода в вашем браузере</a></li>
+			</ul>
+		</div>
+		<div class="service__title">
+			<h2 class="service__title">Другой вид</h2>
+			<ul class="service__list">
+				<li class="service__link"><a href="#">Виджет для Яндекса</a></li>
+				<li class="service__link"><a href="#">В миниатюре</a></li>
+			</ul>
+		</div>
+	</div> <!-- /.services -->
+
+	<footer class="footer clearfix">
+		<div class="footer__wrap">
+			<ul class="footer__list">
+				<li><a class="footer__link" href="#">Пользовательское соглашение</a></li>
+				<li><a class="footer__link" href="#">Мобильная версия</a></li>
+			</ul>
+			<div class="footer__info">
+				Прогноз погоды: Екатеринбург и еще 12268 городов в 229 странах<br>
+				Данные предоставлены <a href="#">FORECA</a>
+			</div>
+			<ul class="footer__list">
+				<li><a class="footer__link" href="#">Статистика</a></li>
+				<li><a class="footer__link" href="#">Обратная связь</a></li>
+				<li><a class="footer__link" href="#">Реклама</a></li>
+			</ul>
+			<div class="footer__copyright">
+				&copy; 2000 – 2014 «Яндекс»
+			</div>
+		</div>
+	</footer>
+	
+<script id="template-forecast-small__data" type="text/x-handlebars-template">
+    <div class="forecast-small__row">
+        <div class="forecast-small__data-now">
+            <div class="temperature-small">{{ fact.temp }}</div>
+            <div class="weather">
+                <img class="weather__icon" src="http://ekb.shri14.ru/icons/{{ fact.weather_icon }}.svg"/>
+                <span class="weather__description">{{ fact.weather }}</span>
+            </div>
+        </div>
+        <div class="forecast-small__data-day">
+            <div class="temperature-small">{{ forecast.0.parts.0.temp }}</div>
+            <div class="weather">
+                <img class="weather__icon" src="http://ekb.shri14.ru/icons/{{ forecast.0.parts.0.weather_icon }}.svg"/>
+            </div>
+        </div>
+        <div class="forecast-small__data-evening">
+            <div class="temperature-small">{{ forecast.0.parts.1.temp }}</div>
+            <div class="weather">
+                <img class="weather__icon" src="http://ekb.shri14.ru/icons/{{ forecast.0.parts.1.weather_icon }}.svg"/>
+            </div>
+        </div>
+        <div class="forecast-small__data-night">
+            <div class="temperature-small">{{ forecast.0.parts.2.temp }}</div>
+            <div class="weather">
+                <img class="weather__icon" src="http://ekb.shri14.ru/icons/{{ forecast.0.parts.2.weather_icon }}.svg"/>
+            </div>
+        </div>
+        <ul class="forecast-small__data-description">
+            <li>Давление: {{ fact.pressure }} мм рт. ст.</li>
+            <li>Ветер: {{ fact.wind }}, {{ fact.wind_speed }} м/с <s>(28.8 км/ч)</s></li>
+            <li>Влажность: {{ fact.humidity }}%</li>
+            <li>Восход: {{ forecast.0.sunrise }} Заход: {{ forecast.0.sunset }}</li>
+            <li>
+                <span>Данные зарегистрированы более получаса назад </span>
+                <div class="icon-help">
+                    <span class="icon-help__popup hidden">На основе прогноза</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="forecast-small__row forecast-small__row-gray temperature-small">вчера {{ yesterday.temp }}</div>
+</script>
+    
+<script id="template-forecast-small__options" type="text/x-handlebars-template">
+    <span class="options__title">{{ info.name }}</span>
+    <div class="options__towns">
+        <a href="#" class="towns__title">Другой город</a>
+        <ul class="towns__list hidden">
+            <li class="towns-item">Последние города</li>
+            <li class="towns-item"><a class="towns-item__link towns-item__link-active" href="#">{{ info.name }}</a></li>
+            <!--
+            <li class="towns-item"><a class="towns-item__link" href="#">Москва</a></li>
+            <li class="towns-item"><a class="towns-item__link" href="#">Минск</a></li>
+            -->
+            <li class="towns-item-all"><a class="towns-item__link-all" href="#">Все города</a></li>
+        </ul>
+    </div>
+</script>
+    
+<script id="template-forecast-shortly" type="text/x-handlebars-template">
+    <ul class="forecast-shortly__row">
+        {{#slice forecast offset="1"}}
+        <li class="forecast-shortly__item forecast-shortly__item{{ isWeekend date }}">
+            <ul>
+                <li class="forecast-shortly__date">
+                    <div class="date date-bigger">
+                        {{#if @first}}
+                            завтра
+                        {{else}}
+                            {{ dayOfWeek date }}
+                        {{/if}}
+                    </div>
+                    <div class="date">{{ dayFromDate date }}</div>
+                </li>
+                <li class="forecast-shortly__day">
+                    <img class="weather__icon" src="http://ekb.shri14.ru/icons/{{ parts.4.weather_icon }}.svg"/>
+                    <div class="weather__description">{{ parts.4.weather }}</div>
+                    <div class="temperature-bigger">{{ parts.4.temp }}</div>
+                </li>
+                <li class="forecast-shortly__night">{{ parts.5.temp }}</li>
+            </ul>
+        </li>
+        {{/slice}}
+    </ul>
+</script>
+    
+<script id="template-forecast-full" type="text/x-handlebars-template">
+    <ul class="forecast-full__legend">
+		<li class="legend__item legend__item-pressure">давление, мм рт. ст.</li>
+		<li class="legend__item legend__item-humidity">влажность</li>
+		<li class="legend__item legend__item-wind">ветер, м/с</li>
+	</ul> <!-- /.forecast-full__legend -->
+
+	<ul>
+		{{#each forecast}}
+		<li class="forecast-full__data">
+			<div class="forecast-full__item forecast-full__weekday">{{ dayOfWeek date }}</div>
+			<div class="forecast-full__item forecast-full__date">
+				<div class="date date-big">{{ dayFromDate date }}</div>
+				<div class="date">{{ monthFromDate date }}</div>
+			</div>
+
+			<ul class="forecast-full__item forecast-full__weather">
+				<li class="forecast-full__background forecast-full__item-padding">
+					<ul class="forecast-full__row-inner">
+						<li class="forecast-full__item-inner">
+							<span class="forecast-full__label-middle">утром</span>
+							<span class="forecast-full__label forecast-full__label-bigger">{{ parts.0.temp_min }}...{{ parts.0.temp_max }}</span>
+						</li>
+						<li class="forecast-full__item-inner">
+							<img class="weather__icon-small" src="http://ekb.shri14.ru/icons/{{ parts.0.weather_icon }}.svg"/>
+						</li>
+						<li class="forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-wide">{{ parts.0.weather }}</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-pressure">{{ parts.0.pressure }}</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-humidity">{{ parts.0.humidity }}%</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<img class="weather__icon-wind" src="http://ekb.shri14.ru/icons/bkn_d.svg"/>
+							<span class="forecast-full__label  forecast-full__label-wind">{{ parts.0.wind_speed }}</span>
+						</li>
+					</ul>
+				</li> <!-- /.forecast-full__background.forecast-full__item-padding  -->
+
+				<li class="forecast-full__background forecast-full__item-padding">
+					<ul class="forecast-full__row-inner">
+						<li class="forecast-full__item-inner">
+							<span class="forecast-full__label-middle">днём</span>
+							<span class="forecast-full__label forecast-full__label-bigger">{{ parts.1.temp_min }}...{{ parts.1.temp_max }}</span>
+						</li>
+						<li class="forecast-full__item-inner">
+							<img class="weather__icon-small" src="http://ekb.shri14.ru/icons/{{ parts.1.weather_icon }}.svg"/>
+						</li>
+						<li class="forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-wide">{{ parts.1.weather }}</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-pressure">{{ parts.1.pressure }}</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-humidity">{{ parts.1.humidity }}%</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<img class="weather__icon-wind" src="http://ekb.shri14.ru/icons/bkn_d.svg"/>
+							<span class="forecast-full__label  forecast-full__label-wind">{{ parts.1.wind_speed }}</span>
+						</li>
+					</ul>
+				</li> <!-- /.forecast-full__background.forecast-full__item-padding  -->
+
+				<li class="forecast-full__background forecast-full__item-padding">
+					<ul class="forecast-full__row-inner">
+						<li class="forecast-full__item-inner">
+							<span class="forecast-full__label-middle">вечером</span>
+							<span class="forecast-full__label forecast-full__label-bigger">{{ parts.2.temp_min }}...{{ parts.2.temp_max }}</span>
+						</li>
+						<li class="forecast-full__item-inner">
+							<img class="weather__icon-small" src="http://ekb.shri14.ru/icons/{{ parts.2.weather_icon }}.svg"/>
+						</li>
+						<li class="forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-wide">{{ parts.2.weather }}</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-pressure">{{ parts.2.pressure }}</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-humidity">{{ parts.2.humidity }}%</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<img class="weather__icon-wind" src="http://ekb.shri14.ru/icons/bkn_d.svg"/>
+							<span class="forecast-full__label  forecast-full__label-wind">{{ parts.2.wind_speed }}</span>
+						</li>
+					</ul>
+				</li> <!-- /.forecast-full__background.forecast-full__item-padding  -->
+
+				<li class="forecast-full__background forecast-full__item-padding">
+					<ul class="forecast-full__row-inner">
+						<li class="forecast-full__item-inner">
+							<span class="forecast-full__label-middle">ночью</span>
+							<span class="forecast-full__label forecast-full__label-bigger">{{ parts.3.temp_min }}...{{ parts.3.temp_max }}</span>
+						</li>
+						<li class="forecast-full__item-inner">
+							<img class="weather__icon-small" src="http://ekb.shri14.ru/icons/{{ parts.3.weather_icon }}.svg"/>
+						</li>
+						<li class="forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-wide">{{ parts.3.weather }}</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-pressure">{{ parts.3.pressure }}</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<span class="forecast-full__label forecast-full__label-humidity">{{ parts.3.humidity }}%</span>
+						</li>
+						<li class="forecast__full-legend forecast-full__item-inner">
+							<img class="weather__icon-wind" src="http://ekb.shri14.ru/icons/bkn_d.svg"/>
+							<span class="forecast-full__label  forecast-full__label-wind">{{ parts.3.wind_speed }}</span>
+						</li>
+					</ul>
+				</li><!-- /.forecast-full__background.forecast-full__item-padding  -->
+			</ul> <!-- /.forecast-full__item.forecast-full__weather -->
+
+			<div class="forecast-full__item forecast-full__item-padding forecast-full__item-margin forecast-full__sunrise">
+				<span class="forecast-full__label-middle">восход</span>
+				<span class="forecast-full__label">{{sunrise}}</span>
+			</div> <!-- /.forecast-full__sunrise -->
+			<div class="forecast-full__item forecast-full__item-padding forecast-full__item-margin forecast-full__sunset">
+				<span class="forecast-full__label-middle">заход</span>
+				<span class="forecast-full__label">{{sunset}}</span>
+			</div> <!-- /.forecast-full__sunset --->
+			<div class="forecast-full__item forecast-full__item-padding forecast-full__item-margin forecast-full__moon">
+				<img class="weather__icon-moon" src="http://ekb.shri14.ru/icons/icon_moon_{{moon_code}}.svg"/>
+			</div> <!-- forecast-full__moon -->
+			<div class="forecast-full__item forecast-full__item-padding forecast-full__item-margin forecast-full__magnetic">
+				<span class="forecast-full__label-middle">магнитное поле</span>
+				<span class="forecast-full__label">{{biomet.message}}</span>
+			</div> <!-- /.forecast-full__magnetic -->
+		</li> <!-- /.forecast-full__data -->
+		{{/each}}
+	</ul>
+</script>
+
+<script id="template-forecast-hours" type="text/x-handlebars-template">
+	<ul class="forecast-shortly__menu forecast-shortly__menu-right">
+		<li><a class="menu__item menu__item-active" data-class=".forecast-hours" href="#">График 1</a></li>
+		<li><a class="menu__item" data-class=".forecast-canvas" href="#">График 2</a></li>
+	</ul> <!-- /.forecast-shortly__menu -->
+
+	<div class="chart forecast-hours"></div> <!-- /.forecast-hours -->
+
+	<canvas class="chart forecast-canvas hidden"></canvas> <!-- /.forecast-canvas -->
+</script>
+    
+<script src="../js/events2.js"></script>
+<script src="../js/jmain.js"></script>
+	
+</body></html>
