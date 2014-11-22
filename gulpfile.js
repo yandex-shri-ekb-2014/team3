@@ -40,7 +40,7 @@ gulp.task('styleProcessing', function() {
 gulp.task('scriptProcessing', function() {
     return gulp.src(staticPath + 'modules/m_*/js/*.js')
     .pipe(concat('events.js'))
-//    .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'))
 });
 
