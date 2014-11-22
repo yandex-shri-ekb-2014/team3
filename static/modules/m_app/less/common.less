@@ -1,0 +1,49 @@
+// Mixins
+@width: 960px;
+
+.boxed {
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 5px 20px rgba(0,0,0,.2);
+}
+
+.gradient {
+  background-image: url('../img/transparentGradientWeatherCell.png');
+  background-repeat: repeat-y;
+}
+
+.transits {
+  transition: all .7s ease;
+}
+
+// Common classes
+html {
+  box-sizing: border-box;
+  font-family: 'Arial', 'Helvetica', 'sans-serif';
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.clearfix:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+a {
+	color: #3333cc;
+}

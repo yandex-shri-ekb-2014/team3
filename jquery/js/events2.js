@@ -1,51 +1,12 @@
-window.onload = function () {
+// ***** Методы помощники
 
-    // ***** Методы помощники
+function map(nodeList, callback) {
+    var inputList = Array.prototype.slice.call(nodeList);
+    inputList.forEach(callback);
+}
+function initGraphs (temperatures) {
 
-    function map(nodeList, callback) {
-        var inputList = Array.prototype.slice.call(nodeList);
-        inputList.forEach(callback);
-    }
-
-    // ***** Обработчики кликов
-
-    // Открываем и закрываем выпадайку городов
-    if (typeof document.getElementsByClassName('towns__title')[0] != 'undefined') {
-        document.getElementsByClassName('towns__title')[0].addEventListener('click', function (e) {
-        var classes = document.getElementsByClassName('towns__list')[0];
-
-        classes.classList.toggle('hidden');
-
-        e.preventDefault();
-    });
-    }
-
-    // Открываем попап при клике на справку
-    if (typeof document.getElementsByClassName('icon-help')[0] != 'undefined') {
-        document.getElementsByClassName('icon-help')[0].addEventListener('click', function (e) {
-        var parent = document.getElementsByClassName('icon-help')[0],
-            popup = parent.getElementsByClassName('icon-help__popup')[0];
-
-        popup.classList.toggle('hidden');
-
-        e.preventDefault();
-    });
-    }
-
-    // Вешаем активный город в выпадайке
-    (function() {
-        var cityLinks = document.getElementsByClassName('towns-item__link'),
-            setChecked = function (e) {
-                document.getElementsByClassName('towns-item__link-active')[0].className = 'towns-item__link';
-                this.className = 'towns-item__link towns-item__link-active';
-
-                return false;
-            };
-
-        map(cityLinks, function(value, index, ar){ value.addEventListener('click', setChecked, false); })
-    })();
-
-    // Открываем нужный график
+// Открываем нужный график
     (function() {
         var chartButtons = document.querySelectorAll('[data-class]'),
             callback = function (value, index, ar) {
@@ -72,7 +33,7 @@ window.onload = function () {
     // ***** Графики
 
     // Устанавливаем высоты почасовки
-    var temperatures = [7, 4, 2, 0 -2, -5, 0, 4, 2, -2, -5, -7, -3, 0, 2, 2, 5, 7, 4, 0, -1, -3, -4, -6, 4];
+
 
     // Ставим правильные высоты исходя из массива температур на сутки
     (function (temperatures) {
@@ -97,7 +58,7 @@ window.onload = function () {
                 insertedHTML +=
                     '<div class="forecast-hours__row" style="height: ' + Math.round(Math.abs(maxHeight / 2) + step * temperatures[i]) + 'px">'+
                         '<span class="legend__item-temperature">' + ( (temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]) ) + '</span>'+
-                    '</div>';
+                        '</div>';
             }
             document.getElementsByClassName('forecast-hours')[0].innerHTML = insertedHTML;
         }
@@ -171,4 +132,51 @@ window.onload = function () {
             ctx.stroke();
         }
     })(temperatures);
-};
+}
+// ***** Обработчики кликов
+
+// Открываем и закрываем выпадайку городов
+// if (typeof document.getElementsByClassName('towns__title')[0] != 'undefined') {
+//     document.getElementsByClassName('towns__title')[0].addEventListener('click', function (e) {
+//         var classes = document.getElementsByClassName('towns__list')[0];
+
+//         classes.classList.toggle('hidden');
+
+//         e.preventDefault();
+//     });
+// }
+
+$('body').on('click', '.towns__title', function(e){
+    e.preventDefault();
+    $('.towns__list').toggleClass('hidden');
+});
+
+
+// Открываем попап при клике на справку
+// if (typeof document.getElementsByClassName('icon-help')[0] != 'undefined') {
+//     document.getElementsByClassName('icon-help')[0].addEventListener('click', function (e) {
+//         var parent = document.getElementsByClassName('icon-help')[0],
+//             popup = parent.getElementsByClassName('icon-help__popup')[0];
+
+//         popup.classList.toggle('hidden');
+
+//         e.preventDefault();
+//     });
+// }
+$('body').on('click', '.icon-help', function(e){
+    e.preventDefault();
+    $('.icon-help__popup').toggleClass('hidden');
+});
+
+// Вешаем активный город в выпадайке
+(function() {
+    var cityLinks = document.getElementsByClassName('towns-item__link'),
+        setChecked = function (e) {
+            document.getElementsByClassName('towns-item__link-active')[0].className = 'towns-item__link';
+            this.className = 'towns-item__link towns-item__link-active';
+
+            return false;
+        };
+
+    map(cityLinks, function(value, index, ar){ value.addEventListener('click', setChecked, false); })
+})();

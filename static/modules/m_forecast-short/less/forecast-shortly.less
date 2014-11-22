@@ -15,7 +15,7 @@
         border-right: 1px solid #ccc;
         font-size: 13px;
 
-        &:last-child {
+        &:last-child, &:nth-last-child(2) {
           border-right: 0;
         }
 
@@ -62,15 +62,8 @@
 
       &-weekend {
         display: inline-block;
+        margin-right: 15px;
         vertical-align: top;
-
-        & .date {
-          color: #f00;
-        }
-
-        & + & { // сдвигаем только воскресенья
-          margin-right: 15px;
-        }
       }
     }
 

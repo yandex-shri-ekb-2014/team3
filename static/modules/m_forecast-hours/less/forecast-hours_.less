@@ -1,0 +1,38 @@
+.forecast {
+  &-hours {
+    height: 190px;
+    margin-top: 20px;
+    .transits();
+
+    font-size: 0;
+
+    &.hidden {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+
+    &__row {
+      height: 100%;
+      background: #ccc;
+      width: @width / 24;
+      box-sizing: border-box;
+      border-right: 1px solid #fff;
+      display: inline-block;
+
+      font-size: 12px;
+    }
+  }
+
+  &-canvas {
+    .transits();
+
+    &.hidden {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+  }
+}
