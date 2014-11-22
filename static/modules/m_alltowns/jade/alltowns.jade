@@ -1,0 +1,4 @@
+.alltowns.hidden(ng-controller="buttonsController")
+    ul.alltowns__list
+        li.list__item(ng-repeat="twn in allTownsList")
+            a.list__link(ng-href="#", ng-click="onTownChange(twn.geoid, twn.name, true)") {{twn.name}}

@@ -9,7 +9,7 @@ section.forecast.main.clearfix
               li.towns-item(ng-repeat="town in factualTemp")
                 a.towns-item__link(ng-class='{"towns-item__link-active" : town.geoid == geocode.geoid}', ng-href='#{{town.geoid}}', ng-click="onTownChange(town.geoid, town.name)") {{town.name}} ({{town.temp}})
               li.towns-item-all
-                a.towns-item__link-all(href='#') Все города
+                a.towns-item__link-all(ng-href='#', ng-click="onAllCitiesClick()") Все города
         .forecast-small__data.clearfix
           .forecast-small__row
             .forecast-small__data-now
