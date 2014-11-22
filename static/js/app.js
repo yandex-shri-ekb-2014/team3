@@ -9,7 +9,8 @@
      * Главный контроллер всего приложения
      */
     app.controller('weatherController', function($scope, $http, $log) {
-
+        // Для кеширования блоков отображения
+        $scope.blocks = [];
 
         // Запихиваем текущий урл в историю
         var locationPath = window.location.pathname;
@@ -279,18 +280,40 @@
          */
         function ajaxGet(ajaxUrl, historyUrl, callback) {
             document.querySelector('.forecast .spinner__wrap').classList.toggle('hidden');
-            $http.get(ajaxUrl).
-                success(function(data, status, headers, config) {
-                    document.querySelector('.forecast__data').innerHTML = data;
-                    $compile(document.querySelector('.forecast__data'))($scope);
-                    window.history.pushState('', '', historyUrl);
-                    document.querySelector('.forecast .spinner__wrap').classList.toggle('hidden');
 
-                    if (typeof callback == 'function') callback();
-                }).
-                error(function(data, status, headers, config) {
-                    $log.log(data);
-                });
+            if ($scope.blocks[$scope.weatherType]) {
+                setNewBlock($scope.blocks[$scope.weatherType], historyUrl, callback, true);
+            } else {
+
+                $http.get(ajaxUrl).
+                    success(function(data, status, headers, config) {
+                        setNewBlock(data, historyUrl, callback);
+                    }).
+                    error(function(data, status, headers, config) {
+                        $log.log(data);
+                    });
+            }
+        }
+
+        /**
+         * Обработка вставляем блок в страницу и компилируем $scope
+         * @param data
+         * @param historyUrl
+         * @param callback
+         * @param isCached
+         */
+        function setNewBlock(data, historyUrl, callback, isCached) {
+            document.querySelector('.forecast__data').innerHTML = data;
+            $compile(document.querySelector('.forecast__data'))($scope);
+
+            if (!isCached) {
+                $scope.blocks[$scope.weatherType] = data;
+            }
+
+            window.history.pushState('', '', historyUrl);
+            document.querySelector('.forecast .spinner__wrap').classList.toggle('hidden');
+
+            if (typeof callback == 'function') callback();
         }
     });
 
@@ -308,13 +331,10 @@
 	function checkLocalStorageData(key, period, scope, scopekey, callback) {
 	    if (typeof localStorage[key] == 'undefined') {
 	        if (callback && typeof callback == 'function') callback();
-            console.log('zzz');
 	    } else {
 	        var object = JSON.parse(localStorage[key]),
 	            dateString = object.timestamp,
 	            now = new Date().getTime();
-
-            console.log(object);
 
 	        if (now - dateString > period) {
 	            if (callback && typeof callback == 'function') callback();
