@@ -31,7 +31,7 @@ section.forecast.main.clearfix
                 img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[3].weather_icon}}.svg')
             ul.forecast-small__data-description
               li Давление: {{locality.yesterday.pressure}} мм рт. ст.
-              li Ветер: {{locality.yesterday.wind}}, {{locality.yesterday.wind_speed}} м/с ({{locality.yesterday.wind_speed * 3.6}} км/ч)
+              li Ветер: {{locality.yesterday.wind}}, {{locality.yesterday.wind_speed}} м/с ({{Math.round(locality.yesterday.wind_speed * 3.6 * 10)/10}} км/ч)
               li Влажность: {{locality.yesterday.humidity}}%
               li Восход: {{locality.forecast[0].sunrise}} Заход: {{locality.forecast[0].sunset}}
               li

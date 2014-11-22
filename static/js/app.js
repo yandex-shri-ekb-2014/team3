@@ -11,6 +11,7 @@
     app.controller('weatherController', function($scope, $http, $log) {
         // Для кеширования блоков отображения
         $scope.blocks = [];
+        $scope.Math = Math;
 
         // Запихиваем текущий урл в историю
         var locationPath = window.location.pathname;
