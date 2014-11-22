@@ -4,7 +4,7 @@
       ul
         li.forecast-shortly__date
           .date.date-bigger(ng-class="{'date-red' : day.weekDay == 6 || day.weekDay == 0}") {{$index == 1 ? 'завтра' : locality.days[day.weekDay]}}
-          .date(ng-class="{'date-red' : day.weekDay == 6 || day.weekDay == 0}") {{$index == 1 ? day.weekDay + ' ' + locality.months[day.month] : day.day}}
+          .date(ng-class="{'date-red' : day.weekDay == 6 || day.weekDay == 0}") {{$index == 1 ? day.day + ' ' + locality.months[day.month] : day.day}}
         li.forecast-shortly__day
           img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{day.parts[1].weather_icon}}.svg')
           .weather__description {{day.parts[1].weather}}
