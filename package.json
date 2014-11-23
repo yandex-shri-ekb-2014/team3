@@ -23,7 +23,6 @@
     "codestyle"
   ],
   "scripts": {
-    "testtest": "echo 123",
     "lint": "node_modules/.bin/jshint .",
     "codestyle": "node_modules/.bin/jscs .",
     "prestart": "node_modules/.bin/gulp",
