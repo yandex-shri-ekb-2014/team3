@@ -1,14 +1,14 @@
-(function(){
+(function () {
     'use strict';
 
-    var app = angular.module('weather', []).config(function($httpProvider){
+    var app = angular.module('weather', []).config(function ($httpProvider) {
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
         });
 
     /**
      * Главный контроллер всего приложения
      */
-    app.controller('weatherController', function($scope, $http, $log) {
+    app.controller('weatherController', function ($scope, $http, $log) {
         // Для кеширования блоков отображения
         $scope.blocks = [];
         $scope.Math = Math;
@@ -18,7 +18,7 @@
         window.history.pushState('init', 'Страница входа', locationPath);
 
         // Выставляем текущую вкладку в weatherType
-        switch(locationPath) {
+        switch (locationPath) {
             case '/hours':
                 $scope.weatherType = 3;
                 break;
@@ -39,7 +39,7 @@
         }
 
         // Обновляем данные для отображения каждые 15 минут
-        setInterval(function() { localities($scope.geocode.geoid); }, 900000);
+        setInterval(function () { localities($scope.geocode.geoid); }, 900000);
 
 
         console.log('WeatherController was inited.');
@@ -50,7 +50,7 @@
         /**
          * Обрабатываем клик на выпадайку других городов
          */
-        $scope.onOtherTownsClick = function() {
+        $scope.onOtherTownsClick = function () {
             if (localStorage["factualIds"]) {
                 var ids = JSON.parse(localStorage["factualIds"]).geoids;
                 saveFactualTemp(ids.toString());
@@ -60,7 +60,7 @@
         /**
          * Обработка клика на городе из списка 3 последних
          */
-        $scope.onTownChange = function(geoid, name, needClose) {
+        $scope.onTownChange = function (geoid, name, needClose) {
             // Если мы пришли с развёрнутого списка, то скрываем список всех городов
             if (needClose) {
                 document.getElementsByClassName('alltowns')[0].classList.add('hidden');
@@ -78,11 +78,11 @@
             document.getElementsByClassName('towns__list')[0].classList.add('hidden');
         };
 
-        $scope.onAllCitiesClick = function(countryId) {
+        $scope.onAllCitiesClick = function (countryId) {
             // Если данных о городах, нет в скоупе, то получаем их. Если есть, то просто показываем.
             if (!$scope.allTownsList) {
                 $http.get('http://ekb.shri14.ru/api/localities/' + (countryId ? countryId : 225 ) + '/cities')
-                    .success(function(data) {
+                    .success(function (data) {
 
                         function NoCaseSort(x, y) {
                             if (x.name.toLocaleUpperCase() < y.name.toLocaleUpperCase())
@@ -114,7 +114,7 @@
          */
         function saveFactualTemp(ids) {
             $http.get('http://ekb.shri14.ru/api/factual?ids=' + ids)
-                .success(function(data) {
+                .success(function (data) {
                     $scope.factualTemp = data;
                 });
         }
@@ -175,7 +175,7 @@
          */
         function geocode(geolocation) {
             $http.get('http://ekb.shri14.ru/api/geocode?coords=' + geolocation.lng + ',' + geolocation.lat)
-                .success(function(data) {
+                .success(function (data) {
 
                     $scope.geocode = data;
 
@@ -205,14 +205,16 @@
             geoid = geoid ? geoid : $scope.geocode.geoid;
 
             $http.get('http://ekb.shri14.ru/api/localities/' + geoid)
-                .success(function(data) {
+                .success(function (data) {
                     for (var i = data.forecast.length; i--;) {
                         var date = new Date(data.forecast[i].date);
                         data.forecast[i].weekDay = date.getDay();
                         data.forecast[i].day = date.getDate();
                         data.forecast[i].month = date.getMonth();
                     }
-                    data.months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+                    data.months = ['января', 'февраля', 'марта', 'апреля',
+                        'мая', 'июня', 'июля', 'августа',
+                        'сентября', 'октября', 'ноября', 'декабря'];
                     data.days = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
                     data.parts = ['утром', 'днём', 'вечером', 'ночью'];
 
@@ -274,23 +276,23 @@
     /**
      * Контроллер для обработки кнопок типа прогноза
      */
-    app.controller('buttonsController', function($scope, $http, $log, $compile) {
+    app.controller('buttonsController', function ($scope, $http, $log, $compile) {
         $log.log('buttonsController inited.');
 
 
-    	// *************** Обработчики кликов
+        // *************** Обработчики кликов
 
-    	/**
-    	 * Обработка клика по выбору блока погоды
-    	 */
-        $scope.forecastClick = function($event, id){
+        /**
+         * Обработка клика по выбору блока погоды
+         */
+        $scope.forecastClick = function ($event, id) {
             $event.preventDefault();
 
             // Устанавливаем текущую вкладку
             $scope.weatherType = id;
 
             // Получаем необходимый блок для отображения
-            switch(id) {
+            switch (id) {
                 case 1:
                     ajaxGet('/b-short', '/');
                     break;
@@ -298,7 +300,7 @@
                     ajaxGet('/b-full', '/full');
                     break;
                 case 3:
-                    ajaxGet('/b-hours', '/hours', function() {
+                    ajaxGet('/b-hours', '/hours', function () {
                         initGraphs($scope.locality.forecast[0].hours);
                     });
                     break;
@@ -321,10 +323,10 @@
             } else {
 
                 $http.get(ajaxUrl).
-                    success(function(data, status, headers, config) {
+                    success(function (data, status, headers, config) {
                         setNewBlock(data, historyUrl, callback);
                     }).
-                    error(function(data, status, headers, config) {
+                    error(function (data, status, headers, config) {
                         $log.log(data);
                     });
             }
@@ -353,31 +355,31 @@
     });
 
 
-	// *************** Общие функции
+    // *************** Общие функции
 
-	/**
-	 * Проверяем данные в localStorage на старость и обновляем, если устарели
-	 * @param key
-	 * @param period
-	 * @param scope
-	 * @param scopekey
-	 * @param callback
-	 */
-	function checkLocalStorageData(key, period, scope, scopekey, callback) {
-	    if (typeof localStorage[key] == 'undefined') {
-	        if (callback && typeof callback == 'function') callback();
-	    } else {
-	        var object = JSON.parse(localStorage[key]),
-	            dateString = object.timestamp,
-	            now = new Date().getTime();
+    /**
+     * Проверяем данные в localStorage на старость и обновляем, если устарели
+     * @param key
+     * @param period
+     * @param scope
+     * @param scopekey
+     * @param callback
+     */
+    function checkLocalStorageData(key, period, scope, scopekey, callback) {
+        if (typeof localStorage[key] == 'undefined') {
+            if (callback && typeof callback == 'function') callback();
+        } else {
+            var object = JSON.parse(localStorage[key]),
+                dateString = object.timestamp,
+                now = new Date().getTime();
 
-	        if (now - dateString > period) {
-	            if (callback && typeof callback == 'function') callback();
+            if (now - dateString > period) {
+                if (callback && typeof callback == 'function') callback();
 
-	            console.log('Location was updated: ' + dateString + ', ' + now);
-	        }
+                console.log('Location was updated: ' + dateString + ', ' + now);
+            }
 
-	        scope[scopekey] = object.data;
-	    }
-	}
+            scope[scopekey] = object.data;
+        }
+    }
 })();
