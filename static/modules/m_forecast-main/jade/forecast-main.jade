@@ -13,10 +13,10 @@ section.forecast.main.clearfix
         .forecast-small__data.clearfix
           .forecast-small__row
             .forecast-small__data-now
-              .temperature-small {{locality.yesterday.temp}}
+              .temperature-small {{locality.fact.temp}}
               .weather
-                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.yesterday.weather_icon}}.svg')
-                span.weather__description {{locality.yesterday.weather}}
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.fact.weather_icon}}.svg')
+                span.weather__description {{locality.fact.weather}}
             .forecast-small__data-day
               .temperature-small {{locality.forecast[0].parts[1].temp}}
               .weather
@@ -38,6 +38,6 @@ section.forecast.main.clearfix
                 span Данные зарегистрированы более получаса назад 
                 .icon-help
                   span.icon-help__popup.hidden На основе прогноза
-          .forecast-small__row.forecast-small__row-gray.temperature-small вчера {{locality.fact.temp}}
+          .forecast-small__row.forecast-small__row-gray.temperature-small вчера {{locality.yesterday.temp}}
       .forecast__banner.banner-small.fr
         img(src='../img/banner.jpg', alt='')

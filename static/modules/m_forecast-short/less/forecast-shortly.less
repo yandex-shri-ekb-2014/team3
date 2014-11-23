@@ -62,8 +62,15 @@
 
       &-weekend {
         display: inline-block;
-        margin-right: 15px;
         vertical-align: top;
+
+        .date {
+          color: red;
+        }
+
+        & + & {
+          margin-right: 15px;
+        }
       }
     }
 
