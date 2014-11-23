@@ -69,10 +69,10 @@ gulp.task('clear', function () {
 // Angular templateCache
 gulp.task('templateCache', function () {
     gulp.src(staticPath + 'modules/m_*/*.html')
-    .pipe(templateCache())
-    .pipe(uglify())
+    .pipe(templateCache({standalone: true}))
+//    .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'));
 });
 
 // Default Task
-gulp.task('default', ['jadeProcessing', 'styleProcessing', 'scriptProcessing', 'move']);
+gulp.task('default', ['jadeProcessing', 'styleProcessing', 'scriptProcessing', 'move', 'templateCache']);

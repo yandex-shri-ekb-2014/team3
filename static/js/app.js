@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var app = angular.module('weather', []).config(function ($httpProvider) {
+    var app = angular.module('weather', ['templates']).config(function ($httpProvider) {
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
         });
 
@@ -26,19 +26,23 @@
                                 '</li>' +
                             '</ul>' +
                         '</div>',
-            priority: 0,
-            terminal:false,
             replace: true,
-            transclude: false,
-            restrict: 'A',
-            scope: {}
+            restrict: 'A'
         }
     });
 
-    app.directive('forecast-full-data', function() {
+    /**
+     * Встраиваем темплейт forecastfulldata в forecast-full.jade
+     *
+     * Имя должно быть маленькими буквами без спец. символов
+     */
+    app.directive('forecastfulldata', function() {
         return {
-            restrict: 'E',
-            templateUrl: '/html/forecast-full-data.html'
+            link: function (scope, element, attrs) {
+                // Если вдруг будет js :)
+            },
+            templateUrl: 'm_forecast-full-data/forecast-full-data.html',
+            restrict: 'AE'
         }
     });
 
