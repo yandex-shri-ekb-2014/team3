@@ -1,7 +1,7 @@
 // ***** Обработчики кликов
 
 // Открываем и закрываем выпадайку городов
-if (typeof document.getElementsByClassName('towns__title')[0] != 'undefined') {
+/*if (typeof document.getElementsByClassName('towns__title')[0] != 'undefined') {
     document.getElementsByClassName('towns__title')[0].addEventListener('click', function (e) {
         var classes = document.getElementsByClassName('towns__list')[0];
 
@@ -9,7 +9,7 @@ if (typeof document.getElementsByClassName('towns__title')[0] != 'undefined') {
 
         e.preventDefault();
     });
-}
+}*/
 
 // Открываем попап при клике на справку
 if (typeof document.getElementsByClassName('icon-help')[0] != 'undefined') {
