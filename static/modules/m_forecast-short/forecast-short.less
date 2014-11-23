@@ -1,4 +1,8 @@
 .forecast {
+  width: @width;
+  .center();
+  margin-bottom: 20px;
+
   &-shortly {
     &__menu {
       height: 28px;
@@ -57,20 +61,12 @@
 
     &__item {
       display: table-cell;
-//      width: (@width - 24) / 9;
       vertical-align: top;
 
       &-weekend {
         display: inline-block;
         vertical-align: top;
-
-        .date {
-          color: red;
-        }
-
-        & + & {
-          margin-right: 15px;
-        }
+        margin-right: 15px;
       }
     }
 

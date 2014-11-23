@@ -19,14 +19,14 @@ var less = require('gulp-less'),
 
 // Jade task
 gulp.task('jadeProcessing', function(){
-  return gulp.src(staticPath + 'modules/m_*/jade/*.jade')
+  return gulp.src(staticPath + 'modules/m_*/*.jade')
   .pipe(rename({dirname: ''}))
   .pipe(gulp.dest(publicPath + 'jade'));
 });
 
 // Compile Our less
 gulp.task('styleProcessing', function() {
-    gulp.src(staticPath + 'modules/m_*/less/*.less')
+    gulp.src(staticPath + 'modules/m_*/*.less')
     .pipe(concat('tmp_styles.less'))
     .pipe(gulp.dest(publicPath + 'css'))
     .pipe(less())
@@ -38,7 +38,7 @@ gulp.task('styleProcessing', function() {
 
 // Js task
 gulp.task('scriptProcessing', function() {
-    return gulp.src(staticPath + 'modules/m_*/js/*.js')
+    return gulp.src(staticPath + 'modules/m_*/*.js')
     .pipe(concat('events.js'))
     .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'))
@@ -46,7 +46,7 @@ gulp.task('scriptProcessing', function() {
 
 // Move
 gulp.task('move',['styleProcessing', 'scriptProcessing'], function(){
-  gulp.src(staticPath + 'modules/m_*/img/*')
+  gulp.src(staticPath + 'modules/m_*/*.{jpg,png,jpeg,gif}')
   .pipe(rename({dirname: ''}))
   .pipe(gulp.dest(publicPath + 'img'));
 
