@@ -23,10 +23,6 @@ gulp.task('jadeProcessing', function () {
     gulp.src(staticPath + 'modules/m_*/*.jade')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'jade'));
-
-    gulp.src(staticPath + 'modules/m_*/*.html')
-        .pipe(rename({dirname: ''}))
-        .pipe(gulp.dest(publicPath + 'html'));
 });
 
 // Compile Our less
@@ -70,7 +66,7 @@ gulp.task('clear', function () {
 gulp.task('templateCache', function () {
     gulp.src(staticPath + 'modules/m_*/*.html')
     .pipe(templateCache({standalone: true}))
-//    .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'));
 });
 
