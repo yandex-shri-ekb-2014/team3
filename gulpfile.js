@@ -15,7 +15,8 @@ var less = require('gulp-less'),
     cssmin = require('gulp-cssmin'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglifyjs'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    templateCache = require('gulp-angular-templatecache');
 
 // Jade task
 gulp.task('jadeProcessing', function () {
@@ -59,6 +60,14 @@ gulp.task('move',['styleProcessing', 'scriptProcessing'], function () {
 gulp.task('clear', function () {
     return gulp.src(publicPath) // much faster
     .pipe(rimraf());
+});
+
+// Angular templateCache
+gulp.task('templateCache', function () {
+    gulp.src(staticPath + 'modules/m_*/*.html')
+    .pipe(templateCache())
+    .pipe(uglify())
+    .pipe(gulp.dest(publicPath + 'js'));
 });
 
 // Default Task
