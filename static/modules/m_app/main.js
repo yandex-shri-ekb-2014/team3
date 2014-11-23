@@ -6,5 +6,7 @@ function map(nodeList, callback) {
 }
 
 window.onload = function() {
+//    $('.oveflow').css('display', 'none');
+//    angular.element($('.overflow')).css('display', 'none');
     document.getElementsByClassName('overflow')[0].style.display = 'none';
 };

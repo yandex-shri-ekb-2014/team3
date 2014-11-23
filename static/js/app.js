@@ -5,6 +5,34 @@
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
         });
 
+    app.directive('openselect', function () {
+
+        return {
+            restrict: 'E',
+            scope: {
+                b: '@'
+            },
+            transclude: true,
+            template: '<div openselect="openselect" class="options__towns"><a href="#" class="towns__title">Другой город</a>'+
+                '<ul ng-show="b" class="towns__list">'+
+                    '<li class="towns-item">Последние города</li>'+
+                    '<li ng-repeat="town in factualTemp" class="towns-item"><a ng-class="{&quot;towns-item__link-active&quot; : town.geoid == geocode.geoid}" ng-href="#{{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">{{town.name}} ({{town.temp}})</a></li>'+
+                    '<li class="towns-item-all"><a ng-href="#" ng-click="onAllCitiesClick()" class="towns-item__link-all">Все города</a></li>'+
+                '</ul>'+
+            '</div>',
+            link: function(scope, element, attrs) {
+                scope.b = true;
+
+                element.bind("click" , function(e){
+                    scope.b = !scope.b;
+                    scope.$apply();
+
+                    e.preventDefault();
+                });
+            }
+        }
+    });
+
     /**
      * Главный контроллер всего приложения
      */
