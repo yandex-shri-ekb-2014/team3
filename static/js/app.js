@@ -51,8 +51,8 @@
          * Обрабатываем клик на выпадайку других городов
          */
         $scope.onOtherTownsClick = function () {
-            if (localStorage["factualIds"]) {
-                var ids = JSON.parse(localStorage["factualIds"]).geoids;
+            if (localStorage.factualIds) {
+                var ids = JSON.parse(localStorage.factualIds).geoids;
                 saveFactualTemp(ids.toString());
             }
         };
@@ -151,10 +151,10 @@
         function errorLocation(err) {
 
             // Если есть данные в localstorage, то вставяем, если нет, то получаем дефолтные
-            if (typeof localStorage['actualCity'] != 'undefined') {
-                $scope.geocode = JSON.parse(localStorage['actualCity']).data;
-                if (typeof localStorage['locality'] != 'undefined') {
-                    $scope.locality = JSON.parse(localStorage['locality']).data;
+            if (typeof localStorage.actualCity != 'undefined') {
+                $scope.geocode = JSON.parse(localStorage.actualCity).data;
+                if (typeof localStorage.locality != 'undefined') {
+                    $scope.locality = JSON.parse(localStorage.locality).data;
                     $log.log('Locality upped form localStorage.');
                 }
             } else {
@@ -245,13 +245,13 @@
          * @param geoid
          */
         function pushFactualId(geoid) {
-            var cachedIds = JSON.parse(localStorage["factualIds"]).geoids.slice(0,2);
+            var cachedIds = JSON.parse(localStorage.factualIds).geoids.slice(0,2);
 
-            if (localStorage["factualIds"]) {
+            if (localStorage.factualIds) {
                 if (cachedIds.indexOf(geoid) == -1) {
                     cachedIds.unshift(geoid);
 
-                    localStorage["factualIds"] = JSON.stringify({
+                    localStorage.factualIds = JSON.stringify({
                         'geoids': cachedIds
                     });
                 } else {
@@ -259,13 +259,13 @@
                         var ind = cachedIds.indexOf(geoid);
                         cachedIds.unshift(cachedIds.splice(ind, 1)[0]);
 
-                        localStorage["factualIds"] = JSON.stringify({
+                        localStorage.factualIds = JSON.stringify({
                             'geoids': cachedIds
                         });
                     }
                 }
             } else {
-                localStorage["factualIds"] = JSON.stringify({
+                localStorage.factualIds = JSON.stringify({
                     'geoids': [geoid]
                 });
             }
@@ -323,10 +323,10 @@
             } else {
 
                 $http.get(ajaxUrl).
-                    success(function (data, status, headers, config) {
+                    success(function (data) { // function (data, status, headers, config)
                         setNewBlock(data, historyUrl, callback);
                     }).
-                    error(function (data, status, headers, config) {
+                    error(function (data) { // function (data, status, headers, config)
                         $log.log(data);
                     });
             }
