@@ -1,0 +1,14 @@
+header.header.clearfix
+    .header__logo
+        a(href='/')
+          img(src='./img/logo.png', alt='Яндекс')
+      .header__search
+        form.search(action='//ya.ru', method='get')
+          .search__label Поиск
+          input.search__input(type='text')
+          input.search__button(type='submit', value='Найти')
+        .search_info
+      .header__profile
+        .profile__userpic
+          img(src='./img/userpic.png', alt='Sarrah Connor')
+        span.profile__name Sarrah Connor
