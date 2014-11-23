@@ -11,6 +11,7 @@
     app.controller('weatherController', function($scope, $http, $log) {
         // Для кеширования блоков отображения
         $scope.blocks = [];
+        $scope.Math = Math;
 
         // Запихиваем текущий урл в историю
         var locationPath = window.location.pathname;
@@ -59,7 +60,12 @@
         /**
          * Обработка клика на городе из списка 3 последних
          */
-        $scope.onTownChange = function(geoid, name) {
+        $scope.onTownChange = function(geoid, name, needClose) {
+            // Если мы пришли с развёрнутого списка, то скрываем список всех городов
+            if (needClose) {
+                document.getElementsByClassName('alltowns')[0].classList.add('hidden');
+            }
+
             localities(geoid);
             $scope.geocode.geoid = geoid;
             $scope.geocode.name = name;
@@ -68,6 +74,35 @@
 
             // сохраняем в localStorage
             saveToLocalStorage('actualCity', $scope.geocode);
+            // скрываем выпадающий список последних городов
+            document.getElementsByClassName('towns__list')[0].classList.add('hidden');
+        };
+
+        $scope.onAllCitiesClick = function(countryId) {
+            // Если данных о городах, нет в скоупе, то получаем их. Если есть, то просто показываем.
+            if (!$scope.allTownsList) {
+                $http.get('http://ekb.shri14.ru/api/localities/' + (countryId ? countryId : 225 ) + '/cities')
+                    .success(function(data) {
+
+                        function NoCaseSort(x, y) {
+                            if (x.name.toLocaleUpperCase() < y.name.toLocaleUpperCase())
+                                return -1;
+                            else if (x.name.toLocaleUpperCase() > y.name.toLocaleUpperCase())
+                                return 1;
+                            else
+                                return 0;
+                        }
+
+                        data = data.sort(NoCaseSort);
+
+                        console.log(data);
+
+                        $scope.allTownsList = data;
+                        document.getElementsByClassName('alltowns')[0].classList.remove('hidden');
+                    });
+            } else {
+                document.getElementsByClassName('alltowns')[0].classList.remove('hidden');
+            }
         };
 
 
