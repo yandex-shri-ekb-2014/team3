@@ -5,6 +5,6 @@ function map(nodeList, callback) {
     inputList.forEach(callback);
 }
 
-window.onload = function() {
+window.onload = function () {
     document.getElementsByClassName('overflow')[0].style.display = 'none';
 };

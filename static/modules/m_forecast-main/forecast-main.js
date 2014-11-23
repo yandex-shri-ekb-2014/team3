@@ -24,7 +24,7 @@ if (typeof document.getElementsByClassName('icon-help')[0] != 'undefined') {
 }
 
 // Вешаем активный город в выпадайке
-(function() {
+(function () {
     var cityLinks = document.getElementsByClassName('towns-item__link'),
         setChecked = function (e) {
             document.getElementsByClassName('towns-item__link-active')[0].className = 'towns-item__link';
@@ -33,5 +33,5 @@ if (typeof document.getElementsByClassName('icon-help')[0] != 'undefined') {
             return false;
         };
 
-    map(cityLinks, function(value, index, ar){ value.addEventListener('click', setChecked, false); })
+    map(cityLinks, function (value, index, ar) { value.addEventListener('click', setChecked, false); })
 })();

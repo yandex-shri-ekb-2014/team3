@@ -13,11 +13,20 @@
     "gulp-rename": "~1.2.0",
     "gulp-uglifyjs": "~0.5.0",
     "gulp-rimraf": "~0.1.1",
-    "gulp-cssmin": "~0.1.6"
+    "gulp-cssmin": "~0.1.6",
+    "jscs": "~1.7.3",
+    "jshint": "~2.5.8"
   },
   "engine": "node 0.6.x",
+  "precommit": [
+    "lint",
+    "codestyle"
+  ],
   "scripts": {
-    "prestart": "./node_modules/.bin/gulp",
+    "testtest": "echo 123",
+    "lint": "node_modules/.bin/jshint .",
+    "codestyle": "node_modules/.bin/jscs .",
+    "prestart": "node_modules/.bin/gulp",
     "start": "node server.js"
   }
 }

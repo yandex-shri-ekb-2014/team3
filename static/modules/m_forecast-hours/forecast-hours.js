@@ -1,25 +1,28 @@
 function initGraphs (data) {
 
     var temperatures = [];
-    for(var i = data.length; i--;) {
+    for (var i = data.length; i--;) {
         temperatures.unshift(data[i].temp);
     }
 
 // Открываем нужный график
-    (function() {
+    (function () {
         var chartButtons = document.querySelectorAll('[data-class]'),
             callback = function (value, index, ar) {
-                value.addEventListener('click', function(e) {
+                value.addEventListener('click', function (e) {
 
                     var charts = document.querySelectorAll('.chart');
 
-                    map(charts , function(value, index, ar) {
+                    map(charts , function (value, index, ar) {
                         value.classList.add('hidden');
                     });
 
                     document.querySelector(this.getAttribute("data-class")).classList.remove('hidden');
 
-                    document.querySelector('.forecast-shortly__menu-right .menu__item-active').classList.remove('menu__item-active');
+                    document
+                        .querySelector('.forecast-shortly__menu-right .menu__item-active')
+                        .classList.remove('menu__item-active');
+
                     this.classList.add('menu__item-active');
 
                     e.preventDefault();
@@ -44,7 +47,7 @@ function initGraphs (data) {
                 step = 0,
                 insertedHTML = '';
 
-            for(var i = 0; i < temperatures.length; i++) {
+            for (var i = 0; i < temperatures.length; i++) {
                 if (temperatures[i] > max)
                     max = temperatures[i];
                 if (temperatures[i] < min)
@@ -53,11 +56,14 @@ function initGraphs (data) {
 
             step = (maxHeight / 2 - 5) / (Math.abs(min) + Math.abs(max));
 
-            for(var i = 0; i < temperatures.length; i++) {
+            for (var i = 0; i < temperatures.length; i++) {
                 insertedHTML +=
-                    '<div class="forecast-hours__row" style="height: ' + Math.round(maxHeight / 2 + step * temperatures[i]) + 'px; margin-top: '+ Math.round(max == 0 ? maxHeight / 2 : 0) +'px">'+
-                        '<span class="legend__item-temperature">' + ( (temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]) ) + '</span>'+
-                        '</div>';
+                    '<div class="forecast-hours__row" style="height: ' +
+                    Math.round(maxHeight / 2 + step * temperatures[i]) +
+                    'px; margin-top: '+ Math.round(max == 0 ? maxHeight / 2 : 0) +'px">' +
+                    '<span class="legend__item-temperature">' + ( (temperatures[i] > 0 ? '+' +
+                    temperatures[i] : temperatures[i]) ) + '</span>' +
+                    '</div>';
             }
             document.getElementsByClassName('forecast-hours')[0].innerHTML = insertedHTML;
         }
@@ -80,7 +86,7 @@ function initGraphs (data) {
                 MAX_HEIGHT = 190;
 
             // Определяем максимальное и минимальное значение + шаг для градуса
-            for(var i = 0; i < temperatures.length; i++) {
+            for (var i = 0; i < temperatures.length; i++) {
                 if (temperatures[i] > max)
                     max = temperatures[i];
                 if (temperatures[i] < min)
@@ -110,7 +116,7 @@ function initGraphs (data) {
 
             // Отрисовываем линии
             ctx.moveTo(0, MAX_HEIGHT / 2);
-            for(var i = 0; i < temperatures.length; i++) {
+            for (var i = 0; i < temperatures.length; i++) {
 
                 // Отрисовываем текст
                 ctx.strokeStyle = '#000';
