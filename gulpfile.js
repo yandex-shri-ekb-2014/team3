@@ -20,9 +20,13 @@ var less = require('gulp-less'),
 
 // Jade task
 gulp.task('jadeProcessing', function () {
-    return gulp.src(staticPath + 'modules/m_*/*.jade')
+    gulp.src(staticPath + 'modules/m_*/*.jade')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'jade'));
+
+    gulp.src(staticPath + 'modules/m_*/*.html')
+        .pipe(rename({dirname: ''}))
+        .pipe(gulp.dest(publicPath + 'html'));
 });
 
 // Compile Our less
