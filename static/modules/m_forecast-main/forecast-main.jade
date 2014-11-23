@@ -1,0 +1,43 @@
+section.forecast.main.clearfix
+    .forecast-small.fl
+        .forecast-small__options.clearfix
+          span.options__title {{geocode.name}}
+          .options__towns(ng-click="onOtherTownsClick()")
+            a.towns__title(href='#') Другой город
+            ul.towns__list.hidden
+              li.towns-item Последние города
+              li.towns-item(ng-repeat="town in factualTemp")
+                a.towns-item__link(ng-class='{"towns-item__link-active" : town.geoid == geocode.geoid}', ng-href='#{{town.geoid}}', ng-click="onTownChange(town.geoid, town.name)") {{town.name}} ({{town.temp}})
+              li.towns-item-all
+                a.towns-item__link-all(ng-href='#', ng-click="onAllCitiesClick()") Все города
+        .forecast-small__data.clearfix
+          .forecast-small__row
+            .forecast-small__data-now
+              .temperature-small {{locality.fact.temp}}
+              .weather
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.fact.weather_icon}}.svg')
+                span.weather__description {{locality.fact.weather}}
+            .forecast-small__data-day
+              .temperature-small {{locality.forecast[0].parts[1].temp}}
+              .weather
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[1].weather_icon}}.svg')
+            .forecast-small__data-evening
+              .temperature-small {{locality.forecast[0].parts[2].temp}}
+              .weather
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[2].weather_icon}}.svg')
+            .forecast-small__data-night
+              .temperature-small {{locality.forecast[0].parts[3].temp}}
+              .weather
+                img.weather__icon(ng-src='http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[3].weather_icon}}.svg')
+            ul.forecast-small__data-description
+              li Давление: {{locality.yesterday.pressure}} мм рт. ст.
+              li Ветер: {{locality.yesterday.wind}}, {{locality.yesterday.wind_speed}} м/с ({{Math.round(locality.yesterday.wind_speed * 3.6 * 10)/10}} км/ч)
+              li Влажность: {{locality.yesterday.humidity}}%
+              li Восход: {{locality.forecast[0].sunrise}} Заход: {{locality.forecast[0].sunset}}
+              li
+                span Данные зарегистрированы более получаса назад 
+                .icon-help
+                  span.icon-help__popup.hidden На основе прогноза
+          .forecast-small__row.forecast-small__row-gray.temperature-small вчера {{locality.yesterday.temp}}
+      .forecast__banner.banner-small.fr
+        img(src='../img/banner.jpg', alt='')

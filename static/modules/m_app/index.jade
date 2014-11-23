@@ -1,0 +1,23 @@
+doctype html
+html(ng-app="weather", ng-controller="weatherController as weatherCtrl")
+  head
+    title Яндекс.Погода :: ШРИ 2014 :: Команда 3
+    link(rel="shortcut icon", href="//yandex.st/lego/_/p2hHn1BzWL7kJemxd7YIBrA98ho.ico")
+    link(rel="stylesheet", href="../css/style.min.css")
+  body
+    include header
+    include forecast-main
+    case type
+        when "short"
+            include forecast-short
+        when "full"
+            include forecast-full
+        when "hours"
+            include forecast-hours
+    include direct
+    include services
+    include alltowns
+    .overflow
+    script(src="../js/events.js")
+    script(src="//yastatic.net/angularjs/1.2.23/angular.min.js")
+    script(src="../js/app.js")

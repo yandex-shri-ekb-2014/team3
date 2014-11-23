@@ -1,45 +1,58 @@
-// npm install gulp-less gulp-browserify gulp-rename gulp-autoprefixer --save-dev 
-
+// Paths
 var publicPath = './public/';
 var staticPath = './static/';
 
-
-// Include gulp
-var gulp = require('gulp'); 
-
+// Not production
 process.env.production = false;
 
+// Include gulp
+var gulp = require('gulp');
+
 // Include Our Plugins
-var less = require('gulp-less');
-var rimraf = require('gulp-rimraf'); 
-var concat = require('gulp-concat');
-var cssmin = require('gulp-cssmin');
-var uglify = require('gulp-uglifyjs');
-var browserify = require('gulp-browserify');
-var autoprefixer = require('gulp-autoprefixer');
+var less = require('gulp-less'),
+    rimraf = require('gulp-rimraf'),
+    concat = require('gulp-concat'),
+    cssmin = require('gulp-cssmin'),
+    rename = require('gulp-rename'),
+    uglify = require('gulp-uglifyjs'),
+    autoprefixer = require('gulp-autoprefixer');
+
+// Jade task
+gulp.task('jadeProcessing', function(){
+  return gulp.src(staticPath + 'modules/m_*/*.jade')
+  .pipe(rename({dirname: ''}))
+  .pipe(gulp.dest(publicPath + 'jade'));
+});
 
 // Compile Our less
 gulp.task('styleProcessing', function() {
-    return gulp.src(staticPath + 'less/*.less')
+    gulp.src(staticPath + 'modules/m_*/*.less')
+    .pipe(concat('tmp_styles.less'))
+    .pipe(gulp.dest(publicPath + 'css'))
     .pipe(less())
-    .pipe(autoprefixer())
     .pipe(concat('style.min.css'))
+    .pipe(autoprefixer())
     .pipe(cssmin())
-    .pipe(gulp.dest(publicPath + 'css'));
+    .pipe(gulp.dest(publicPath + 'css'))
 });
 
-// Browserify task
-gulp.task('browserify', function() {
-    return gulp.src(staticPath + 'js/app.js')
-    .pipe(browserify({insertGlobals : true, debug : !process.env.production}))
+// Js task
+gulp.task('scriptProcessing', function() {
+    return gulp.src(staticPath + 'modules/m_*/*.js')
+    .pipe(concat('events.js'))
     .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'))
 });
 
 // Move
-gulp.task('move',['styleProcessing', 'browserify'], function(){
-  gulp.src(staticPath + 'img/*')
+gulp.task('move',['styleProcessing', 'scriptProcessing'], function(){
+  gulp.src(staticPath + 'modules/m_*/*.{jpg,png,jpeg,gif}')
+  .pipe(rename({dirname: ''}))
   .pipe(gulp.dest(publicPath + 'img'));
+
+  gulp.src(staticPath + 'js/*')
+  .pipe(rename({dirname: ''}))
+  .pipe(gulp.dest(publicPath + 'js'));
 });
 
 // Clear 
@@ -49,4 +62,4 @@ gulp.task('clear', function () {
 });
 
 // Default Task
-gulp.task('default', ['styleProcessing', 'browserify', 'move']);
+gulp.task('default', ['jadeProcessing', 'styleProcessing', 'scriptProcessing', 'move']);

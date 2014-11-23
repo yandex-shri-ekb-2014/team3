@@ -1,0 +1,39 @@
+.forecast__data
+  ul.forecast-full__legend
+    li.legend__item.legend__item-pressure давление, мм рт. ст.
+    li.legend__item.legend__item-humidity влажность
+    li.legend__item.legend__item-wind ветер, м/с
+  ul
+    li.forecast-full__data(ng-repeat="day in locality.forecast")
+      .forecast-full__item.forecast-full__weekday {{locality.days[day.weekDay]}}
+      .forecast-full__item.forecast-full__date
+        .date.date-big {{day.day}}
+        .date {{locality.months[day.month]}}
+      ul.forecast-full__item.forecast-full__weather
+        li.forecast-full__background.forecast-full__item-padding(ng-repeat="part in day.parts", ng-show="{{$index < 4}}")
+          ul.forecast-full__row-inner
+            li.forecast-full__item-inner
+              span.forecast-full__label-middle {{locality.parts[$index]}}
+              span.forecast-full__label.forecast-full__label-bigger {{part.temp_min && part.temp_max ? part.temp_min + '...' + part.temp_max : part.temp}}
+            li.forecast-full__item-inner
+              img.weather__icon-small(ng-src='http://ekb.shri14.ru/icons/{{part.weather_icon}}.svg')
+            li.forecast-full__item-inner
+              span.forecast-full__label.forecast-full__label-wide {{part.weather}}
+            li.forecast__full-legend.forecast-full__item-inner
+              span.forecast-full__label.forecast-full__label-pressure {{part.pressure}}
+            li.forecast__full-legend.forecast-full__item-inner
+              span.forecast-full__label.forecast-full__label-humidity {{part.humidity+'%'}}
+            li.forecast__full-legend.forecast-full__item-inner
+              img.weather__icon-wind(ng-src='http://yandex.st/weather/1.2.83/i/wind/{{part.wind_direction}}.gif')
+              span.forecast-full__label.forecast-full__label-wind {{part.wind_speed}}
+      .forecast-full__item.forecast-full__item-padding.forecast-full__item-margin.forecast-full__sunrise
+        span.forecast-full__label-middle восход
+        span.forecast-full__label {{day.sunrise}}
+      .forecast-full__item.forecast-full__item-padding.forecast-full__item-margin.forecast-full__sunset
+        span.forecast-full__label-middle заход
+        span.forecast-full__label {{day.sunset}}
+      .forecast-full__item.forecast-full__item-padding.forecast-full__item-margin.forecast-full__moon
+        img.weather__icon-moon(ng-src='http://ekb.shri14.ru/icons/icon_moon_{{day.moon_code}}.svg')
+      .forecast-full__item.forecast-full__item-padding.forecast-full__item-margin.forecast-full__magnetic
+        span.forecast-full__label-middle {{day.biomet.message ? 'магнитное поле' : ''}}
+        span.forecast-full__label.forecast-full__label-biomet {{day.biomet.message ? day.biomet.message : '' }}
