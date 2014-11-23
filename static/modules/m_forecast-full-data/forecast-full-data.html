@@ -1,0 +1,32 @@
+<div class="forecast__data">
+  <ul class="forecast-full__legend">
+    <li class="legend__item legend__item-pressure">давление, мм рт. ст.</li>
+    <li class="legend__item legend__item-humidity">влажность</li>
+    <li class="legend__item legend__item-wind">ветер, м/с</li>
+  </ul>
+  <ul>
+    <li ng-repeat="day in locality.forecast" class="forecast-full__data">
+      <div class="forecast-full__item forecast-full__weekday">{{locality.days[day.weekDay]}}</div>
+      <div class="forecast-full__item forecast-full__date">
+        <div class="date date-big">{{day.day}}</div>
+        <div class="date">{{locality.months[day.month]}}</div>
+      </div>
+      <ul class="forecast-full__item forecast-full__weather">
+        <li ng-repeat="part in day.parts" ng-show="{{$index < 4}}" class="forecast-full__background forecast-full__item-padding">
+          <ul class="forecast-full__row-inner">
+            <li class="forecast-full__item-inner"><span class="forecast-full__label-middle">{{locality.parts[$index]}}</span><span class="forecast-full__label forecast-full__label-bigger">{{part.temp_min && part.temp_max ? part.temp_min + '...' + part.temp_max : part.temp}}</span></li>
+            <li class="forecast-full__item-inner"><img ng-src="http://ekb.shri14.ru/icons/{{part.weather_icon}}.svg" class="weather__icon-small"/></li>
+            <li class="forecast-full__item-inner"><span class="forecast-full__label forecast-full__label-wide">{{part.weather}}</span></li>
+            <li class="forecast__full-legend forecast-full__item-inner"><span class="forecast-full__label forecast-full__label-pressure">{{part.pressure}}</span></li>
+            <li class="forecast__full-legend forecast-full__item-inner"><span class="forecast-full__label forecast-full__label-humidity">{{part.humidity+'%'}}</span></li>
+            <li class="forecast__full-legend forecast-full__item-inner"><img ng-src="http://yandex.st/weather/1.2.83/i/wind/{{part.wind_direction}}.gif" class="weather__icon-wind"/><span class="forecast-full__label forecast-full__label-wind">{{part.wind_speed}}</span></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="forecast-full__item forecast-full__item-padding forecast-full__item-margin forecast-full__sunrise"><span class="forecast-full__label-middle">восход</span><span class="forecast-full__label">{{day.sunrise}}</span></div>
+      <div class="forecast-full__item forecast-full__item-padding forecast-full__item-margin forecast-full__sunset"><span class="forecast-full__label-middle">заход</span><span class="forecast-full__label">{{day.sunset}}</span></div>
+      <div class="forecast-full__item forecast-full__item-padding forecast-full__item-margin forecast-full__moon"><img ng-src="http://ekb.shri14.ru/icons/icon_moon_{{day.moon_code}}.svg" class="weather__icon-moon"/></div>
+      <div class="forecast-full__item forecast-full__item-padding forecast-full__item-margin forecast-full__magnetic"><span class="forecast-full__label-middle">{{day.biomet.message ? 'магнитное поле' : ''}}</span><span class="forecast-full__label forecast-full__label-biomet">{{day.biomet.message ? day.biomet.message : '' }}</span></div>
+    </li>
+  </ul>
+</div>
