@@ -1,0 +1,7 @@
+node_modules
+public
+
+// временное отключение старых js
+static/modules/m_app/main.js
+static/modules/m_forecast-hours/forecast-hours.js
+static/modules/m_forecast-main/forecast-main.js
