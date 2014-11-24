@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    var app = angular.module('weather', []).config(function ($httpProvider) {
+    var app = angular.module('weather', ['templates']).config(function ($httpProvider) {
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
         });
 
-    angular.module('weather').directive('dropdown', function () {
+    app.directive('dropdown', function () {
         return {
             link: function (scope, element, attrs) {
 
@@ -14,13 +14,35 @@
                     scope.$apply();
                 })
             },
-            template: '<div class="options__towns"><a href="#" class="towns__title">Другой город</a><ul ng-show="flag" class="towns__list"><li class="towns-item">Последние города</li><li ng-repeat="town in factualTemp" class="towns-item"><a ng-class="{\'towns-item__link-active\' : town.geoid == geocode.geoid}" ng-href="#{{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">{{town.name}} ({{town.temp}})</a></li><li class="towns-item-all"><a ng-href="#" ng-click="onAllCitiesClick()" class="towns-item__link-all">Все города</a></li></ul></div>',
-            priority: 0,
-            terminal:false,
+            template:   '<div class="options__towns">' +
+                            '<a href="#" class="towns__title">Другой город</a>' +
+                            '<ul ng-show="flag" class="towns__list">' +
+                                '<li class="towns-item">Последние города</li>' +
+                                '<li ng-repeat="town in factualTemp" class="towns-item">' +
+                                    '<a ng-class="{\'towns-item__link-active\' : town.geoid == geocode.geoid}" ng-href="#{{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">{{town.name}} ({{town.temp}})</a>' +
+                                '</li>' +
+                                '<li class="towns-item-all">' +
+                                    '<a ng-href="#" ng-click="onAllCitiesClick()" class="towns-item__link-all">Все города</a>' +
+                                '</li>' +
+                            '</ul>' +
+                        '</div>',
             replace: true,
-            transclude: false,
-            restrict: 'A',
-            scope: {}
+            restrict: 'A'
+        }
+    });
+
+    /**
+     * Встраиваем темплейт forecastfulldata в forecast-full.jade
+     *
+     * Имя должно быть маленькими буквами без спец. символов
+     */
+    app.directive('forecastfulldata', function() {
+        return {
+            link: function (scope, element, attrs) {
+                // Если вдруг будет js :)
+            },
+            templateUrl: 'm_forecast-full-data/forecast-full-data.html',
+            restrict: 'AE'
         }
     });
 
