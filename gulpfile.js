@@ -18,13 +18,6 @@ var less = require('gulp-less'),
   autoprefixer = require('gulp-autoprefixer'),
   templateCache = require('gulp-angular-templatecache');
 
-// Jade task
-//gulp.task('jadeProcessing', function () {
-//  gulp.src(staticPath + 'modules/m_*/*.jade')
-//    .pipe(rename({dirname: ''}))
-//    .pipe(gulp.dest(publicPath + 'jade'));
-//});
-
 // Compile Our less
 gulp.task('styleProcessing', function () {
   gulp.src(staticPath + 'modules/m_*/*.less')
