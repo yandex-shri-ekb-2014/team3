@@ -1,4 +1,5 @@
 .idea
+npm-debug.log
 public/
 node_modules/
 static/css

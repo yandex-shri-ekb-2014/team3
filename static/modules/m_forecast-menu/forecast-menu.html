@@ -1,0 +1,13 @@
+<div class="forecast-shortly">
+  <ul ng-controller="buttonsController" class="forecast-shortly__menu">
+    <li><a ng-class="{&quot;menu__item-active&quot; : weatherType == 1}" ng-href="/" ng-click="forecastClick($event, 1)"
+           class="menu__item">Кратко</a></li>
+    <li><a ng-class="{&quot;menu__item-active&quot; : weatherType == 2}" ng-href="/full"
+           ng-click="forecastClick($event, 2)" class="menu__item">Подробно</a></li>
+    <li><a ng-class="{&quot;menu__item-active&quot; : weatherType == 3}" ng-href="/hours"
+           ng-click="forecastClick($event, 3)" class="menu__item">Наглядно</a></li>
+    <li class="spinner__wrap hidden">
+      <div class="spinner"><img src="/img/spinner.gif"/></div>
+    </li>
+  </ul>
+</div>

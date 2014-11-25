@@ -1,3 +1,15 @@
+/**
+ * m_forecast-hours
+ */
+app.directive('forecasthours', function() {
+  return {
+    templateUrl: 'm_forecast-hours/forecast-hours.html',
+    restrict: 'E'
+  }
+});
+
+//////////////////////////
+
 function initGraphs (data) {
 
     var temperatures = [];

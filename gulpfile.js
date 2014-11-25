@@ -10,24 +10,24 @@ var gulp = require('gulp');
 
 // Include Our Plugins
 var less = require('gulp-less'),
-    rimraf = require('gulp-rimraf'),
-    concat = require('gulp-concat'),
-    cssmin = require('gulp-cssmin'),
-    rename = require('gulp-rename'),
-    uglify = require('gulp-uglifyjs'),
-    autoprefixer = require('gulp-autoprefixer'),
-    templateCache = require('gulp-angular-templatecache');
+  rimraf = require('gulp-rimraf'),
+  concat = require('gulp-concat'),
+  cssmin = require('gulp-cssmin'),
+  rename = require('gulp-rename'),
+  uglify = require('gulp-uglifyjs'),
+  autoprefixer = require('gulp-autoprefixer'),
+  templateCache = require('gulp-angular-templatecache');
 
 // Jade task
-gulp.task('jadeProcessing', function () {
-    gulp.src(staticPath + 'modules/m_*/*.jade')
-    .pipe(rename({dirname: ''}))
-    .pipe(gulp.dest(publicPath + 'jade'));
-});
+//gulp.task('jadeProcessing', function () {
+//  gulp.src(staticPath + 'modules/m_*/*.jade')
+//    .pipe(rename({dirname: ''}))
+//    .pipe(gulp.dest(publicPath + 'jade'));
+//});
 
 // Compile Our less
 gulp.task('styleProcessing', function () {
-    gulp.src(staticPath + 'modules/m_*/*.less')
+  gulp.src(staticPath + 'modules/m_*/*.less')
     .pipe(concat('tmp_styles.less'))
     .pipe(gulp.dest(publicPath + 'css'))
     .pipe(less())
@@ -39,36 +39,40 @@ gulp.task('styleProcessing', function () {
 
 // Js task
 gulp.task('scriptProcessing', function () {
-    return gulp.src(staticPath + 'modules/m_*/*.js')
+  return gulp.src(staticPath + 'modules/m_*/*.js')
     .pipe(concat('events.js'))
     .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'))
 });
 
 // Move
-gulp.task('move',['styleProcessing', 'scriptProcessing'], function () {
-    gulp.src(staticPath + 'modules/m_*/*.{jpg,png,jpeg,gif}')
+gulp.task('move', ['styleProcessing', 'scriptProcessing'], function () {
+  gulp.src(staticPath + 'modules/m_*/*.{jpg,png,jpeg,gif}')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'img'));
 
-    gulp.src(staticPath + 'js/*')
+  gulp.src(staticPath + 'js/*')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'js'));
+
+  gulp.src(staticPath + 'modules/m_*/*.html')
+    .pipe(rename({dirname: ''}))
+    .pipe(gulp.dest(publicPath + 'html'));
 });
 
 // Clear
 gulp.task('clear', function () {
-    return gulp.src(publicPath) // much faster
+  return gulp.src(publicPath) // much faster
     .pipe(rimraf());
 });
 
 // Angular templateCache
 gulp.task('templateCache', function () {
-    gulp.src(staticPath + 'modules/m_*/*.html')
+  gulp.src(staticPath + 'modules/m_*/*.html')
     .pipe(templateCache({standalone: true}))
     .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'));
 });
 
 // Default Task
-gulp.task('default', ['jadeProcessing', 'styleProcessing', 'scriptProcessing', 'move', 'templateCache']);
+gulp.task('default', ['styleProcessing', 'scriptProcessing', 'move', 'templateCache']);
