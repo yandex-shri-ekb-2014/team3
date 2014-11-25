@@ -3,47 +3,29 @@ var publicPath = __dirname + '/public',
     app = express();
 
 app.use(express.static(publicPath));
-app.set('views', publicPath + '/jade');
-app.set('view engine', 'jade');
 
 // Роуты для отдачи целых страниц
 // Полная страница "Кратко"
 app.get('/', function (req, res) {
-    res.render('index', { type : 'short' });
+  res.sendFile(publicPath + '/html/index.html');
 });
 app.get('/short', function (req, res) {
-    res.render('index', { type : 'short' });
+  res.sendFile(publicPath + '/html/index.html');
 });
 
 // Полная страница "Подробно"
 app.get('/full', function (req, res) {
-    res.render('index', { type : 'full' });
+  res.sendFile(publicPath + '/html/index.html');
 });
 
 // Полная страница "Наглядно"
 app.get('/hours', function (req, res) {
-    res.render('index', { type : 'hours' });
-});
-
-// Роуты для отдачи блоков страниц
-// Отдаём только блок "Кратко"
-app.get('/b-short', function (req, res) {
-    res.render('blocks', { type : 'short' });
-});
-
-// Отдаём только блок "Подробно"
-app.get('/b-full', function (req, res) {
-    res.render('blocks', { type : 'full' });
-});
-
-// Отдаём только блок "Наглядно"
-app.get('/b-hours', function (req, res) {
-    res.render('blocks', { type : 'hours' });
+  res.sendFile(publicPath + '/html/index.html');
 });
 
 // 404
 app.get('*', function (req, res) {
-    res.render('404');
+  res.sendFile(publicPath + '/html/404.html');
 });
 
 // Cлушаем сервер на 5400 порту
