@@ -3,7 +3,7 @@
  */
 app.directive('forecastmenu', function() {
   return {
-    templateUrl: 'm_forecast-menu/forecast-menu.html',
+    templateUrl: 'm_forecast-tabs/forecast-tabs.html',
     restrict: 'E'
   }
 });
