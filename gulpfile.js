@@ -44,7 +44,7 @@ gulp.task('move', ['styleProcessing', 'scriptProcessing'], function () {
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'img'));
 
-  gulp.src(staticPath + 'js/*')
+  gulp.src(staticPath + 'modules/m_app/main.js')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'js'));
 

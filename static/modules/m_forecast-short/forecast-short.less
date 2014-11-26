@@ -33,7 +33,10 @@
         }
         &.menu__item {
           display: inline-block;
-          border: 1px solid transparent;
+          border-right: 1px solid #ccc !important;
+          border-top: 1px solid transparent !important;
+          border-bottom: 1px solid transparent !important;
+          border-left: 1px solid transparent !important;
           margin: -1px;
           transition: all .3s ease;
           color: #000;
@@ -44,7 +47,7 @@
           }
 
           &.active, &:hover {
-            border: 1px solid #dbc794;
+            border: 1px solid #dbc794 !important;
             background: #ffeaae;
           }
         }

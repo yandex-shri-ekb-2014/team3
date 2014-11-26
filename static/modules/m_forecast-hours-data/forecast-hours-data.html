@@ -1,8 +1,6 @@
 <div class="forecast__data">
-  <ul class="forecast-shortly__menu forecast-shortly__menu-right">
-    <li><a data-class=".forecast-hours" href="#" class="menu__item menu__item-active">График 1</a></li>
-    <li><a data-class=".forecast-canvas" href="#" class="menu__item">График 2</a></li>
-  </ul>
-  <div class="chart forecast-hours"></div>
-  <canvas class="chart forecast-canvas hidden"></canvas>
+  <tabs data-class="-right">
+    <pane title="График 1"><div class="chart forecast-hours"></div></pane>
+    <pane title="График 2"><canvas class="chart forecast-canvas hidden"></canvas></pane>
+  </tabs>
 </div>
