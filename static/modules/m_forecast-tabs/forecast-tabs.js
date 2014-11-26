@@ -7,8 +7,9 @@ app
             restrict: 'E',
             transclude: true,
             scope: {},
-            controller: function ($scope, $element) {
+            controller: function ($scope, $element, $attrs) {
                 var panes = $scope.panes = [];
+                $scope.classes = $attrs['class'].split(' ')[0];
 
                 $scope.select = function (pane) {
                     angular.forEach(panes, function (pane) {
