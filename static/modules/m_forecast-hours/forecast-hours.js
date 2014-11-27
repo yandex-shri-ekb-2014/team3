@@ -28,7 +28,7 @@ function initGraphs (data) {
 
             var max = temperatures[0],
                 min = temperatures[0],
-                maxHeight = document.getElementsByClassName('forecast-hours')[0].clientHeight,
+                maxHeight = parseInt(window.getComputedStyle(document.getElementsByClassName('forecast-hours')[0]).height) - 10,
                 step = 0,
                 insertedHTML = '';
 
@@ -39,13 +39,14 @@ function initGraphs (data) {
                     min = temperatures[i];
             }
 
-            step = (maxHeight / 2 - 5) / (Math.abs(min) + Math.abs(max));
+            step = maxHeight / (Math.max(Math.abs(min), Math.abs(max))*2);
+            console.log(step);
 
             for (var i = 0; i < temperatures.length; i++) {
                 insertedHTML +=
                     '<div class="forecast-hours__row" style="height: ' +
-                    Math.round(maxHeight / 2 + step * temperatures[i]) +
-                    'px; margin-top: '+ Math.round(max == 0 ? maxHeight / 2 : 0) +'px">' +
+                    Math.round(maxHeight/2 + step * temperatures[i] + 5) +
+                    'px; margin-top: '+ Math.round(maxHeight/2 - step * temperatures[i]) +'px">' +
                     '<span class="legend__item-temperature">' + ( (temperatures[i] > 0 ? '+' +
                     temperatures[i] : temperatures[i]) ) + '</span>' +
                     '</div>';
