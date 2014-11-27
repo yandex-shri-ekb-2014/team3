@@ -23,23 +23,31 @@
           border-right: 0;
         }
 
-        .menu__item {
-          display: inline-block;
+        a {
+          text-transform: lowercase;
+          text-decoration: none;
+          color: inherit;
+        }
+        >* {
           padding: 0 14px;
-          border: 1px solid transparent;
+        }
+        &.menu__item {
+          display: inline-block;
+          border-right: 1px solid #ccc !important;
+          border-top: 1px solid transparent !important;
+          border-bottom: 1px solid transparent !important;
+          border-left: 1px solid transparent !important;
           margin: -1px;
           transition: all .3s ease;
-          text-transform: lowercase;
           color: #000;
           font-size: 13px;
-          text-decoration: none;
 
           &:first-child, &:last-child {
             border-radius: 3px;
           }
 
-          &-active, &:hover {
-            border: 1px solid #dbc794;
+          &.active, &:hover {
+            border: 1px solid #dbc794 !important;
             background: #ffeaae;
           }
         }

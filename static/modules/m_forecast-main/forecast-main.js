@@ -1,9 +1,22 @@
+/**
+ * m_forecast-main
+ */
+app.directive('forecastmain', function() {
+  return {
+    templateUrl: 'm_forecast-main/forecast-main.html',
+    restrict: 'E'
+  }
+});
+
+///////////////////////
+
 // ***** Обработчики кликов
 
 // Открываем и закрываем выпадайку городов
 /*if (typeof document.getElementsByClassName('towns__title')[0] != 'undefined') {
     document.getElementsByClassName('towns__title')[0].addEventListener('click', function (e) {
         var classes = document.getElementsByClassName('towns__list')[0];
+        classes.classList.toggle('hidden');
         e.preventDefault();
     });
 }*/

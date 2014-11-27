@@ -1,0 +1,19 @@
+<section class="forecast clearfix">
+    <div class="forecast__data">
+        <ul class="forecast-shortly__row">
+            <li ng-repeat="day in locality.forecast" ng-show="{{!$first}}" ng-class="{'forecast-shortly__item-weekend' : day.weekDay == 0}" class="forecast-shortly__item">
+                <ul>
+                    <li class="forecast-shortly__date">
+                        <div ng-class="{'date-red' : day.weekDay == 6 || day.weekDay == 0}" class="date date-bigger">{{$index == 1 ? 'завтра' : locality.days[day.weekDay]}}</div>
+                        <div ng-class="{'date-red' : day.weekDay == 6 || day.weekDay == 0}" class="date">{{$index == 1 ? day.day + ' ' + locality.months[day.month] : day.day}}</div>
+                    </li>
+                    <li class="forecast-shortly__day"><img ng-src="http://ekb.shri14.ru/icons/{{day.parts[4].weather_icon}}.svg" class="weather__icon"/>
+                        <div class="weather__description">{{day.parts[4].weather}}</div>
+                        <div class="temperature-bigger">{{day.parts[4].temp}}</div>
+                    </li>
+                    <li class="forecast-shortly__night">{{day.parts[5].temp}}</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</section>
