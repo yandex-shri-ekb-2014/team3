@@ -3,10 +3,10 @@
  */
 var app_forecasthours = angular.module('forecasthours', []);
 
-app_forecasthours.directive('forecasthours', function() {
+app_forecasthours.directive('forecasthours', function($rootScope) {
   return {
     link: function (scope, element, attrs) {
-        var data = scope.locality.forecast[0].hours,
+        var data = $rootScope.locality.forecast[0].hours,
             temperatures = [];
 
         for (var i = data.length; i--;) {

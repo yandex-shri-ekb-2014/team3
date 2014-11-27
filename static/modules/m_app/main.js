@@ -8,27 +8,27 @@ var app = angular.module('weather',
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
-app.directive('dropdown', function () {
+app.directive('dropdown', function ($rootScope) {
     return {
-        controller: ['$scope', '$http', function($scope, $http) {
-            $scope.saveFactualTemp = function (ids) {
+        controller: ['$rootScope', '$http', function($rootScope, $http) {
+            $rootScope.saveFactualTemp = function (ids) {
                 $http.get('http://ekb.shri14.ru/api/factual?ids=' + ids)
                     .success(function (data) {
-                        $scope.factualTemp = data;
+                        $rootScope.factualTemp = data;
                     });
             }
         }],
-        link: function (scope, element) {
+        link: function ($rootScope, element) {
             element.bind('click', function (e) {
                 e.preventDefault();
 
                 if (localStorage.factualIds) {
                     var ids = JSON.parse(localStorage.factualIds).geoids;
-                    scope.saveFactualTemp(ids.toString());
+                    $rootScope.saveFactualTemp(ids.toString());
                 }
 
-                scope.flag = !~~scope.flag;
-                scope.$apply();
+                $rootScope.flag = !~~$rootScope.flag;
+                $rootScope.$apply();
             });
         },
         template:   '<div class="options__towns">' +
@@ -51,17 +51,17 @@ app.directive('dropdown', function () {
 /**
  * Главный контроллер всего приложения
  */
-app.controller('weatherController', function ($scope, $http, $log) {
+app.controller('weatherController', function ($rootScope, $http, $log) {
   // Для кеширования блоков отображения
-  $scope.blocks = [];
-  $scope.Math = Math;
+  $rootScope.blocks = [];
+  $rootScope.Math = Math;
 
   // Если у нас нет значения или они устарели, то получаем новые
-  checkLocalStorageData('actualCity', 60000, $scope, 'geocode', $scope.saveLocation);
-  checkLocalStorageData('locality', 900000, $scope, 'locality', $scope.localities);
+  checkLocalStorageData('actualCity', 60000, $rootScope, 'geocode', $rootScope.saveLocation);
+  checkLocalStorageData('locality', 900000, $rootScope, 'locality', $rootScope.localities);
 
   // Обновляем данные для отображения каждые 15 минут
-  setInterval(function () { localities($scope.geocode.geoid); }, 900000);
+  setInterval(function () { localities($rootScope.geocode.geoid); }, 900000);
 
   console.log('WeatherController was inited.');
 
@@ -71,26 +71,26 @@ app.controller('weatherController', function ($scope, $http, $log) {
   /**
    * Обработка клика на городе из списка 3 последних
    */
-  $scope.onTownChange = function (geoid, name, needClose) {
+  $rootScope.onTownChange = function (geoid, name, needClose) {
     // Если мы пришли с развёрнутого списка, то скрываем список всех городов
     if (needClose) {
       document.getElementsByClassName('alltowns')[0].classList.add('hidden');
     }
 
     localities(geoid);
-    $scope.geocode.geoid = geoid;
-    $scope.geocode.name = name;
+    $rootScope.geocode.geoid = geoid;
+    $rootScope.geocode.name = name;
 
     pushFactualId(geoid);
 
     // сохраняем в localStorage
-    saveToLocalStorage('actualCity', $scope.geocode);
+    saveToLocalStorage('actualCity', $rootScope.geocode);
     // скрываем выпадающий список последних городов
   };
 
-  $scope.onAllCitiesClick = function (countryId) {
+    $rootScope.onAllCitiesClick = function (countryId) {
     // Если данных о городах, нет в скоупе, то получаем их. Если есть, то просто показываем.
-    if (!$scope.allTownsList) {
+    if (!$rootScope.allTownsList) {
       $http.get('http://ekb.shri14.ru/api/localities/' + (countryId ? countryId : 225 ) + '/cities')
         .success(function (data) {
 
@@ -107,7 +107,7 @@ app.controller('weatherController', function ($scope, $http, $log) {
 
           console.log(data);
 
-          $scope.allTownsList = data;
+              $rootScope.allTownsList = data;
           document.getElementsByClassName('alltowns')[0].classList.remove('hidden');
         });
     } else {
@@ -123,7 +123,7 @@ app.controller('weatherController', function ($scope, $http, $log) {
   /**
    * Получаем координаты пользователя при первой загрузке
    */
-  $scope.saveLocation = function () {
+  $rootScope.saveLocation = function () {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         successLocation,
@@ -153,9 +153,9 @@ app.controller('weatherController', function ($scope, $http, $log) {
 
     // Если есть данные в localstorage, то вставяем, если нет, то получаем дефолтные
     if (typeof localStorage.actualCity != 'undefined') {
-      $scope.geocode = JSON.parse(localStorage.actualCity).data;
+        $rootScope.geocode = JSON.parse(localStorage.actualCity).data;
       if (typeof localStorage.locality != 'undefined') {
-        $scope.locality = JSON.parse(localStorage.locality).data;
+          $rootScope.locality = JSON.parse(localStorage.locality).data;
         $log.log('Locality upped form localStorage.');
       }
     } else {
@@ -167,7 +167,7 @@ app.controller('weatherController', function ($scope, $http, $log) {
     }
 
     console.log('ERROR(' + err.code + '): ' + err.message);
-    console.log($scope.geocode);
+    console.log($rootScope.geocode);
   }
 
   /**
@@ -178,13 +178,13 @@ app.controller('weatherController', function ($scope, $http, $log) {
     $http.get('http://ekb.shri14.ru/api/geocode?coords=' + geolocation.lng + ',' + geolocation.lat)
       .success(function (data) {
 
-        $scope.geocode = data;
+            $rootScope.geocode = data;
 
         // сохраняем в localstorage
         saveToLocalStorage('actualCity', data);
 
         // получаем данные locality и сохраняем в localStorage
-        checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
+        checkLocalStorageData('locality', 900000, $rootScope, 'locality', $rootScope.localities);
 
         // добавляем id города в просмторенные города
         pushFactualId(data.geoid);
@@ -199,8 +199,8 @@ app.controller('weatherController', function ($scope, $http, $log) {
    */
   function localities(geoid) {
 
-    if (!$scope.geocode && !geoid) return;
-    geoid = geoid ? geoid : $scope.geocode.geoid;
+    if (!$rootScope.geocode && !geoid) return;
+    geoid = geoid ? geoid : $rootScope.geocode.geoid;
 
     $http.get('http://ekb.shri14.ru/api/localities/' + geoid)
       .success(function (data) {
@@ -218,7 +218,7 @@ app.controller('weatherController', function ($scope, $http, $log) {
         data.parts = ['утром', 'днём', 'вечером', 'ночью'];
 
         saveToLocalStorage('locality', data);
-        $scope.locality = data;
+            $rootScope.locality = data;
 
         $log.log('Locality updated.');
       });
