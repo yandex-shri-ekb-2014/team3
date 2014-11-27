@@ -3,11 +3,11 @@
  */
 var app_forecasthours = angular.module('forecasthours', []);
 
-app_forecasthours.directive('forecasthours', function() {
+app_forecasthours.directive('forecasthours', function($rootScope) {
   return {
     link: function (scope, element, attrs) {
         var data = scope.locality.forecast[0].hours,
-            temperatures = scope.temperatures = [];
+            temperatures = $rootScope.temperatures = [];
 
         for (var i = data.length; i--;) {
             temperatures.unshift(data[i].temp);
@@ -73,14 +73,12 @@ app_forecasthours.directive('forecasthours', function() {
                             (temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]),
                             MAX_WIDTH / 24 * i + 20,
                             MAX_HEIGHT / 2 - step * temperatures[i] - max * step - 5
-                            //MAX_HEIGHT / 2 - temperatures[i] * step - 5
                         );
 
                         // Отрисовываем линию
                         ctx.lineTo(
                             (MAX_WIDTH / 24) * i + 20,
                             MAX_HEIGHT / 2 - step * temperatures[i] - max * step
-                            //    MAX_HEIGHT / 2 - temperatures[i] * step
                         );
                         ctx.strokeStyle = gradient;
                         ctx.stroke();
@@ -96,7 +94,7 @@ app_forecasthours.directive('forecasthours', function() {
     restrict: 'E'
   }
 })
-.directive('histogram', function () {
+.directive('histogram', function ($rootScope) {
         return {
             restrict: 'E',
             scope: { temperatures: '=', maxHeight: '=' },
@@ -104,7 +102,7 @@ app_forecasthours.directive('forecasthours', function() {
             link: function (scope,element) {
 
 
-                    var temperatures = scope.temperatures,
+                    var temperatures = $rootScope.temperatures,
                         max = temperatures[0],
                         min = temperatures[0],
                         maxHeight = parseInt(window.getComputedStyle(element[0]).height) - 10,

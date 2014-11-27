@@ -10,7 +10,7 @@ app_forecastfull
             restrict: 'E'
         }
     })
-    .directive('forecastdayfull', function () {
+    .directive('forecastdayfull', function ($rootScope) {
         return {
             templateUrl: 'm_forecast-full/forecast-day-full.html',
             restrict: 'E',
