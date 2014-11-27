@@ -103,14 +103,12 @@ app_forecasthours.directive('forecasthours', function() {
                             (temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]),
                             MAX_WIDTH / 24 * i + 20,
                             MAX_HEIGHT / 2 - step * temperatures[i] - max * step - 5
-                            //MAX_HEIGHT / 2 - temperatures[i] * step - 5
                         );
 
                         // Отрисовываем линию
                         ctx.lineTo(
                             (MAX_WIDTH / 24) * i + 20,
                             MAX_HEIGHT / 2 - step * temperatures[i] - max * step
-                            //    MAX_HEIGHT / 2 - temperatures[i] * step
                         );
                         ctx.strokeStyle = gradient;
                         ctx.stroke();

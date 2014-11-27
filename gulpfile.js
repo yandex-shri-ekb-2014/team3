@@ -31,8 +31,11 @@ gulp.task('styleProcessing', function () {
 });
 
 // Js task
-gulp.task('scriptProcessing', function () {
-  return gulp.src(staticPath + 'modules/m_*/*.js')
+gulp.task('scriptProcessing', ['templateCache'], function () {
+  return gulp.src([
+          publicPath + 'js/templates.js',
+          staticPath + 'modules/m_*/*.js'
+      ])
     .pipe(concat('events.js'))
 //    .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'))
@@ -43,10 +46,6 @@ gulp.task('move', ['styleProcessing', 'scriptProcessing'], function () {
   gulp.src(staticPath + 'modules/m_*/*.{jpg,png,jpeg,gif}')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'img'));
-
-  gulp.src(staticPath + 'modules/m_app/main.js')
-    .pipe(rename({dirname: ''}))
-    .pipe(gulp.dest(publicPath + 'js'));
 
   gulp.src(staticPath + 'modules/m_*/*.html')
     .pipe(rename({dirname: ''}))
@@ -68,4 +67,4 @@ gulp.task('templateCache', function () {
 });
 
 // Default Task
-gulp.task('default', ['styleProcessing', 'scriptProcessing', 'move', 'templateCache']);
+gulp.task('default', ['styleProcessing', 'scriptProcessing', 'move']);

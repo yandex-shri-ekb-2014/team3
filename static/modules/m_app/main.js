@@ -1,6 +1,4 @@
-'use strict';
-
-var app = angular.module('weather', 
+var app = angular.module('weather',
     [
     'templates', 'alltowns', 'direct',
     'forecastfull', 'forecasthours', 'forecastmain',
@@ -11,29 +9,43 @@ var app = angular.module('weather',
 });
 
 app.directive('dropdown', function () {
-  return {
-    link: function (scope, element) {
+    return {
+        controller: ['$scope', '$http', function($scope, $http) {
+            $scope.saveFactualTemp = function (ids) {
+                $http.get('http://ekb.shri14.ru/api/factual?ids=' + ids)
+                    .success(function (data) {
+                        $scope.factualTemp = data;
+                    });
+            }
+        }],
+        link: function (scope, element) {
+            element.bind('click', function (e) {
+                e.preventDefault();
 
-      element.bind('click', function () {
-        scope.flag = !~~scope.flag;
-        scope.$apply();
-      })
-    },
-    template:   '<div class="options__towns">' +
-      '<a href="#" class="towns__title">Другой город</a>' +
-      '<ul ng-show="flag" class="towns__list">' +
-      '<li class="towns-item">Последние города</li>' +
-      '<li ng-repeat="town in factualTemp" class="towns-item">' +
-      '<a ng-class="{\'towns-item__link-active\' : town.geoid == geocode.geoid}" ng-href="#{{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">{{town.name}} ({{town.temp}})</a>' +
-      '</li>' +
-      '<li class="towns-item-all">' +
-      '<a ng-href="#" ng-click="onAllCitiesClick()" class="towns-item__link-all">Все города</a>' +
-      '</li>' +
-      '</ul>' +
-      '</div>',
-    replace: true,
-    restrict: 'A'
-  }
+                if (localStorage.factualIds) {
+                    var ids = JSON.parse(localStorage.factualIds).geoids;
+                    scope.saveFactualTemp(ids.toString());
+                }
+
+                scope.flag = !~~scope.flag;
+                scope.$apply();
+            });
+        },
+        template:   '<div class="options__towns">' +
+            '<a href="#" class="towns__title">Другой город</a>' +
+            '<ul ng-show="flag" class="towns__list">' +
+            '<li class="towns-item">Последние города</li>' +
+            '<li ng-repeat="town in factualTemp" class="towns-item">' +
+            '<a ng-class="{\'towns-item__link-active\' : town.geoid == geocode.geoid}" ng-href="#{{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">{{town.name}} ({{town.temp}})</a>' +
+            '</li>' +
+            '<li class="towns-item-all">' +
+            '<a ng-href="#" ng-click="onAllCitiesClick()" class="towns-item__link-all">Все города</a>' +
+            '</li>' +
+            '</ul>' +
+            '</div>',
+        replace: true,
+        restrict: 'A'
+    }
 });
 
 /**
@@ -44,25 +56,9 @@ app.controller('weatherController', function ($scope, $http, $log) {
   $scope.blocks = [];
   $scope.Math = Math;
 
-  // Запихиваем текущий урл в историю
-  var locationPath = window.location.pathname;
-  window.history.pushState('init', 'Страница входа', locationPath);
-
-  // Выставляем текущую вкладку в weatherType
-  switch (locationPath) {
-    case '/hours':
-      $scope.weatherType = 3;
-      break;
-    case '/full':
-      $scope.weatherType = 2;
-      break;
-    default:
-      $scope.weatherType = 1;
-  }
-
   // Если у нас нет значения или они устарели, то получаем новые
-  checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
-  checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
+  checkLocalStorageData('actualCity', 60000, $scope, 'geocode', $scope.saveLocation);
+  checkLocalStorageData('locality', 900000, $scope, 'locality', $scope.localities);
 
   // Обновляем данные для отображения каждые 15 минут
   setInterval(function () { localities($scope.geocode.geoid); }, 900000);
@@ -71,16 +67,6 @@ app.controller('weatherController', function ($scope, $http, $log) {
 
 
   // *************** Обработчики кликов
-
-  /**
-   * Обрабатываем клик на выпадайку других городов
-   */
-  $scope.onOtherTownsClick = function () {
-    if (localStorage.factualIds) {
-      var ids = JSON.parse(localStorage.factualIds).geoids;
-      saveFactualTemp(ids.toString());
-    }
-  };
 
   /**
    * Обработка клика на городе из списка 3 последних
@@ -100,7 +86,6 @@ app.controller('weatherController', function ($scope, $http, $log) {
     // сохраняем в localStorage
     saveToLocalStorage('actualCity', $scope.geocode);
     // скрываем выпадающий список последних городов
-    document.getElementsByClassName('towns__list')[0].classList.add('hidden');
   };
 
   $scope.onAllCitiesClick = function (countryId) {
@@ -133,21 +118,12 @@ app.controller('weatherController', function ($scope, $http, $log) {
 
   // *************** Функции-хелперы
 
-  /**
-   * Получаем фактическую температуру и вставлем данные в скоуп
-   * @param ids
-   */
-  function saveFactualTemp(ids) {
-    $http.get('http://ekb.shri14.ru/api/factual?ids=' + ids)
-      .success(function (data) {
-        $scope.factualTemp = data;
-      });
-  }
+
 
   /**
    * Получаем координаты пользователя при первой загрузке
    */
-  function saveLocation() {
+  $scope.saveLocation = function () {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         successLocation,
