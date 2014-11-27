@@ -1,9 +1,9 @@
 /**
  * m_forecast-menu
  */
-var app_tabs = angular.module('tabs', []);
+var appTabs = angular.module('tabs', []);
 
-app_tabs
+appTabs
     .directive('tabs', function () {
         return {
             restrict: 'E',
@@ -21,7 +21,7 @@ app_tabs
                 }
 
                 this.addPane = function (pane) {
-                    if (panes.length == 0) $scope.select(pane);
+                    if (panes.length === 0) $scope.select(pane);
                     panes.push(pane);
                 }
             },

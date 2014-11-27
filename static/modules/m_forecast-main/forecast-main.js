@@ -1,13 +1,13 @@
 /**
  * m_forecast-main
  */
-var app_forecastmain = angular.module('forecastmain', []);
+var appForecastmain = angular.module('forecastmain', []);
 
-app_forecastmain.directive('forecastmain', function() {
-  return {
-    templateUrl: 'm_forecast-main/forecast-main.html',
-    restrict: 'E'
-  }
+appForecastmain.directive('forecastmain', function () {
+    return {
+        templateUrl: 'm_forecast-main/forecast-main.html',
+        restrict: 'E'
+    }
 });
 
 ///////////////////////

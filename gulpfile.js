@@ -20,7 +20,7 @@ var less = require('gulp-less'),
 
 // Compile Our less
 gulp.task('styleProcessing', function () {
-  gulp.src(staticPath + 'modules/m_*/*.less')
+    gulp.src(staticPath + 'modules/m_*/*.less')
     .pipe(concat('tmp_styles.less'))
     .pipe(gulp.dest(publicPath + 'css'))
     .pipe(less())
@@ -32,10 +32,10 @@ gulp.task('styleProcessing', function () {
 
 // Js task
 gulp.task('scriptProcessing', ['templateCache'], function () {
-  return gulp.src([
-          publicPath + 'js/templates.js',
-          staticPath + 'modules/m_*/*.js'
-      ])
+    return gulp.src([
+        publicPath + 'js/templates.js',
+        staticPath + 'modules/m_*/*.js'
+    ])
     .pipe(concat('events.js'))
 //    .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'))
@@ -43,24 +43,24 @@ gulp.task('scriptProcessing', ['templateCache'], function () {
 
 // Move
 gulp.task('move', ['styleProcessing', 'scriptProcessing'], function () {
-  gulp.src(staticPath + 'modules/m_*/*.{jpg,png,jpeg,gif}')
+    gulp.src(staticPath + 'modules/m_*/*.{jpg,png,jpeg,gif}')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'img'));
 
-  gulp.src(staticPath + 'modules/m_*/*.html')
+    gulp.src(staticPath + 'modules/m_*/*.html')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'html'));
 });
 
 // Clear
 gulp.task('clear', function () {
-  return gulp.src(publicPath) // much faster
+    return gulp.src(publicPath) // much faster
     .pipe(rimraf());
 });
 
 // Angular templateCache
 gulp.task('templateCache', function () {
-  gulp.src(staticPath + 'modules/m_*/*.html')
+    gulp.src(staticPath + 'modules/m_*/*.html')
     .pipe(templateCache({standalone: true}))
     .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'));
