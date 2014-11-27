@@ -1,6 +1,8 @@
 /**
  * m_forecast-menu
  */
+var app = angular.module('tabs', []);
+
 app
     .directive('tabs', function () {
         return {

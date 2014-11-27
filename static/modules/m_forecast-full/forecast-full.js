@@ -1,6 +1,8 @@
 /**
  * m_forecast-full
  */
+var app = angular.module('forecastfull', []);
+
 app
     .directive('forecastfull', function() {
         return {

@@ -1,6 +1,8 @@
 /**
  * m_forecast-hours
  */
+var app = angular.module('forecasthours', []);
+
 app.directive('forecasthours', function() {
   return {
     templateUrl: 'm_forecast-hours/forecast-hours.html',

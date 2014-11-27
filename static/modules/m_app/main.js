@@ -1,7 +1,13 @@
 'use strict';
 
-var app = angular.module('weather', ['templates']).config(function ($httpProvider) {
-  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+var app = angular.module('weather', 
+    [
+    'templates', 'alltowns', 'direct',
+    'forecastfull', 'forecasthours', 'forecastmain',
+    'forecastshort', 'tabs', 'header', 'services'
+    ]
+    ).config(function ($httpProvider) {
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
 app.directive('dropdown', function () {

@@ -1,6 +1,8 @@
 /**
  * m_forecast-main
  */
+var app = angular.module('forecastmain', []);
+
 app.directive('forecastmain', function() {
   return {
     templateUrl: 'm_forecast-main/forecast-main.html',
