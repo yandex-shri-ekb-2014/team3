@@ -1,4 +1,4 @@
-<section class="forecast clearfix">
+<section ng-app="forecastshort" class="forecast clearfix">
     <div class="forecast__data">
         <ul class="forecast-shortly__row">
             <li ng-repeat="day in locality.forecast" ng-show="{{!$first}}" ng-class="{'forecast-shortly__item-weekend' : day.weekDay == 0}" class="forecast-shortly__item">
