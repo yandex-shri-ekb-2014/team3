@@ -18,31 +18,31 @@ function initGraphs (data) {
     }
 
 // Открываем нужный график
-    (function () {
-        var chartButtons = document.querySelectorAll('[data-class]'),
-            callback = function (value, index, ar) {
-                value.addEventListener('click', function (e) {
-
-                    var charts = document.querySelectorAll('.chart');
-
-                    map(charts , function (value, index, ar) {
-                        value.classList.add('hidden');
-                    });
-
-                    document.querySelector(this.getAttribute("data-class")).classList.remove('hidden');
-
-                    document
-                        .querySelector('.forecast-shortly__menu-right .menu__item-active')
-                        .classList.remove('menu__item-active');
-
-                    this.classList.add('menu__item-active');
-
-                    e.preventDefault();
-                }, false);
-            };
-
-        map(chartButtons, callback);
-    })();
+//    (function () {
+//        var chartButtons = document.querySelectorAll('[data-class]'),
+//            callback = function (value, index, ar) {
+//                value.addEventListener('click', function (e) {
+//
+//                    var charts = document.querySelectorAll('.chart');
+//
+//                    map(charts , function (value, index, ar) {
+//                        value.classList.add('hidden');
+//                    });
+//
+//                    document.querySelector(this.getAttribute("data-class")).classList.remove('hidden');
+//
+//                    document
+//                        .querySelector('.forecast-shortly__menu-right .menu__item-active')
+//                        .classList.remove('menu__item-active');
+//
+//                    this.classList.add('menu__item-active');
+//
+//                    e.preventDefault();
+//                }, false);
+//            };
+//
+//        map(chartButtons, callback);
+//    })();
 
     // ***** Графики
 

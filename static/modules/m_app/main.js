@@ -59,7 +59,7 @@ app.controller('weatherController', function ($scope, $http, $log) {
   checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
 
   // Инициализируем графики, если мы на странице почасовки
-  if (locationPath == '/hours' && $scope.locality) {
+  if ($scope.locality) {
     initGraphs($scope.locality.forecast[0].hours);
   }
 
@@ -208,7 +208,7 @@ app.controller('weatherController', function ($scope, $http, $log) {
 
         // получаем данные locality и сохраняем в localStorage
         checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
-        if (locationPath == '/hours' && $scope.locality) {
+        if ($scope.locality) {
           initGraphs($scope.locality.forecast[0].hours);
         }
 
