@@ -1,7 +1,9 @@
 /**
  * m_forecast-menu
  */
-app
+var app_tabs = angular.module('tabs', []);
+
+app_tabs
     .directive('tabs', function () {
         return {
             restrict: 'E',

@@ -1,7 +1,9 @@
 /**
  * m_forecast-hours
  */
-app.directive('forecasthours', function() {
+var app_forecasthours = angular.module('forecasthours', []);
+
+app_forecasthours.directive('forecasthours', function() {
   return {
     link: function (scope, element, attrs) {
         var data = scope.locality.forecast[0].hours,

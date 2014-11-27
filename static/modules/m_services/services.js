@@ -1,7 +1,9 @@
 /**
  * m_services
  */
-app.directive('services', function () {
+var app_services = angular.module('services', []);
+
+app_services.directive('services', function () {
     return {
         templateUrl: 'm_services/services.html',
         restrict: 'E'
