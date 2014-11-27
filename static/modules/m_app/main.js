@@ -58,11 +58,6 @@ app.controller('weatherController', function ($scope, $http, $log) {
   checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
   checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
 
-  // Инициализируем графики, если мы на странице почасовки
-  if ($scope.locality) {
-    initGraphs($scope.locality.forecast[0].hours);
-  }
-
   // Обновляем данные для отображения каждые 15 минут
   setInterval(function () { localities($scope.geocode.geoid); }, 900000);
 
@@ -208,9 +203,6 @@ app.controller('weatherController', function ($scope, $http, $log) {
 
         // получаем данные locality и сохраняем в localStorage
         checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
-        if ($scope.locality) {
-          initGraphs($scope.locality.forecast[0].hours);
-        }
 
         // добавляем id города в просмторенные города
         pushFactualId(data.geoid);
@@ -245,9 +237,6 @@ app.controller('weatherController', function ($scope, $http, $log) {
 
         saveToLocalStorage('locality', data);
         $scope.locality = data;
-        initGraphs(data.forecast[0].hours);
-
-        $log.log(data, $scope.locality);
 
         $log.log('Locality updated.');
       });
