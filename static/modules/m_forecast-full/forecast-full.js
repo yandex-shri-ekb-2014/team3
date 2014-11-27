@@ -1,9 +1,9 @@
 /**
  * m_forecast-full
  */
-var app = angular.module('forecastfull', []);
+var app_forecastfull = angular.module('forecastfull', []);
 
-app
+app_forecastfull
     .directive('forecastfull', function() {
         return {
             templateUrl: 'm_forecast-full/forecast-full.html',

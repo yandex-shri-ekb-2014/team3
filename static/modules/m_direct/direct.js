@@ -1,9 +1,9 @@
 /**
  * m_direct
  */
-var app = angular.module('direct', []);
+var app_direct = angular.module('direct', []);
 
-app.directive('direct', function() {
+app_direct.directive('direct', function() {
   return {
     templateUrl: 'm_direct/direct.html',
     restrict: 'E'

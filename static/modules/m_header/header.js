@@ -1,9 +1,9 @@
 /**
  * m_header
  */
-var app = angular.module('header', []);
+var app_header = angular.module('header', []);
 
-app.directive('headermain', function () {
+app_header.directive('headermain', function () {
     return {
         templateUrl: 'm_header/header.html',
         restrict: 'E'
