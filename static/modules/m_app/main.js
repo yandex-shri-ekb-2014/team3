@@ -177,7 +177,6 @@ app.controller('weatherController',
         $http.get('http://ekb.shri14.ru/api/geocode?coords=' + geolocation.lng + ',' + geolocation.lat)
             .success(function (data) {
                 $scope.geocode = data;
-                console.log($scope);
 
                 // сохраняем в localstorage
                 saveToLocalStorage('actualCity', data);
@@ -187,6 +186,8 @@ app.controller('weatherController',
 
                 // добавляем id города в просмторенные города
                 pushFactualId(data.geoid);
+
+                checkSpinner($scope, 1);
 
                 $log.log(data);
             });
@@ -221,7 +222,7 @@ app.controller('weatherController',
                 saveToLocalStorage('locality', data);
                 $scope.locality = data;
 
-                console.log($scope.locality);
+                checkSpinner($scope, 1);
 
                 $log.log('Locality updated.');
             });
@@ -297,16 +298,30 @@ function checkLocalStorageData (key, period, scope, scopekey, callback) {
         }
 
         scope[scopekey] = object.data;
+        checkSpinner(scope, 1);
     }
 }
 
+/**
+ * Мэп и всё такое
+ * @param nodeList
+ * @param callback
+ */
 function map(nodeList, callback) {
     var inputList = Array.prototype.slice.call(nodeList);
     inputList.forEach(callback);
 }
 
-window.onload = function () {
-    setTimeout(function () {
-        document.getElementsByClassName('overflow')[0].style.display = 'none';
-    }, 50)
-};
+/**
+ * Проверяем количество обработанных запросов данных
+ * @param $scope
+ */
+function checkSpinner ($scope) {
+    $scope.spinner = ~~$scope.spinner + 1;
+
+    if ($scope.spinner > 1) {
+        setTimeout(function () { // чтобы мы не видели как подгружаются картинки
+            document.getElementsByClassName('overflow')[0].style.display = 'none';
+        }, 500);
+    }
+}
