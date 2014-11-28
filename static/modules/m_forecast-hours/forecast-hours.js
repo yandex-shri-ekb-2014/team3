@@ -1,12 +1,12 @@
 /**
- * m_forecast-hours
- */
+* m_forecast-hours
+*/
 var appForecasthours = angular.module('forecasthours', []);
 
 appForecasthours.directive('forecasthours', function ($rootScope) {
     return {
         link: function (scope, element, attrs) {
-            var data = scope.locality.forecast[0].hours,
+            var data = $rootScope.locality.forecast[0].hours,
                 temperatures = $rootScope.temperatures = [];
 
             for (var i = data.length; i--;) {
@@ -87,7 +87,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                         ctx.stroke();
                     }
                 })(temperatures);
-            }, 1);
+            }, 50);
         },
         scope: true,
         templateUrl: 'm_forecast-hours/forecast-hours.html',
@@ -97,32 +97,34 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
 .directive('histogram', function ($rootScope) {
     return {
         restrict: 'E',
-        scope: { temperatures: '=', maxHeight: '=' },
+        scope: true,//{ temperatures: '=', maxHeight: '=' },
         replace: true,
         link: function (scope,element) {
-            var temperatures = $rootScope.temperatures,
-                max = temperatures[0],
-                min = temperatures[0],
-                maxHeight = parseInt(window.getComputedStyle(element[0]).height) - 10,
-                step = 0;
+            setTimeout( function () {
+                var temperatures = $rootScope.temperatures,
+                    max = temperatures[0],
+                    min = temperatures[0],
+                    maxHeight = parseInt(window.getComputedStyle(element[0]).height) - 10,
+                    step = 0;
 
-            for (var i = 0; i < temperatures.length; i++) {
-                if (temperatures[i] > max)
-                    max = temperatures[i];
-                if (temperatures[i] < min)
-                    min = temperatures[i];
-            }
+                for (var i = 0; i < temperatures.length; i++) {
+                    if (temperatures[i] > max)
+                        max = temperatures[i];
+                    if (temperatures[i] < min)
+                        min = temperatures[i];
+                }
 
-            step = maxHeight / (Math.max(Math.abs(min), Math.abs(max))*2);
-            console.log(step);
-            scope.data= [];
+                step = maxHeight / (Math.max(Math.abs(min), Math.abs(max))*2);
+                console.log(step);
+                $rootScope.data= [];
 
-            for (var i = 0; i < temperatures.length; i++)
-                scope.data.push({
-                    height: Math.round(maxHeight/2 + step * temperatures[i] + 5),
-                    margin: Math.round(maxHeight/2 - step * temperatures[i]),
-                    temperature: temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]
-                });
+                for (var i = 0; i < temperatures.length; i++)
+                    $rootScope.data.push({
+                        height: Math.round(maxHeight/2 + step * temperatures[i] + 5),
+                        margin: Math.round(maxHeight/2 - step * temperatures[i]),
+                        temperature: temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]
+                    });
+            }, 50);
         },
         template: '<div class="chart forecast-hours">' +
             '<div ng-repeat="i in data" class="forecast-hours__row" ' +
