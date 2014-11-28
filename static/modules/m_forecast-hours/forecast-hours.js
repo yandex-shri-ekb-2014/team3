@@ -6,23 +6,19 @@ var appForecasthours = angular.module('forecasthours', []);
 appForecasthours.directive('forecasthours', function ($rootScope) {
     return {
         link: function (scope, element, attrs) {
-            var data = $rootScope.locality.forecast[0].hours,
-                temperatures = $rootScope.temperatures = [];
+            if ($rootScope.locality) {
+                var data = $rootScope.locality.forecast[0].hours,
+                    temperatures = $rootScope.temperatures = [];
 
-            for (var i = data.length; i--;) {
-                temperatures.unshift(data[i].temp);
-            }
+                for (var i = data.length; i--;) {
+                    temperatures.unshift(data[i].temp);
+                }
 
-            // ***** Графики
-            setTimeout(function () {
-                // Ставим правильные высоты исходя из массива температур на сутки
-               // ()(temperatures);
+                // ***** Графики
 
                 // Отрисовываем график на канвас
-                (function (temperatures) {
+                setTimeout(function () {
                     if (typeof element[0].querySelector('.forecast-canvas') != 'undefined') {
-
-                        // Параметры
                         var canvas = element[0].querySelector('.forecast-canvas'),
                             ctx = canvas.getContext('2d'),
 
@@ -86,8 +82,8 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                         ctx.lineTo(MAX_WIDTH, MAX_HEIGHT / 2);
                         ctx.stroke();
                     }
-                })(temperatures);
-            }, 50);
+                }, 50);
+            }
         },
         scope: true,
         templateUrl: 'm_forecast-hours/forecast-hours.html',
@@ -100,7 +96,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
         scope: true,//{ temperatures: '=', maxHeight: '=' },
         replace: true,
         link: function (scope,element) {
-            setTimeout( function () {
+            if ($rootScope.temperatures) {
                 var temperatures = $rootScope.temperatures,
                     max = temperatures[0],
                     min = temperatures[0],
@@ -124,7 +120,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                         margin: Math.round(maxHeight/2 - step * temperatures[i]),
                         temperature: temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]
                     });
-            }, 50);
+            }
         },
         template: '<div class="chart forecast-hours">' +
             '<div ng-repeat="i in data" class="forecast-hours__row" ' +
