@@ -77,7 +77,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                 }
             };
 
-            $rootScope.$watch('locality', function() {
+            $rootScope.$watch('locality', function () {
                 paintGraphics();
             });
         },
@@ -99,25 +99,26 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                 maxHeight = parseInt(window.getComputedStyle(element[0]).height) - 10,
                 step = 0;
 
-            for (var i = 0; i < temperatures.length; i++) {
-                if (temperatures[i] > max)
-                    max = temperatures[i];
-                if (temperatures[i] < min)
-                    min = temperatures[i];
+                for (var i = 0; i < temperatures.length; i++) {
+                    if (temperatures[i] > max)
+                        max = temperatures[i];
+                    if (temperatures[i] < min)
+                        min = temperatures[i];
+                }
+
+                step = maxHeight / (Math.max(Math.abs(min), Math.abs(max))*2);
+                scope.data= [];
+
+                for (var i = 0; i < temperatures.length; i++) {
+                    scope.data.push({
+                        height: Math.round(maxHeight/2 + step * temperatures[i] + 5),
+                        margin: Math.round(maxHeight/2 - step * temperatures[i]),
+                        temperature: temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]
+                    });
+                }
             }
 
-            step = maxHeight / (Math.max(Math.abs(min), Math.abs(max))*2);
-            scope.data= [];
-
-            for (var i = 0; i < temperatures.length; i++)
-                scope.data.push({
-                    height: Math.round(maxHeight/2 + step * temperatures[i] + 5),
-                    margin: Math.round(maxHeight/2 - step * temperatures[i]),
-                    temperature: temperatures[i] > 0 ? '+' + temperatures[i] : temperatures[i]
-                });
-            }
-
-            $rootScope.$watch('locality', function() {
+            $rootScope.$watch('locality', function () {
                 paintHistogram();
             });
         },

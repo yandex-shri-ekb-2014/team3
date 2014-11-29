@@ -83,7 +83,7 @@ app.controller('weatherController', function ($rootScope, $http, $log) {
         $rootScope.geocode.geoid = geoid;
         $rootScope.geocode.name = name;
 
-        // pushFactualId(geoid);
+        pushFactualId(geoid);
 
         // сохраняем в localStorage
         saveToLocalStorage('actualCity', $rootScope.geocode);
