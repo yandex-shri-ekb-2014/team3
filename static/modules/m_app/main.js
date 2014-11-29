@@ -218,8 +218,10 @@ app.controller('weatherController', function ($rootScope, $http, $log) {
 
                 // Температуры раскладывае в array
                 data.temperatures = [];
-                for (var i = data.forecast[0].hours.length; i--;) {
-                    data.temperatures.unshift(data[i].temp);
+                var d = data.forecast[0].hours;
+
+                for (var i = d.length; i--;) {
+                    data.temperatures.unshift(d[i].temp);
                 }
 
                 saveToLocalStorage('locality', data);

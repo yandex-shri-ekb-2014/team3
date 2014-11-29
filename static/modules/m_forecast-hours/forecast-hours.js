@@ -11,7 +11,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                 if (typeof element[0].querySelector('.forecast-canvas') != 'undefined') {
 
                     // Параметры
-                    var temperatures = $rootScope.temperatures,
+                    var temperatures = $rootScope.locality.temperatures,
                         canvas = element[0].querySelector('.forecast-canvas'),
                         ctx = canvas.getContext('2d'),
 
@@ -77,10 +77,8 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                 }
             };
 
-            $rootScope.$watch('temperatures', function() {
-                if ($rootScope.temperatures) {
-                    paintGraphics();
-                }
+            $rootScope.$watch('locality', function() {
+                paintGraphics();
             });
         },
         scope: true,
@@ -95,7 +93,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
         replace: true,
         link: function (scope,element) {
             function paintHistogram() {
-                var temperatures = $rootScope.temperatures,
+                var temperatures = $rootScope.locality.temperatures,
                 max = temperatures[0],
                 min = temperatures[0],
                 maxHeight = parseInt(window.getComputedStyle(element[0]).height) - 10,
@@ -119,10 +117,8 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                 });
             }
 
-            $rootScope.$watch('temperatures', function() {
-                if ($rootScope.temperatures) {
-                    paintHistogram();
-                } 
+            $rootScope.$watch('locality', function() {
+                paintHistogram();
             });
         },
         template: '<div class="chart forecast-hours">' +
