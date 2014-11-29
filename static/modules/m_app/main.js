@@ -83,7 +83,7 @@ app.controller('weatherController', function ($rootScope, $http, $log) {
         $rootScope.geocode.geoid = geoid;
         $rootScope.geocode.name = name;
 
-        pushFactualId(geoid);
+        // pushFactualId(geoid);
 
         // сохраняем в localStorage
         saveToLocalStorage('actualCity', $rootScope.geocode);
@@ -216,9 +216,15 @@ app.controller('weatherController', function ($rootScope, $http, $log) {
                 data.days = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
                 data.parts = ['утром', 'днём', 'вечером', 'ночью'];
 
-                saveToLocalStorage('locality', data);
-                $rootScope.locality = data;
+                // Температуры раскладывае в array
+                data.temperatures = [];
+                for (var i = data.forecast[0].hours.length; i--;) {
+                    data.temperatures.unshift(data[i].temp);
+                }
 
+                saveToLocalStorage('locality', data);
+
+                $rootScope.locality = data;
                 $log.log('Locality updated.');
             });
     }
