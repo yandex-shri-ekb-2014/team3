@@ -18,7 +18,7 @@ app.directive('dropdown', function ($rootScope) {
                     });
             }
         }],
-        link: function ($rootScope, element) {
+        link: function (scope, element) {
             element.bind('click', function (e) {
                 e.preventDefault();
 
@@ -27,25 +27,27 @@ app.directive('dropdown', function ($rootScope) {
                     $rootScope.saveFactualTemp(ids.toString());
                 }
 
-                $rootScope.flag = !~~$rootScope.flag;
-                $rootScope.$apply();
+                scope.flag = !~~scope.flag;
+                scope.$apply();
             });
         },
-        template:   '<div class="options__towns">' +
-            '<a href="#" class="towns__title">Другой город</a>' +
-            '<ul ng-show="flag" class="towns__list">' +
-            '<li class="towns-item">Последние города</li>' +
-            '<li ng-repeat="town in factualTemp" class="towns-item">' +
-            '<a ng-class="{\'towns-item__link-active\' : town.geoid == geocode.geoid}" ' +
-            'ng-href="#{{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">' +
-            '{{town.name}} ({{town.temp}})</a>' +
-            '</li>' +
-            '<li class="towns-item-all">' +
-            '<a ng-href="#" ng-click="onAllCitiesClick()" class="towns-item__link-all">Все города</a>' +
-            '</li>' +
-            '</ul>' +
-            '</div>',
-        replace: true,
+        template: '<span class="icon-help__popup" ng-show="flag">На основе прогноза</span>',
+//            '<div class="options__towns">' +
+//            '<a href="#" class="towns__title">Другой город</a>' +
+//            '<ul ng-show="flag" class="towns__list">' +
+//            '<li class="towns-item">Последние города</li>' +
+//            '<li ng-repeat="town in factualTemp" class="towns-item">' +
+//            '<a ng-class="{\'towns-item__link-active\' : town.geoid == geocode.geoid}" ' +
+//            'ng-href="#{{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">' +
+//            '{{town.name}} ({{town.temp}})</a>' +
+//            '</li>' +
+//            '<li class="towns-item-all">' +
+//            '<a ng-href="#" ng-click="onAllCitiesClick()" class="towns-item__link-all">Все города</a>' +
+//            '</li>' +
+//            '</ul>' +
+//            '</div>',
+        replace: false,
+        scope: { saveFactualTemp : '@'},
         restrict: 'A'
     }
 });
