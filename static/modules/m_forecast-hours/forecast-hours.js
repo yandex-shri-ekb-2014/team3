@@ -1,6 +1,6 @@
 /**
- * m_forecast-hours
- */
+* m_forecast-hours
+*/
 var appForecasthours = angular.module('forecasthours', []);
 
 appForecasthours.directive('forecasthours', function ($rootScope) {
@@ -89,7 +89,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
 .directive('histogram', function ($rootScope) {
     return {
         restrict: 'E',
-        scope: { temperatures: '=', maxHeight: '=' },
+        scope: true,//{ temperatures: '=', maxHeight: '=' },
         replace: true,
         link: function (scope,element) {
             function paintHistogram() {
