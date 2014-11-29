@@ -219,11 +219,20 @@ app.controller('weatherController',
                 data.days = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
                 data.parts = ['утром', 'днём', 'вечером', 'ночью'];
 
-                saveToLocalStorage('locality', data);
-                $scope.locality = data;
+                // Температуры раскладывае в array
+                data.temperatures = [];
+                var d = data.forecast[0].hours;
 
+                for (var i = d.length; i--;) {
+                    data.temperatures.unshift(d[i].temp);
+                }
+
+                saveToLocalStorage('locality', data);
+
+                $scope.locality = data;
                 checkSpinner($scope, 1);
 
+                $rootScope.locality = data;
                 $log.log('Locality updated.');
             });
     }
