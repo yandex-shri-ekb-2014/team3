@@ -6,25 +6,25 @@
     </div>
     <div class="forecast-small__data clearfix">
       <div class="forecast-small__row">
-        <div class="forecast-small__data-now">
+        <div class="forecast-small__data-now" style="background-color: {{locality.colors[locality.fact.temp - locality.fact.temp % 2]}}">
           <div class="temperature-small">{{locality.fact.temp}}</div>
           <div class="weather"><img ng-src="http://ekb.shri14.ru/icons/{{locality.fact.weather_icon}}.svg"
                                     class="weather__icon"/><span
               class="weather__description">{{locality.fact.weather}}</span></div>
         </div>
-        <div class="forecast-small__data-day">
+        <div class="forecast-small__data-day" style="background-color: {{locality.colors[locality.forecast[0].parts[1].temp - locality.forecast[0].parts[1].temp % 2]}}">
           <div class="temperature-small">{{locality.forecast[0].parts[1].temp}}</div>
           <div class="weather"><img
               ng-src="http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[1].weather_icon}}.svg"
               class="weather__icon"/></div>
         </div>
-        <div class="forecast-small__data-evening">
+        <div class="forecast-small__data-evening" style="background-color: {{locality.colors[locality.forecast[0].parts[2].temp - locality.forecast[0].parts[2].temp % 2]}}">
           <div class="temperature-small">{{locality.forecast[0].parts[2].temp}}</div>
           <div class="weather"><img
               ng-src="http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[2].weather_icon}}.svg"
               class="weather__icon"/></div>
         </div>
-        <div class="forecast-small__data-night">
+        <div class="forecast-small__data-night" style="background-color: {{locality.colors[locality.forecast[0].parts[3].temp - locality.forecast[0].parts[3].temp % 2]}}">
           <div class="temperature-small">{{locality.forecast[0].parts[3].temp}}</div>
           <div class="weather"><img
               ng-src="http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[3].weather_icon}}.svg"

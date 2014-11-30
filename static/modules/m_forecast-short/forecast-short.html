@@ -7,11 +7,11 @@
                         <div ng-class="{'date-red' : day.weekDay == 6 || day.weekDay == 0}" class="date date-bigger">{{$index == 1 ? 'завтра' : locality.days[day.weekDay]}}</div>
                         <div ng-class="{'date-red' : day.weekDay == 6 || day.weekDay == 0}" class="date">{{$index == 1 ? day.day + ' ' + locality.months[day.month] : day.day}}</div>
                     </li>
-                    <li class="forecast-shortly__day"><img ng-src="http://ekb.shri14.ru/icons/{{day.parts[4].weather_icon}}.svg" class="weather__icon"/>
+                    <li class="forecast-shortly__day" style="background-color: {{locality.colors[day.parts[4].temp - day.parts[4].temp % 2]}}"><img ng-src="http://ekb.shri14.ru/icons/{{day.parts[4].weather_icon}}.svg" class="weather__icon"/>
                         <div class="weather__description">{{day.parts[4].weather}}</div>
                         <div class="temperature-bigger">{{day.parts[4].temp}}</div>
                     </li>
-                    <li class="forecast-shortly__night">{{day.parts[5].temp}}</li>
+                    <li class="forecast-shortly__night" style="background-color: {{locality.colors[day.parts[5].temp - day.parts[5].temp % 2]}}">{{day.parts[5].temp}}</li>
                 </ul>
             </li>
         </ul>
