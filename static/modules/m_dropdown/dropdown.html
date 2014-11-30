@@ -4,11 +4,11 @@
         <li class="towns-item">Последние города</li>
         <li ng-repeat="town in towns" class="towns-item">
             <a ng-class="{'towns-item__link-active' : town.geoid == geocode.geoid}"
-               ng-href="#/?geoid={{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">
+               ng-href="#/?geoid={{town.geoid}}" class="towns-item__link">
                 {{town.name}} ({{town.temp}})</a>
         </li>
         <li class="towns-item-all">
-            <a ng-href="#" ng-click="onAllCitiesClick()" class="towns-item__link-all">Все города</a>
+            <a ng-href="#" ng-click="onallcitiesclick()" class="towns-item__link-all">Все города</a>
         </li>
     </ul>
 </div>

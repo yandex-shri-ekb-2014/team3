@@ -30,14 +30,7 @@ app.controller('weatherController',
                 $scope.factualTemp = data;
             });
     };
-    try {
-        var ids = JSON.parse(localStorage.factualIds).geoids;
-        $scope.saveFactualTemp(ids.toString());
-    } catch (e) {
-        console.log("empty localStorage.factualIds");
-    }
-
-
+    
     // Если у нас нет значения или они устарели, то получаем новые
     checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
     checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
@@ -70,7 +63,7 @@ app.controller('weatherController',
 
                     data = data.sort(NoCaseSort);
 
-                    console.log(data);
+                    // console.log(data);
 
                     $scope.allTownsList = data;
                     document.getElementsByClassName('alltowns')[0].classList.remove('hidden');
@@ -152,7 +145,7 @@ app.controller('weatherController',
 
                 checkSpinner($scope, 1);
 
-                $log.log(data);
+                // $log.log(data);
             });
     }
 
@@ -270,6 +263,13 @@ app.controller('weatherController',
 
                 $scope.isTownSpinnerShow = false;
                 $log.log('Locality updated.');
+
+                try {
+                    var ids = JSON.parse(localStorage.factualIds).geoids;
+                    $scope.saveFactualTemp(ids.toString());
+                } catch (e) {
+                    console.log("empty localStorage.factualIds");
+                }
             });
     }
 
