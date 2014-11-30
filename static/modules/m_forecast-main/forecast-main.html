@@ -39,7 +39,7 @@
           <li>Восход: {{locality.forecast[0].sunrise}} Заход: {{locality.forecast[0].sunset}}</li>
           <li><span>Данные зарегистрированы более получаса назад </span>
 
-            <div class="icon-help"><span class="icon-help__popup hidden">На основе прогноза</span></div>
+            <div class="icon-help" ng-click="a=!a"><span ng-show="a" class="icon-help__popup hidden">На основе прогноза</span></div>
           </li>
         </ul>
       </div>
