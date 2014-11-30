@@ -229,10 +229,11 @@ app.controller('weatherController',
 
                 saveToLocalStorage('locality', data);
 
+                $rootScope.locality = data;
                 $scope.locality = data;
+
                 checkSpinner($scope, 1);
 
-                $rootScope.locality = data;
                 $log.log('Locality updated.');
             });
     }
