@@ -60,7 +60,7 @@ gulp.task('clear', function () {
 
 // Angular templateCache
 gulp.task('templateCache', function () {
-    gulp.src(staticPath + 'modules/m_*/*.html')
+    return gulp.src(staticPath + 'modules/m_*/*.html')
     .pipe(templateCache({standalone: true}))
     .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'));

@@ -78,7 +78,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
             };
 
             $rootScope.$watch('locality', function () {
-                if ($rootScope.locality.temperatures) {
+                if ($rootScope.locality) {
                     paintGraphics();
                 }
             });
@@ -121,7 +121,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
             }
 
             $rootScope.$watch('locality', function () {
-                if ($rootScope.locality.temperatures) {
+                if ($rootScope.locality) {
                     paintHistogram();
                 };
             });
