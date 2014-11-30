@@ -21,7 +21,9 @@ app.controller('weatherController',
     // Аля роуты
     $scope.$watch(function () { return $location.search().geoid; }, function (geoid) {
         document.getElementsByClassName('alltowns')[0].classList.add('hidden');
+        $scope.geoid = geoid;
         localities(geoid);
+        checkSpinner($scope, 1);
     });
 
     $scope.saveFactualTemp = function (ids) {
@@ -30,7 +32,7 @@ app.controller('weatherController',
                 $scope.factualTemp = data;
             });
     };
-    
+
     // Если у нас нет значения или они устарели, то получаем новые
     checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
     checkLocalStorageData('locality', 900000, $scope, 'locality', localities);
@@ -256,6 +258,9 @@ app.controller('weatherController',
 
                 checkSpinner($scope, 1);
 
+                if (!$scope.geocode) {
+                    $scope.geocode = {}
+                }
                 $scope.geocode.geoid = geoid;
                 $scope.geocode.name = name;
                 pushFactualId(geoid);
