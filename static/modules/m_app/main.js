@@ -305,15 +305,15 @@ app.controller('weatherController',
                     'geoids': cachedIds
                 });
             } else {
-                if (cachedIds.length > 1) {
-                    var ind = cachedIds.indexOf(geoid);
+                // if (cachedIds.length > 1) {
+                //     var ind = cachedIds.indexOf(geoid);
 
-                    cachedIds.unshift(cachedIds.splice(ind, 1)[0]);
+                //     cachedIds.unshift(cachedIds.splice(ind, 1)[0]);
 
-                    localStorage.factualIds = JSON.stringify({
-                        'geoids': cachedIds
-                    });
-                }
+                //     localStorage.factualIds = JSON.stringify({
+                //         'geoids': cachedIds
+                //     });
+                // }
             }
         } else {
             localStorage.factualIds = JSON.stringify({
