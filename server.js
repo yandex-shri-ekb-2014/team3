@@ -29,5 +29,7 @@ app.get('*', function (req, res) {
 });
 
 // Cлушаем сервер на 5400 порту
-app.listen(5400);
-console.log('Express app started on port %d', 5400);
+var port = process.env.PORT || 5400;
+app.listen(port);
+
+console.log('Express app started on port %d', port);
