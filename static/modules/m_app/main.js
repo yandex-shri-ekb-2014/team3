@@ -58,6 +58,7 @@ app.controller('weatherController',
     // Для кеширования блоков отображения
     $scope.blocks = [];
     $scope.Math = Math;
+    $scope.isTownSpinnerShow = false;
 
     // Если у нас нет значения или они устарели, то получаем новые
     checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
@@ -199,6 +200,8 @@ app.controller('weatherController',
     */
     function localities (geoid) {
 
+        $scope.isTownSpinnerShow = true;
+
         if (!$scope.geocode && !geoid) return;
         geoid = geoid ? geoid : $scope.geocode.geoid;
 
@@ -233,6 +236,8 @@ app.controller('weatherController',
                 $scope.locality = data;
 
                 checkSpinner($scope, 1);
+
+                $scope.isTownSpinnerShow = false;
 
                 $log.log('Locality updated.');
             });
