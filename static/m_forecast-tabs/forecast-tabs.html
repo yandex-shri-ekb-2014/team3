@@ -1,0 +1,8 @@
+<div ng-app="tabs" class="forecast forecast-shortly tabbable">
+    <ul class="forecast-shortly__menu nav nav-tabs forecast-shortly__menu{{classes}}">
+        <li ng-repeat="pane in panes" ng-class="{active:pane.selected}" class="menu__item">
+            <a class="menu__item" href="" ng-click="select(pane)">{{pane.title}}</a>
+        </li>
+    </ul>
+    <div class="tab-content" ng-transclude></div>
+</div>

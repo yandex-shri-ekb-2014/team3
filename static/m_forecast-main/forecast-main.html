@@ -1,0 +1,51 @@
+<section ng-app="forecastmain" class="forecast main clearfix">
+  <div class="forecast-small fl">
+    <div class="forecast-small__options clearfix"><span class="options__title">{{geocode.name}}</span>
+
+      <div dropdown="dropdown" class="options__towns"></div>
+    </div>
+    <div class="forecast-small__data clearfix">
+      <div class="forecast-small__row">
+        <div class="forecast-small__data-now">
+          <div class="temperature-small">{{locality.fact.temp}}</div>
+          <div class="weather"><img ng-src="http://ekb.shri14.ru/icons/{{locality.fact.weather_icon}}.svg"
+                                    class="weather__icon"/><span
+              class="weather__description">{{locality.fact.weather}}</span></div>
+        </div>
+        <div class="forecast-small__data-day">
+          <div class="temperature-small">{{locality.forecast[0].parts[1].temp}}</div>
+          <div class="weather"><img
+              ng-src="http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[1].weather_icon}}.svg"
+              class="weather__icon"/></div>
+        </div>
+        <div class="forecast-small__data-evening">
+          <div class="temperature-small">{{locality.forecast[0].parts[2].temp}}</div>
+          <div class="weather"><img
+              ng-src="http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[2].weather_icon}}.svg"
+              class="weather__icon"/></div>
+        </div>
+        <div class="forecast-small__data-night">
+          <div class="temperature-small">{{locality.forecast[0].parts[3].temp}}</div>
+          <div class="weather"><img
+              ng-src="http://ekb.shri14.ru/icons/{{locality.forecast[0].parts[3].weather_icon}}.svg"
+              class="weather__icon"/></div>
+        </div>
+        <ul class="forecast-small__data-description">
+          <li>Давление: {{locality.yesterday.pressure}} мм рт. ст.</li>
+          <li>Ветер: {{locality.yesterday.wind}}, {{locality.yesterday.wind_speed}} м/с
+            ({{Math.round(locality.yesterday.wind_speed * 3.6 * 10)/10}} км/ч)
+          </li>
+          <li>Влажность: {{locality.yesterday.humidity}}%</li>
+          <li>Восход: {{locality.forecast[0].sunrise}} Заход: {{locality.forecast[0].sunset}}</li>
+          <li><span>Данные зарегистрированы более получаса назад </span>
+
+            <div class="icon-help"><span class="icon-help__popup hidden">На основе прогноза</span></div>
+          </li>
+        </ul>
+      </div>
+      <div class="forecast-small__row forecast-small__row-gray temperature-small">вчера {{locality.yesterday.temp}}
+      </div>
+    </div>
+  </div>
+  <div class="forecast__banner banner-small fr"><img src="./img/banner.jpg" alt=""/></div>
+</section>

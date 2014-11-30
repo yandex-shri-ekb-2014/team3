@@ -1,0 +1,171 @@
+.forecast {
+  width: @width;
+  .center();
+  margin-bottom: 20px;
+
+  &-hours {
+    height: 190px;
+    padding-top: 20px;
+    .transits();
+
+    font-size: 0;
+
+    &.hidden {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+
+    &__row {
+      height: 100%;
+      background: #ccc;
+      width: @width / 24;
+      box-sizing: border-box;
+      border-right: 1px solid #fff;
+      display: inline-block;
+
+      font-size: 12px;
+    }
+  }
+
+  &-canvas {
+    .transits();
+
+    &.hidden {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+  }
+}
+.icon {
+  &-help {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: url('../img/helpIcon.png') no-repeat 0 0;
+    cursor: pointer;
+
+    &__popup {
+      position: absolute;
+      padding: 11px 14px;
+      margin: 20px -70px;
+      max-height: 100%;
+      .boxed();
+      .transits();
+
+      &.hidden {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        visibility: hidden;
+      }
+
+      color: #000;
+    }
+  }
+}
+
+.temperature {
+  &-small {
+    font-size: 17px;
+
+    &:after {
+      content: ' °C';
+    }
+  }
+  &-bigger {
+    font-size: 16px;
+  }
+}
+
+.weather {
+  margin: 10px 0;
+
+  &__icon {
+    width: 48px;
+    height: 36px;
+    margin-right: 10px;
+
+    &-small {
+      width: 34px;
+      height: 23px;
+      margin: 0 16px;
+    }
+
+    &-wind {
+      width: 13px;
+      height: 15px;
+      position: absolute;
+      margin: 3px -22px;
+    }
+
+    &-moon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__description {
+    font-size: 11px;
+    width: 85px;
+    vertical-align: top;
+  }
+}
+
+.date {
+  color: #000;
+
+  font-size: 13px;
+  line-height: 24px;
+
+  &-bigger {
+    font-size: 22px;
+  }
+
+  &-big {
+    font-size: 36px;
+    line-height: 26px;
+    margin-top: 9px;
+  }
+
+  &-red {
+    color: #f00;
+  }
+}
+
+.legend {
+
+  &__item {
+    display: inline-block;
+
+    font-size: 11px;
+    line-height: 12px;
+    color: #666;
+
+    &-pressure {
+      width: 55px;
+      margin-left: 370px;
+    }
+
+    &-humidity {
+      width: 55px;
+      margin-left: 36px;
+    }
+
+    &-wind {
+      width: 45px;
+      margin-left: 18px;
+    }
+
+    &-temperature {
+      position: absolute;
+      width: @width / 24;
+      margin-top: -18px;
+
+      text-align: center;
+    }
+  }
+}

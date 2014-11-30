@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="weather" ng-controller="weatherController as weatherCtrl">
+<head>
+  <title>Яндекс.Погода :: ШРИ 2014 :: Команда 3</title>
+  <link rel="shortcut icon" href="//yandex.st/lego/_/p2hHn1BzWL7kJemxd7YIBrA98ho.ico">
+  <link rel="stylesheet" href="../css/style.min.css">
+</head>
+<body>
+  <headermain></headermain>
+  <forecastmain></forecastmain>
+  <tabs>
+    <pane title="кратко"><forecastshort></forecastshort></pane>
+    <pane title="подробно"><forecastfull></forecastfull></pane>
+    <pane title="наглядно"><forecasthours></forecasthours></pane>
+  </tabs>
+  <direct></direct>
+  <services></services>
+  <alltowns></alltowns>
+  <div class="overflow"></div>
+  <script src="//yastatic.net/angularjs/1.2.23/angular.min.js"></script>
+  <script src="../js/events.js"></script>
+</body>
+</html>
