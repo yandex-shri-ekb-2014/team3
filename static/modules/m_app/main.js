@@ -20,7 +20,7 @@ app.directive('dropdown', function ($rootScope) {
         }],
         link: function ($rootScope, element) {
             element.bind('click', function (e) {
-                e.preventDefault();
+                // e.preventDefault();
 
                 if (localStorage.factualIds) {
                     var ids = JSON.parse(localStorage.factualIds).geoids;
@@ -37,7 +37,7 @@ app.directive('dropdown', function ($rootScope) {
             '<li class="towns-item">Последние города</li>' +
             '<li ng-repeat="town in factualTemp" class="towns-item">' +
             '<a ng-class="{\'towns-item__link-active\' : town.geoid == geocode.geoid}" ' +
-            'ng-href="#{{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">' +
+            'ng-href="#/?geoid={{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">' +
             '{{town.name}} ({{town.temp}})</a>' +
             '</li>' +
             '<li class="towns-item-all">' +
@@ -54,11 +54,18 @@ app.directive('dropdown', function ($rootScope) {
  * Главный контроллер всего приложения
  */
 app.controller('weatherController',
-    ['$rootScope', '$scope', '$http', '$log', function ($scope, $rootScope, $http, $log) {
+    ['$rootScope', '$scope', '$http', '$log', '$location', function ($scope, $rootScope, $http, $log, $location) {
     // Для кеширования блоков отображения
     $scope.blocks = [];
     $scope.Math = Math;
     $scope.isTownSpinnerShow = false;
+
+    // Аля роуты
+    $scope.$watch(function () { return $location.search().geoid; }, function (geoid) {
+        document.getElementsByClassName('alltowns')[0].classList.add('hidden');
+        localities(geoid);
+        // pushFactualId(geoid);
+    });
 
     // Если у нас нет значения или они устарели, то получаем новые
     checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
@@ -75,22 +82,6 @@ app.controller('weatherController',
     /**
     * Обработка клика на городе из списка 3 последних
     */
-    $scope.onTownChange = function (geoid, name, needClose) {
-        // Если мы пришли с развёрнутого списка, то скрываем список всех городов
-        if (needClose) {
-            document.getElementsByClassName('alltowns')[0].classList.add('hidden');
-        }
-
-        localities(geoid);
-        $scope.geocode.geoid = geoid;
-        $scope.geocode.name = name;
-
-        pushFactualId(geoid);
-
-        // сохраняем в localStorage
-        saveToLocalStorage('actualCity', $scope.geocode);
-    };
-
     $scope.onAllCitiesClick = function (countryId) {
         // Если данных о городах, нет в скоупе, то получаем их. Если есть, то просто показываем.
         if (!$scope.allTownsList) {
@@ -231,14 +222,18 @@ app.controller('weatherController',
                 }
 
                 saveToLocalStorage('locality', data);
+                $rootScope.locality = data;
 
                 $rootScope.locality = data;
                 $scope.locality = data;
 
                 checkSpinner($scope, 1);
+                
+                $scope.geocode.geoid = geoid;
+                $scope.geocode.name = name;
+                saveToLocalStorage('actualCity', $scope.geocode);
 
                 $scope.isTownSpinnerShow = false;
-
                 $log.log('Locality updated.');
             });
     }
