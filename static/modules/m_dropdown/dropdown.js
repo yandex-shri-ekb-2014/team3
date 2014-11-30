@@ -5,7 +5,7 @@ appDropdown
         return {
             scope: {towns:'=',  geocode: '=' , onAllCitiesClick: '='},
             controller: ['$scope', function($scope) {
-
+                
                 $scope.flag = false;
 
             }],
