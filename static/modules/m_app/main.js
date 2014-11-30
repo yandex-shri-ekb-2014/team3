@@ -8,7 +8,6 @@ var app = angular.module('weather',
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
-
 /**
  * Главный контроллер всего приложения
  */
@@ -23,7 +22,6 @@ app.controller('weatherController',
     $scope.$watch(function () { return $location.search().geoid; }, function (geoid) {
         document.getElementsByClassName('alltowns')[0].classList.add('hidden');
         localities(geoid);
-        // pushFactualId(geoid);
     });
 
     $scope.saveFactualTemp = function (ids) {
@@ -267,6 +265,7 @@ app.controller('weatherController',
 
                 $scope.geocode.geoid = geoid;
                 $scope.geocode.name = name;
+                pushFactualId(geoid);
                 saveToLocalStorage('actualCity', $scope.geocode);
 
                 $scope.isTownSpinnerShow = false;
