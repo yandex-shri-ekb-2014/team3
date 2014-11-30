@@ -291,8 +291,6 @@ app.controller('weatherController',
                 $rootScope.locality = data;
                 $scope.locality = data;
 
-                console.log($scope.locality.colors['+2']);
-
                 checkSpinner($scope, 1);
 
                 $scope.geocode.geoid = geoid;
