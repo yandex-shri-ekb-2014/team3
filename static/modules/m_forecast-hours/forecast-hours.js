@@ -78,7 +78,9 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
             };
 
             $rootScope.$watch('locality', function () {
-                paintGraphics();
+                if ($rootScope.locality) {
+                    paintGraphics();
+                }
             });
         },
         scope: true,
@@ -119,7 +121,9 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
             }
 
             $rootScope.$watch('locality', function () {
-                paintHistogram();
+                if ($rootScope.locality) {
+                    paintHistogram();
+                };
             });
         },
         template: '<div class="chart forecast-hours">' +
