@@ -32,8 +32,13 @@ app.controller('weatherController',
                 $scope.factualTemp = data;
             });
     };
+    try {
         var ids = JSON.parse(localStorage.factualIds).geoids;
         $scope.saveFactualTemp(ids.toString());
+    } catch (e) {
+        console.log("empty localStorage.factualIds");
+    }
+
 
     // Если у нас нет значения или они устарели, то получаем новые
     checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
