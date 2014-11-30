@@ -1,3 +1,5 @@
+angular.module('ng').filter('tel', function (){});
+
 var app = angular.module('weather',
     [
     'templates', 'alltowns', 'direct',
