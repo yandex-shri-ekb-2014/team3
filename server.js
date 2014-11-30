@@ -25,7 +25,7 @@ app.get('/hours', function (req, res) {
 
 // 404
 app.get('*', function (req, res) {
-    res.sendFile(publicPath + '/html/404.html');
+    res.sendFile(publicPath + '/html/index.html');
 });
 
 // Cлушаем сервер на 5400 порту
