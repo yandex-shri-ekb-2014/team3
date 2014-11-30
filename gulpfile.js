@@ -20,7 +20,7 @@ var less = require('gulp-less'),
 
 // Compile Our less
 gulp.task('styleProcessing', function () {
-    gulp.src(staticPath + 'modules/m_*/*.less')
+    gulp.src(staticPath + 'm_*/*.less')
     .pipe(concat('tmp_styles.less'))
     .pipe(gulp.dest(publicPath + 'css'))
     .pipe(less())
@@ -34,7 +34,7 @@ gulp.task('styleProcessing', function () {
 gulp.task('scriptProcessing', ['templateCache'], function () {
     return gulp.src([
         publicPath + 'js/templates.js',
-        staticPath + 'modules/m_*/*.js'
+        staticPath + 'm_*/*.js'
     ])
     .pipe(concat('events.js'))
 //    .pipe(uglify())
@@ -43,11 +43,11 @@ gulp.task('scriptProcessing', ['templateCache'], function () {
 
 // Move
 gulp.task('move', ['styleProcessing', 'scriptProcessing'], function () {
-    gulp.src(staticPath + 'modules/m_*/*.{jpg,png,jpeg,gif}')
+    gulp.src(staticPath + 'm_*/*.{jpg,png,jpeg,gif}')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'img'));
 
-    gulp.src(staticPath + 'modules/m_*/*.html')
+    gulp.src(staticPath + 'm_*/*.html')
     .pipe(rename({dirname: ''}))
     .pipe(gulp.dest(publicPath + 'html'));
 });
@@ -60,7 +60,7 @@ gulp.task('clear', function () {
 
 // Angular templateCache
 gulp.task('templateCache', function () {
-    gulp.src(staticPath + 'modules/m_*/*.html')
+    return gulp.src(staticPath + 'm_*/*.html')
     .pipe(templateCache({standalone: true}))
     .pipe(uglify())
     .pipe(gulp.dest(publicPath + 'js'));
