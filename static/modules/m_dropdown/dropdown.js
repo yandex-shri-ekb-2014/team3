@@ -3,7 +3,7 @@ var appDropdown = angular.module('dropdown', []);
 appDropdown
     .directive('dropdown', function ($rootScope) {
         return {
-            scope: {towns:'=',  geocode: '=' , onAllCitiesClick: '='},
+            scope: {towns:'=',  geocode: '=' , onallcitiesclick: '&'},
             controller: ['$scope', function($scope) {
 
                 $scope.flag = false;
