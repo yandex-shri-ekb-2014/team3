@@ -3,7 +3,7 @@ var appDropdown = angular.module('dropdown', []);
 appDropdown
     .directive('dropdown', function ($rootScope) {
         return {
-            scope: {towns:'=', onTownChange: '&', geocode: '='},
+            scope: {towns:'=',  geocode: '=' , onAllCitiesClick: '='},
             controller: ['$scope', function($scope) {
 
                 $scope.flag = false;
@@ -17,7 +17,7 @@ appDropdown
                     $scope.$apply();
                 });
             },
-            templateUrl:   'm_dropdown/forecast-dropdown.html',
+            templateUrl:   'm_dropdown/dropdown.html',
             replace: false,
             restrict: 'E'
         }
