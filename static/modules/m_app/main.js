@@ -37,7 +37,8 @@ app.directive('dropdown', function ($rootScope) {
             '<li class="towns-item">Последние города</li>' +
             '<li ng-repeat="town in factualTemp" class="towns-item">' +
             '<a ng-class="{\'towns-item__link-active\' : town.geoid == geocode.geoid}" ' +
-            'ng-href="#/?geoid={{town.geoid}}" ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">' +
+            'ng-href="#/?geoid={{town.geoid}}"' +
+            'ng-click="onTownChange(town.geoid, town.name)" class="towns-item__link">' +
             '{{town.name}} ({{town.temp}})</a>' +
             '</li>' +
             '<li class="towns-item-all">' +
@@ -228,7 +229,7 @@ app.controller('weatherController',
                 $scope.locality = data;
 
                 checkSpinner($scope, 1);
-                
+
                 $scope.geocode.geoid = geoid;
                 $scope.geocode.name = name;
                 saveToLocalStorage('actualCity', $scope.geocode);
