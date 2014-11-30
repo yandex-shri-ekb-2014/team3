@@ -6,7 +6,7 @@
     </div>
     <ul class="forecast-full__item forecast-full__weather">
         <li ng-repeat="part in day.parts" ng-show="{{$index < 4}}"
-            class="forecast-full__background forecast-full__item-padding">
+            class="forecast-full__background forecast-full__item-padding"  style="background-color: {{locality.colors[part.temp - part.temp % 2]}}">
             <ul class="forecast-full__row-inner">
                 <li class="forecast-full__item-inner"><span class="forecast-full__label-middle">{{locality.parts[$index]}}</span><span
                         class="forecast-full__label forecast-full__label-bigger">{{part.temp_min && part.temp_max ? part.temp_min + '...' + part.temp_max : part.temp}}</span>

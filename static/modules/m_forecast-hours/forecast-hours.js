@@ -109,7 +109,7 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
                 }
 
                 step = maxHeight / (Math.max(Math.abs(min), Math.abs(max))*2);
-                scope.data= [];
+                scope.data = [];
 
                 for (var i = 0; i < temperatures.length; i++) {
                     scope.data.push({
@@ -128,7 +128,8 @@ appForecasthours.directive('forecasthours', function ($rootScope) {
         },
         template: '<div class="chart forecast-hours">' +
             '<div ng-repeat="i in data" class="forecast-hours__row" ' +
-            'style="height: {{i.height +\'px\'}}; margin-top: {{i.margin +\'px\'}}">' +
+            'style="height: {{i.height +\'px\'}}; margin-top: {{i.margin +\'px\'}}; ' +
+            'background-color: {{locality.colors[i.temperature - i.temperature % 2]}}">' +
             '<span class="legend__item-temperature">{{i.temperature}}</span>' +
             '</div>' +
             '</div>'
