@@ -1,7 +1,11 @@
 {
-  "name": "express-jade-example",
+  "name": "team3-weather",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yandex-shri-ekb-2014/team3"
+  },
   "version": "0.0.1",
-  "description": "A sample code project demonstrating use of jade with express",
+  "description": "ya.weather",
   "dependencies": {
     "express": "*",
     "gulp": "~3.8.10",
