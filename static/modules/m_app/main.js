@@ -8,6 +8,7 @@ var app = angular.module('weather',
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
+
 /**
  * Главный контроллер всего приложения
  */
@@ -21,9 +22,8 @@ app.controller('weatherController',
     // Аля роуты
     $scope.$watch(function () { return $location.search().geoid; }, function (geoid) {
         document.getElementsByClassName('alltowns')[0].classList.add('hidden');
-        $scope.geoid = geoid;
         localities(geoid);
-        checkSpinner($scope, 1);
+        // pushFactualId(geoid);
     });
 
     $scope.saveFactualTemp = function (ids) {
@@ -32,6 +32,13 @@ app.controller('weatherController',
                 $scope.factualTemp = data;
             });
     };
+    try {
+        var ids = JSON.parse(localStorage.factualIds).geoids;
+        $scope.saveFactualTemp(ids.toString());
+    } catch (e) {
+        console.log("empty localStorage.factualIds");
+    }
+
 
     // Если у нас нет значения или они устарели, то получаем новые
     checkLocalStorageData('actualCity', 60000, $scope, 'geocode', saveLocation);
@@ -65,7 +72,7 @@ app.controller('weatherController',
 
                     data = data.sort(NoCaseSort);
 
-                    // console.log(data);
+                    console.log(data);
 
                     $scope.allTownsList = data;
                     document.getElementsByClassName('alltowns')[0].classList.remove('hidden');
@@ -123,6 +130,8 @@ app.controller('weatherController',
             });
         }
 
+        checkSpinner($scope, 1);
+
         console.log('ERROR(' + err.code + '): ' + err.message);
         console.log($scope.geocode);
     }
@@ -147,7 +156,7 @@ app.controller('weatherController',
 
                 checkSpinner($scope, 1);
 
-                // $log.log(data);
+                $log.log(data);
             });
     }
 
@@ -258,23 +267,12 @@ app.controller('weatherController',
 
                 checkSpinner($scope, 1);
 
-                if (!$scope.geocode) {
-                    $scope.geocode = {}
-                }
                 $scope.geocode.geoid = geoid;
                 $scope.geocode.name = name;
-                pushFactualId(geoid);
                 saveToLocalStorage('actualCity', $scope.geocode);
 
                 $scope.isTownSpinnerShow = false;
                 $log.log('Locality updated.');
-
-                try {
-                    var ids = JSON.parse(localStorage.factualIds).geoids;
-                    $scope.saveFactualTemp(ids.toString());
-                } catch (e) {
-                    console.log("empty localStorage.factualIds");
-                }
             });
     }
 
